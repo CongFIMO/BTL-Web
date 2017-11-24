@@ -1,0 +1,6 @@
+// Default rootUrl
+Meteor.startup(function () {
+
+  Meteor.absoluteUrl.defaultOptions.rootUrl = "http://fimo.edu.vn:8802";
+
+});

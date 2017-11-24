@@ -1,0 +1,184 @@
+<template name="job-creation">
+    <div id="titlebar" class="single submit-page">
+        <div class="container">
+            <div class="sixteen columns">
+                <h2><i class="fa fa-plus-circle"></i> Đăng việc</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="submit-page">
+            {{> sAlert}}
+            <div class="row">
+                {{> jobForm }}
+            </div>
+            <!-- <div class="col-md-12">
+        {{> jobDisplay }}
+    </div> -->
+        </div>
+    </div>
+</template>
+
+<template name="jobForm">
+    <form>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="jobCatName"><strong>Lựa chọn nhóm công việc</strong></label>
+                <select class="form-control input-text" id="jobCatName" name="jobCatName">
+                    {{#each jobCats}}
+                        <option value="{{this._id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+
+                <label for="jobName"><strong>Lựa chọn loại công việc</strong></label>
+                <!--{{#each jobTypes}}-->
+                    <!--<input type="checkbox" id="jobName"  name="jobName" value="{{this._id}}"> {{name}}<br>-->
+                <!--{{/each}}-->
+            </div>
+            <!--{{> addressJob}}-->
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="jobDescription"><strong>Yêu cầu cụ thể</strong></label>
+                <!--<input type="text" class="form-control" id="jobDescription" aria-describedby="jobDescriptionHelp" name="jobDescription">-->
+                <textarea rows="2" required cols="30" name="jobDescription" id="jobDescription"
+                          aria-describedby="jobDescriptionHelp">
+                </textarea>
+                <small id="jobDescriptionHelp" class="form-text text-muted">Nhập các yêu cầu cụ thể về công việc</small>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label for=""><strong>Kiểu việc</strong></label>-->
+                <!--<label class="">-->
+                    <!--<input type="radio" name="selectJobIntervalTime" value="1" checked="checked"> Một lần-->
+                <!--</label>-->
+                <!--<label class="">-->
+                    <!--<input type="radio" name="selectJobIntervalTime" value="2"> Hàng ngày gồm cuối tuần-->
+                <!--</label>-->
+                <!--<label class="">-->
+                    <!--<input type="radio" name="selectJobIntervalTime" value="3">Hàng ngày trừ cuối tuần-->
+                <!--</label>-->
+            <!--</div>-->
+
+            <label><strong>{{#if changeTextDisplayForTimeInterverlOne }} Ngày làm việc {{else}} Ngày bắt đầu làm việc {{/if}}</strong></label>
+            <div class="input-group date">
+                <input class="form-control" required id="date-picker-start" name="jobDateStart"/><span
+                    class="input-group-addon"><span class="fa fa-calendar"></span></span>
+            </div>
+            <div class="form-end-date" >
+                <label><strong>Ngày kết thúc làm việc</strong></label>
+                <div class="input-group date">
+                    <input class="form-control" id="date-picker-end" name="jobDateEnd"/><span
+                        class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <!--<label><strong>Giờ bắt đầu</strong></label>-->
+            <!--<div class="input-group date">-->
+                <!--<input class="form-control" required id="time-picker-start" name="jobTimeStart"/><span-->
+                    <!--class="input-group-addon"><span class="fa fa-clock-o"></span></span>-->
+            <!--</div>-->
+            <!--<label><strong>Giờ kết thúc làm việc</strong></label>-->
+            <!--<div class="input-group date">-->
+                <!--<input class="form-control" required id="time-picker-end" name="jobTimeEnd"/><span-->
+                    <!--class="input-group-addon"><span class="fa fa-clock-o"></span></span>-->
+            <!--</div>-->
+        </div>
+        <hr>
+        <div class="col-md-12" id="submit-creation-job">
+            <button type="submit" class="btn btn-primary">Thêm</button>
+        </div>
+    </form>
+</template>
+
+<template name="addressJob">
+    <div class="form-group">
+        <div class="">
+            <h5 class=""><strong>Chọn khu vực làm việc</strong></h5>
+        </div>
+        <div class="">
+            <div class="">
+                <label><strong>Tỉnh/Thành Phố:</strong></label>
+                <div class="">
+                    <select class="form-control" id="provinceAddress" name="provinceAddress">
+                        {{#each provinceAddress}}
+                            <option value="{{@index}}" {{provinceSelected name @index}}>{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="">
+                <label><strong>Quận/Huyện:</strong></label>
+                <div class="">
+                    <select class="form-control" id="disAddress" name="disAddress">
+                        {{#each disAddress}}
+                            <option value="{{@index}}" {{disSelected this @index}}>{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <!--<div class="">-->
+                <!--<label><strong>Địa chỉ nhà:</strong></label>-->
+                <!--<input type="text" class="form-control" name="homeAddress" id="homeAddress" placeholder=""-->
+                       <!--value="{{currentUser.profile.home_address}}">-->
+            <!--</div>-->
+        </div>
+    </div>
+</template>
+
+<template name="jobDisplay">
+    {{#each jobDisplay currentUser._id }}
+        <ul>
+            <li>
+                {{name}}
+            </li>
+        </ul>
+    {{/each}}
+</template>
+
+<template name="jobEdit">
+
+</template>
+
+<!--<template name="formWithEndDate">-->
+    <!--<label><strong>Ngày bắt đầu làm việc</strong></label>-->
+    <!--<div class="input-group date">-->
+        <!--<input class="form-control" required id="date-picker-start" name="jobDateStart"/><span-->
+            <!--class="input-group-addon"><span class="fa fa-calendar"></span></span>-->
+    <!--</div>-->
+    <!--<label><strong>Giờ bắt đầu</strong></label>-->
+    <!--<div class="input-group date">-->
+        <!--<input class="form-control" required id="time-picker-start" name="jobTimeStart"/><span-->
+            <!--class="input-group-addon"><span class="fa fa-clock-o"></span></span>-->
+    <!--</div>-->
+    <!--<label><strong>Ngày kết thúc làm việc</strong></label>-->
+    <!--<div class="input-group date">-->
+        <!--<input class="form-control" required id="date-picker-end" name="jobDateEnd"/><span-->
+            <!--class="input-group-addon"><span class="fa fa-calendar"></span></span>-->
+    <!--</div>-->
+    <!--<label><strong>Giờ kết thúc làm việc</strong></label>-->
+    <!--<div class="input-group date">-->
+        <!--<input class="form-control" required id="time-picker-end" name="jobTimeEnd"/><span-->
+            <!--class="input-group-addon"><span class="fa fa-clock-o"></span></span>-->
+    <!--</div>-->
+<!--</template>-->
+
+<!--<template name="formWithoutEndDate">-->
+    <!--<label><strong>Ngày bắt đầu làm việc</strong></label>-->
+    <!--<div class="input-group date">-->
+        <!--<input class="form-control" required id="date-picker-start" name="jobDateStart"/><span-->
+            <!--class="input-group-addon"><span class="fa fa-calendar"></span></span>-->
+    <!--</div>-->
+    <!--<label><strong>Giờ bắt đầu</strong></label>-->
+    <!--<div class="input-group date">-->
+        <!--<input class="form-control" required id="time-picker-start" name="jobTimeStart"/><span-->
+            <!--class="input-group-addon"><span class="fa fa-clock-o"></span></span>-->
+    <!--</div>-->
+    <!--<label><strong>Giờ kết thúc làm việc</strong></label>-->
+    <!--<div class="input-group date">-->
+        <!--<input class="form-control" required id="time-picker-end" name="jobTimeEnd"/><span-->
+            <!--class="input-group-addon"><span class="fa fa-clock-o"></span></span>-->
+    <!--</div>-->
+<!--</template>-->

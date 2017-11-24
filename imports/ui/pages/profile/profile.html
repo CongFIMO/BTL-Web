@@ -1,0 +1,316 @@
+<template name="profile">
+    <div id="titlebar" class="single">
+        <div class="container">
+            <div class="sixteen columns">
+                <h2>Profile</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="profile-wrap">
+            <div class="page-content container clearfix">
+                <div class="row">
+                    <div class="col-md-3 float-left" role="navigation">
+                        <nav class="right-sidebar-menu" data-pjax="">
+                            <div class="single category">
+                                <h3 class="side-title">Cài đặt</h3>
+                                <ul class="list-group">
+                                    <li class="list-group-item {{setDefaultSelectedSection}} {{isActivePath
+                                            '/profile/profile_info'}}" id="li_profile_info">
+                                        <a href="/profile/profile_info" title="" class="profile_section"
+                                           id="profile_info">Thông tin cá nhân</a>
+                                    </li>
+                                    <li class="list-group-item {{isActivePath '/profile/notification'}}">
+                                        <a href="/profile/notification" title="" class="profile_section"
+                                           id="notification"> Thông báo </a>
+                                    </li>
+                                    <li class="list-group-item {{isActivePath '/profile/history'}}">
+                                        <a href="/profile/history" title="" class="profile_section" id="history">Lịch
+                                            sử</a>
+                                    </li>
+                                    <li class="list-group-item {{isActivePath '/profile/change_password'}}">
+                                        <a href="/profile/change_password" title="" class="profile_section"
+                                           id="change_password">Đổi mật khẩu</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+
+                    {{#if currentUser}}
+                        {{> sAlert}}
+                        {{#if isInProfileInfo}}
+                            {{> profile_info}}
+                        {{/if}}
+                        {{#if isInNoti}}
+                            {{> noti_in_profile}}
+                        {{/if}}
+                        {{#if isInHistory}}
+                            {{> history_in_profile}}
+                        {{/if}}
+                        {{#if isInPasswordChaging}}
+                            {{> change_pass_in_profile}}
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="profileAddress">
+    <div class="form-group">
+        <div class="">
+            <h6 class="">Địa chỉ:</h6>
+        </div>
+        <div class="">
+            <div class="">
+                <label>Tỉnh/Thành Phố:</label>
+                <div class="">
+                    <select class="form-control" id="provinceAddress" name="provinceAddress">
+                        {{#each provinceAddress}}
+                            <option value="{{@index}}" {{provinceSelected name @index}}>{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="">
+                <label>Quận/Huyện:</label>
+                <div class="">
+                    <select class="form-control" id="disAddress" name="disAddress">
+                        {{#each disAddress}}
+                            <option value="{{@index}}" {{disSelected this @index}}>{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="">
+                <label>Địa chỉ nhà:</label>
+                <input type="text" class="form-control" name="homeAddressProfile" id="homeAddressProfile" placeholder=""
+                       value="{{currentUser.profile.home_address}}">
+            </div>
+        </div>
+
+    </div>
+</template>
+<template name="profile_info">
+    <div class="col-md-9 float-left">
+        <div class="subhead">
+            <h2 class="subhead-heading">Thông tin cá nhân</h2>
+        </div>
+        <div class="row">
+            <div class="">
+                <form accept-charset="UTF-8" action="" class="columns" method="post">
+                    <div class="col-md-8">
+                        <div class="column one-third my-account">
+                            <div class="form-group">
+                                <label for="">Tên đầy đủ</label>
+                                <input class="form-control" id="" name="nameProfile" size="30" type="text"
+                                       value="{{currentUser.profile.full_name}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input class="form-control" id="" name="emailProfile" size="30" type="email"
+                                       value="{{ currentUser.emails.[0].address }}" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phoneProfile">Số điện thoại</label>
+                                <input class="form-control" id="phoneProfile" name="phoneProfile" size="30" type="tel"
+                                       value="{{ currentUser.profile.phone }}">
+                            </div>
+
+                            {{#if isInRole 'slave'}}
+                                <div class="form-group">
+                                    <label for="priceProfile">Thu nhập mỗi giờ</label>
+                                    <input class="form-control" id="priceProfile" name="priceProfile" size="30" type="tel"
+                                           value="{{ currentUser.profile.price }}">
+                                </div>
+                            {{/if}}
+
+                            {{> profileAddress}}
+
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="infoProfile">Thông tin thêm</label>
+                                    <input class="form-control" id="infoProfile" name="infoProfile" size="30"
+                                           type="text"
+                                           value="{{ currentUser.profile.info }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group edit-profile-avatar mr-4 float-right">
+                            <label for="upload-profile-picture">Ảnh đại diện</label>
+                            <div class="avatar-upload-container clearfix">
+                                <!-- {{> avatarProfile}} -->
+                                <img id="avatar-profile" alt="@{{currentUser.profile.full_name}}"
+                                     class="avatar-image rounded-2" height="200"
+                                     src="{{currentUser.profile.avatar}}"
+                                     width="200">
+                                <div class="avatar-upload">
+                                    Đăng ảnh mới
+                                    {{> uploadForm}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <p>
+                                <button type="submit" class="btn btn-primary">Cập nhật
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+<template name="noti_in_profile">
+</template>
+<template name="history_in_profile">
+    <div class="col-md-9 float-left">
+        <div class="subhead">
+            <h2 class="subhead-heading">Lịch sử</h2>
+        </div>
+        <div class="row">
+            <div class="">
+                <div class="container">
+                    <!-- Recent Jobs -->
+                    <div class="eleven columns">
+                        <div class="padding-right">
+                            <table class="table table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tác vụ</th>
+                                    <th>Thời gian</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{#each data}}
+                                    <tr>
+                                        <th scope="row">{{incremented  @index }}</th>
+                                        <td><a href="/job/{{cat_slug}}/{{referId}}">
+                                            {{description}}
+                                        </a></td>
+                                        <td>
+                                            {{time_create}}
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+                            <div class="clearfix"></div>
+                            <!-- Pagination -->
+                            {{#if data}}
+                                <div class="pagination-container">
+                                    <nav class="pagination">
+                                        <ul>
+                                            {{#if paginationMoreMode}}
+                                                <li><a href="/profile/history/page/{{pageNumbers.first.number}}"
+                                                       id="pageIndicator_{{pageNumbers.first.number}}"
+                                                       class="goPage {{pageNumbers.first.class}}">{{pageNumbers.first.number}}</a>
+                                                </li>
+                                                {{#if pageNumbers.hasPre}}
+                                                    <li class="blank">...</li>
+                                                {{/if}}
+                                                <li><a href="/profile/history/page/{{pageNumbers.preCurrent.number}}"
+                                                       id="pageIndicator_{{pageNumbers.preCurrent.number}}"
+                                                       class="goPage {{pageNumbers.preCurrent.class}}">{{pageNumbers.preCurrent.number}}</a>
+                                                </li>
+                                                <li><a href="/profile/history/page/{{pageNumbers.current.number}}"
+                                                       id="pageIndicator_{{pageNumbers.current.number}}"
+                                                       class="goPage {{pageNumbers.current.class}}">{{pageNumbers.current.number}}</a>
+                                                </li>
+                                                <li><a href="/profile/history/page/{{pageNumbers.postCurrent.number}}"
+                                                       id="pageIndicator_{{pageNumbers.postCurrent.number}}"
+                                                       class="goPage {{pageNumbers.postCurrent.class}}">{{pageNumbers.postCurrent.number}}</a>
+                                                </li>
+                                                {{#if pageNumbers.hasPost}}
+                                                    <li class="blank">...</li>
+                                                {{/if}}
+                                                <li><a href="/profile/history/page/{{pageNumbers.last.number}}"
+                                                       id="pageIndicator_{{pageNumbers.last.number}}"
+                                                       class="goPage {{pageNumbers.last.class}}">{{pageNumbers.last.number}}</a>
+                                                </li>
+                                            {{else}}
+                                                {{#each pageNumbers}}
+                                                    <li><a href="/profile/history/page/{{this.number}}"
+                                                           id="pageIndicator_{{this.number}}"
+                                                           class="goPage {{this.class}}">{{this.number}}</a></li>
+                                                {{/each}}
+                                            {{/if}}
+                                        </ul>
+                                    </nav>
+
+
+                                    <nav class="pagination-next-prev">
+                                        <ul>
+                                            <li>
+                                                <a id="prevPage" href="{{prevPage}}" class="prev goPage">
+                                                    <span aria-hidden="true">&larr;</span> Previous
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a id="nextPage" href="{{nextPage}}" class="next goPage">
+                                                    Next <span aria-hidden="true">&rarr;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+                                </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</template>
+<template name="change_pass_in_profile">
+    <div class="col-md-9 float-left">
+        <div class="subhead">
+            <h2 class="subhead-heading">Đổi mật khẩu</h2>
+        </div>
+        <div class="row">
+            <div class="">
+                <form id="changePasswordForm">
+                    <div class="form-row form-row-wide">
+                        <label for="resetPasswordPassword" class="label">Nhập mật khẩu hiện tại</label>
+                        <input class="input input-text" id="currentPassword" name="currentPassword"
+                               placeholder="Nhập mật khẩu hiện tại" type="password">
+                    </div>
+                    <div class="form-row form-row-wide">
+                        <label for="resetPasswordPassword" class="label">Nhập mật khẩu mới</label>
+                        <input class="input input-text" id="newPassword" name="newPassword"
+                               placeholder="Nhập mật khẩu mới" type="password">
+                    </div>
+
+                    <div class="form-row form-row-wide">
+                        <label class="label" for="resetPasswordPasswordConfirm">Nhập lại mật khẩu mới</label>
+                        <input class="input input-text" id="newPasswordConfirm" name="newPasswordConfirm"
+                               placeholder="Nhập lại mật khẩu mới" type="password">
+                    </div>
+                    <div class="form-row form-row-wide">
+                        <label class="label" for="resetPasswordPasswordConfirm">Nhập lại mật khẩu mới</label>
+                        <input class="button" type="submit" value="Đổi mật khẩu">
+                        <!--<button type="submit" class="btn">Đổi mật khẩu</button>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</template>

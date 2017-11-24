@@ -1,0 +1,80 @@
+<template name="job-type">
+    <div id="titlebar" class="single submit-page">
+        <div class="container">
+            <div class="sixteen columns">
+                <h2><i class="fa fa-plus-circle"></i> Thêm loại công việc</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="submit-page">
+            <h1>Quản lí loại công việc</h1>
+            {{> jobTypeForm}}
+            <br>
+            {{> showJobType}}
+        </div>
+    </div>
+</template>
+
+<template name="jobTypeForm">
+    <form>
+        <div class="form-group">
+            <label for="selectJobCat">Nhóm công việc</label>
+            <select class="form-control" id="selectJobCat" name="selectJobCat">
+                {{#each categories}}
+                    <option value="{{this._id}}">{{name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="jobTypeName">Tên loại việc</label>
+            <input type="text" class="form-control" id="jobTypeName" aria-describedby="jobTypeHelp" name="jobTypeName"
+                   placeholder="Tên loại việc">
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
+</template>
+
+<template name="showJobType">
+    {{> sAlert}}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Loại công việc</th>
+            <th>Nhóm công việc</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each jobType}}
+            <tr id="header_{{_id}}" class="header">
+                <th scope="row">{{incremented @index }}</th>
+                <td>{{name}}</td>
+                <td>{{cat_name}}</td>
+                {{#if isErasable this.numberOfJob}}
+                    <td>
+                        <button type="button" class="btn btn-danger delete-job-type">Xóa</button>
+                    </td>
+                {{else}}
+                    <td></td>
+                {{/if}}
+                <td>
+                    <button type="button" class="btn btn-primary showMore">
+                        {{#if isCollapsible this.numberOfJob}}
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        {{/if}}
+                        {{numberOfJob}} công việc
+                    </button>
+                </td>
+            </tr>
+            {{#each listJob}}
+                <tr class="item">
+                    <td>-</td>
+                    <td>{{this.jobId}}</td>
+                </tr>
+            {{/each}}
+        {{/each}}
+        </tbody>
+    </table>
+</template>

@@ -1,0 +1,116 @@
+<template name="notifications">
+    <a href="#" class="dropdown-toggle {{isActiveRoute
+            name="App.notification"}}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        Thông báo
+        {{#if notificationCount}}
+            <span class="badge badge-inverse">{{notificationCount}}</span>
+        {{/if}}
+        <span class="caret"></span>
+    </a>
+    <ul class="notification dropdown-menu">
+        {{#if notificationCount}} 
+            {{#each notifications}} 
+                {{> notificationItem}}
+            {{/each}} 
+        {{else}}
+            <li>
+                <a href="#">
+                    <span>Bạn đã đọc hết thông báo</span>
+                </a>
+            </li>
+        {{/if}}
+        <li>
+            <a href="/notification">
+                <span>Tất cả thông báo</span>
+            </a>
+        </li>
+    </ul>
+</template>
+
+<template name="notificationItem">
+    <li>
+        <!-- <h1>{{notificationPostPath}}</h1> -->
+        <!-- <a href="{{notificationPostPath}}"> -->
+        <a href="{{pathFor '/job/:cat/:id' cat=jobPath id=jobId}}">
+            <strong>{{jobName}}</strong>
+        </a>
+    </li>
+</template>
+
+<template name="shownoti">
+    <div class="container">
+        <h2>Danh Sách Thông Báo</h2>
+        <br><br><br>
+        <input type='hidden' id='current_page'/>
+        <input type='hidden' id='show_per_page'/>
+        <table class="table table-hover ">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Thông Báo</th>
+                <th>Thời gian</th>
+                <th>Người tạo</th>
+                <th><input type="checkbox" name="checkedAll" id="checkedAll" > Đã đọc tất cả</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each notify}}
+                {{#if this.read}}
+                    <tr>
+                        <th scope="row">{{incremented  @index }}</th>
+                        <td><a href="{{pathFor '/job/:cat/:id' cat=jobPath id=jobId}}">
+                                <span>{{jobName}}</span>
+                                <!--<strong>{{jobName}}</strong>-->
+
+                        </a></td>
+                        <td>
+                            {{dateCreated}}
+                        </td>
+                        <td>
+                            {{this.jobInfo.creator}}
+                        </td>
+                        <td>
+                            <input checked type="checkbox"  name="checkAll" class="checkSingle">
+                            <!--<input type="checkbox" name="checkAll" class="checkSingle">-->
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr bgcolor="#F5F5DC">
+                        <th scope="row">{{incremented  @index }}</th>
+                    <td><a href="{{pathFor '/job/:cat/:id' cat=jobPath id=jobId}}">
+                        <!--<span>{{jobName}}</span>-->
+                        <strong>{{jobName}}</strong>
+
+                    </a></td>
+                        <td>
+                            {{dateCreated}}
+                        </td>
+                    <td>
+                        {{this.jobInfo.creator}}
+                    </td>
+                    <td>
+                        <!--<input checked type="checkbox"  name="checkAll" class="checkSingle">-->
+                        <input type="checkbox" name="checkAll" class="checkSingle">
+                    </td>
+                    </tr>
+                {{/if}}
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <br><br><br><br><br>
+    <div><nav class="pagination-next-prev">
+        <ul class="pager">
+            <li class="{{prevPageClass}}">
+                <a style="margin-left: 350px" id="prevPage" href="{{prevPage}}" class="goPage pull-left">
+                    <span aria-hidden="true">&larr;</span> Previous
+                </a>
+            </li>
+            <li class="{{nextPageClass}}">
+                <a style="margin-right: 350px" id="nextPage" href="{{nextPage}}" class="goPage pull-right">
+                    Next <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav></div>
+</template>

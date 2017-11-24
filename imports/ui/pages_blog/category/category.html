@@ -1,0 +1,9 @@
+<template name="category">
+    <h3>Category: {{categoryData.categoryName}}</h3>
+    <ul style="list-style-type:circle">
+        {{#each categoryData.postTitles}}
+            <li><a href="/blog/{{id}}" rel="category" name="category">{{title}}</a></li>
+        {{/each}}
+    </ul>
+
+</template>

@@ -1,0 +1,140 @@
+<!--<template name="Postshow">-->
+    <!--<div id="titlebar" class="single">-->
+        <!--<div class="container">-->
+            <!--<div class="sixteen columns">-->
+                <!--<h2>Blog</h2>-->
+                <!--<span>Keep up to date with the latest news</span>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="container">-->
+        <!--{{> post_page}}-->
+    <!--</div>-->
+        <!--<div class="container">-->
+            <!--{{#if checkUserLogin}}-->
+                <!--{{> comment}}-->
+            <!--{{else}}-->
+                <!--<h3><p>Vui lòng <a href='/join'>đăng nhập</a> để viết bình luận !!</p></h3>-->
+            <!--{{/if}}-->
+            <!--<div class="margin-top-35"></div>-->
+            <!--{{> showcmt}}-->
+        <!--</div>-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--</template>-->
+
+<!--<template name="post_page">-->
+    <!--<div class="eleven columns">-->
+        <!--<div class="padding-right">-->
+            <!--&lt;!&ndash; Post &ndash;&gt;-->
+            <!--<div class="post-container">-->
+                <!--<div class="post-img"><a href="#"><img src="{{postData.featuredImage}}" alt=""></a></div>-->
+                <!--<div class="post-content">-->
+                    <!--<a href="#"><h3>{{postData.title}}</h3></a>-->
+                    <!--{{#if isOwner postData.authorId}}-->
+                    <!--<span><a href="/blog/{{postData.id}}/edit">-->
+                        <!--Chỉnh sửa bài viết-->
+                        <!--</a></span>-->
+                    <!--{{/if}}-->
+                    <!--<div class="meta-tags">-->
+                        <!--<span>{{postData.date}}</span>-->
+                        <!--<span><a href="#">-->
+                        <!--{{numberOfComments}} Comments</a>-->
+                        <!--</span>-->
+                            <!--<span>{{postData.author}}</span>-->
+                        <!--</div>-->
+                        <!--<div class="clearfix"></div>-->
+                        <!--<div class="margin-bottom-25"></div>-->
+                        <!--<div class="content" id="post_content"></div>-->
+                    <!--</div>-->
+                    <!--<footer class="entry-meta">-->
+                        <!--<ul >-->
+                            <!--{{#each postData.tags}}-->
+                                <!--<li><a href="/blog/tag/{{slug}}" rel="tag" name="tag"><i class="fa fa-tag"-->
+                                                                                         <!--aria-hidden="true"></i> {{name}}-->
+                                <!--</a></li>-->
+                            <!--{{/each}}-->
+                        <!--</ul>-->
+                    <!--</footer>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+<!--</template>-->
+
+
+<!--<template name="comment">-->
+
+    <!--<form>-->
+        <!--<div class="form-group">-->
+            <!--<label for="comment">Viết bình luận:</label>-->
+
+            <!--<textarea style="margin-right: 100px"  rows="3" cols="40" id="comment" name="comment" placeholder="Viết bình luận tại đây..." ></textarea>-->
+        <!--</div>-->
+        <!--<button type="submit" class="btn btn-success">Bình Luận</button>-->
+    <!--</form>-->
+
+<!--</template>-->
+
+<!--<template name="showcmt">-->
+    <!--<section class="comments">-->
+        <!--<h3>Bình Luận Của Bạn Đọc:</h3>-->
+        <!--<div class="margin-top-35"></div>-->
+        <!--<input type='hidden' id='current_page'/>-->
+        <!--<input type='hidden' id='show_per_page'/>-->
+        <!--<ul><li>-->
+                <!--<div id="content"><div class="arrow-comment"></div>-->
+                    <!--{{#each comments}}-->
+                        <!--<div class="avatar"><img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt=""> </div>-->
+                        <!--<form class="form-cmt" id="form_cmt_{{_id}}" readonly>-->
+                            <!--<label for="cmt">Đăng bởi: {{ author }}</label>-->
+                            <!--<div  style="border: 1px inset ;padding-right: 30px;padding-left: 30px;padding-top: 20px;padding-bottom: 20px;border-radius: 10px; margin-right: 250px;background: #f8f8f8;  " id="input_cmt_{{_id}}" type="text" name="name" value="{{name}}" >-->
+                            <!--<p>{{name}}</p></div>-->
+                            <!--<div>-->
+                                <!--<button id="rep_{{_id}}" type="buttxxxxxon" class="btn-xs btn-info pull-right btn-rep"-->
+                                        <!--value="reply" style="margin-right: 250px">Reply-->
+                                <!--</button>-->
+                                <!--<button id="save_{{_id}}" type="button" class="btn-xs btn-info pull-right btn-save" value="save"-->
+                                        <!--hidden>Save-->
+                                <!--</button>-->
+                                <!--<span id="loicmt_{{_id}}" class="baoloi"></span>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                        <!--<div class="margin-top-35"></div>-->
+                        <!--{{#each this.replies}}-->
+                            <!--<ul>-->
+                                <!--<li>-->
+                                    <!--<form class="form-rep" id="form_rep_{{id}}" readonly>-->
+                                        <!--<div  style="border: 1px inset ; border-radius: 10px; margin-left: 120px;padding-right: 30px;padding-left: 30px;margin-right: 250px;background: #f8f8f8; " id="input_cmt_{{id}}">-->
+                                            <!--<div class="rep-by" ><strong>{{author}}</strong></div>-->
+                                            <!--<p>{{name}}</p>-->
+                                        <!--</div>-->
+
+                                    <!--</form>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--{{/each}}-->
+                        <!--&lt;!&ndash;<form class="form-rep" id="form_rep_{{_id}}" hidden>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<textarea class="col-xs-6 pull-right" id="input_rep_{{_id}}" type="text" name="name-rep" value="" rows="2"></textarea>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</form>&ndash;&gt;-->
+                        <!--<div class="margin-top-35"></div>-->
+                    <!--{{/each}}-->
+                <!--</div>-->
+        <!--</li></ul>-->
+    <!--</section><br>-->
+    <!--<div class="margin-top-65"></div>-->
+    <!--&lt;!&ndash;<div class="pagination-container"></div>&ndash;&gt;-->
+    <!--<nav class="pagination-next-prev">-->
+        <!--<ul class="pager">-->
+            <!--<li class="{{prevPageClass}}">-->
+                <!--<a onclick="BlazeLayout.reset()" id="prevPage" href="{{prevPage}}">-->
+                    <!--<span aria-hidden="true">&larr;</span> Previous-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li class="{{nextPageClass}}">-->
+                <!--<a onclick="BlazeLayout.reset()" id="nextPage" href="{{nextPage}}">-->
+                    <!--Next <span aria-hidden="true">&rarr;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</nav>-->
+<!--</template>-->

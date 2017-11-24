@@ -1,0 +1,82 @@
+<template name="navbar">
+    <!-- Header
+================================================== -->
+    <header class="transparent sticky-header">
+        <div class="container">
+            <div class="sixteen columns">
+                <!-- Logo -->
+                <div id="logo">
+                    <h1>
+                        <a href="/home">
+                            <!--<img src="/img/logo-small2.png" alt="Giúp việc đây"/>-->
+                            <!--<noscript><img src="/img/logo-small2.png" alt="Giúp việc đây"/></noscript>-->
+                        </a>
+                    </h1>
+                </div>
+
+                <!-- Menu -->
+                <nav id="navigation" class="menu">
+                    <ul id="responsive">
+                        <li><a class="{{isActiveRoute name='App.home'}}" href="/home">Home</a></li>
+                        <li><a href="#" class="{{isActivePath
+                                regex='^\\/job'}}" >Job</a>
+                            <ul class="dropdown-menu">
+                                {{#if currentUser}}
+                                    {{#if isInRole 'admin'}}
+                                        <li><a tabindex="-1" href="/job-category" class="{{isActiveRoute
+                                                name="App.job-category"}}">Nhóm công việc</a></li>
+                                        <!--<li><a href="/job-type" class="{{isActiveRoute-->
+                                            <!--name="App.job-type"}}">Loại công việc</a></li>-->
+                                    {{/if}}
+                                    {{#if isInRole 'admin,owner'}}
+                                        <li><a href="/job-creation" class="{{isActiveRoute
+                                                name="App.job-creation"}}">Tạo công việc</a></li>
+                                    {{/if}}
+                                {{/if}}
+                                <li><a href="/job-list" class="{{isActiveRoute
+                                        name="App.job-list"}}">Danh sách công việc</a></li>
+                            </ul>
+                        </li>
+                        <!--{{#if currentUser}}-->
+                            <!--<li class="dropdown" >-->
+                                <!--{{> notifications}}-->
+                            <!--</li>-->
+                        <!--{{/if}}-->
+                        <!--<li ><a href="/blog" class="{{isActivePath regex='/blog'}}" >Blog</a></li>-->
+                    </ul>
+
+                    <ul class="float-right">
+                        <!--<li class="search-form">-->
+                            <!--<input type="text" class="" placeholder="Tìm việc" value=""/><i class="fa fa-search"></i>-->
+                        <!--</li>-->
+                        {{#if currentUser}}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">{{currentUser.profile.full_name}} <span
+                                        class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a tabindex="-1" href="/profile">Profile</a></li>
+                                    <!--{{#if isInRole 'admin'}}-->
+                                        <!--<li ><a href="/user-management">User Management</a></li>-->
+                                    <!--{{/if}}-->
+                                    <li class="logout"><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        {{else}}
+                            <li><a href="/join" class="join">Join</a></li>
+                            <!--<li><a href="my-account.html#tab2"><i class="fa fa-user"></i> Sign Up</a></li>-->
+                            <!--<li><a href="my-account.html"><i class="fa fa-lock"></i> Log In</a></li>-->
+                        {{/if}}
+                    </ul>
+                </nav>
+
+                <!-- Navigation -->
+                <div id="mobile-navigation">
+                    <a href="#menu" class="menu-trigger"><i class="fa fa-reorder"></i> Menu</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="clearfix"></div>
+    <!-- Header Area Ends -->
+</template>

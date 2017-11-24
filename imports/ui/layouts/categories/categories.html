@@ -1,0 +1,119 @@
+<template name="categories">
+
+    <!-- Content
+    ================================================== -->
+    <div class="container recent-job">
+        <!-- Recent Jobs -->
+        <div class="eleven columns">
+            <div class="padding-right">
+                <h3 class="margin-bottom-25">Việc mới đăng</h3>
+                <ul class="job-list">
+                    {{#each jobs}}
+                        <li class="list-job">
+                            <a href="/job/{{catSlug this.cat_id}}/{{this._id}}">
+                                <img src="{{avatar this.user_id}}" alt="" style="" class="user-avatar">
+                                <div class="job-list-content">
+                                    <h4>
+                                        {{jobName this.cat_id}}
+                                        <span class="part-time">Part-Time</span>
+                                    </h4>
+                                    <div class="job-icons">
+                                        <div>
+                                            <i class="fa fa-map-marker"></i>
+                                            {{this.home}}, {{this.district}}, {{this.province}}
+                                        </div>
+                                        <!--<div class="money"><i class="fa fa-money"></i> $50 / hour</div>-->
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="clearfix"></div>
+                        </li>
+                    {{/each}}
+                </ul>
+                <a href="/job-list" class="button centered">
+                    <i class="fa fa-plus-circle"></i>
+                    Hiển thị thêm việc
+                </a>
+                <div class="margin-bottom-55"></div>
+            </div>
+        </div>
+
+        <!-- Job Spotlight -->
+        <div class="five columns">
+            <h3 class="margin-bottom-5">Job Spotlight</h3>
+            <!-- Navigation -->
+            <div class="showbiz-navigation">
+                <div id="showbiz_left_1" class="sb-navigation-left"><i class="fa fa-angle-left"></i></div>
+                <div id="showbiz_right_1" class="sb-navigation-right"><i class="fa fa-angle-right"></i></div>
+            </div>
+            <div class="clearfix"></div>
+            <!-- Showbiz Container -->
+            <div id="job-spotlight" class="showbiz-container">
+                <div class="showbiz" data-left="#showbiz_left_1" data-right="#showbiz_right_1"
+                     data-play="#showbiz_play_1">
+                    <div class="overflowholder">
+                        <ul>
+                            <li>
+                                <div class="job-spotlight">
+                                    <a href="#"><h4>Social Media: Advertising Coordinator <span class="part-time">Part-Time</span>
+                                    </h4></a>
+                                    <span><i class="fa fa-briefcase"></i> Mates</span>
+                                    <span><i class="fa fa-map-marker"></i> New York</span>
+                                    <span><i class="fa fa-money"></i> $20 / hour</span>
+                                    <p>As advertising & content coordinator, you will support our social media team in
+                                        producing high quality social content for a range of media channels.</p>
+                                    <a href="job-page.html" class="button">Apply For This Job</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="job-spotlight">
+                                    <a href="#"><h4>Prestashop / WooCommerce Product Listing <span class="freelance">Freelance</span>
+                                    </h4></a>
+                                    <span><i class="fa fa-briefcase"></i> King</span>
+                                    <span><i class="fa fa-map-marker"></i> London</span>
+                                    <span><i class="fa fa-money"></i> $25 / hour</span>
+                                    <p>Etiam suscipit tellus ante, sit amet hendrerit magna varius in. Pellentesque
+                                        lorem quis enim venenatis pellentesque.</p>
+                                    <a href="job-page.html" class="button">Apply For This Job</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="job-spotlight">
+                                    <a href="#"><h4>Logo Design <span class="freelance">Freelance</span></h4></a>
+                                    <span><i class="fa fa-briefcase"></i> Hexagon</span>
+                                    <span><i class="fa fa-map-marker"></i> Sydney</span>
+                                    <span><i class="fa fa-money"></i> $10 / hour</span>
+                                    <p>Proin ligula neque, pretium et ipsum eget, mattis commodo dolor. Etiam tincidunt
+                                        libero quis commodo.</p>
+                                    <a href="job-page.html" class="button">Apply For This Job</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="container">-->
+        <!--<div class="sixteen columns">-->
+            <!--<h3 class="margin-bottom-25">Popular Categories</h3>-->
+            <!--<ul id="popular-categories">-->
+                <!--<li><a href="#"><i class="ln  ln-icon-Bar-Chart"></i> Accounting / Finance</a></li>-->
+                <!--<li><a href="#"><i class="ln ln-icon-Car"></i> Automotive Jobs</a></li>-->
+                <!--<li><a href="#"><i class="ln ln-icon-Worker"></i> Construction / Facilities</a></li>-->
+                <!--<li><a href="#"><i class="ln ln-icon-Student-Female"></i> Education Training</a></li>-->
+                <!--<li><a href="#"><i class="ln  ln-icon-Medical-Sign"></i> Healthcare</a></li>-->
+                <!--<li><a href="#"><i class="ln  ln-icon-Plates"></i> Restaurant / Food Service</a></li>-->
+                <!--<li><a href="#"><i class="ln  ln-icon-Globe"></i> Transportation / Logistics</a></li>-->
+                <!--<li><a href="#"><i class="ln  ln-icon-Laptop-3"></i> Telecommunications</a></li>-->
+            <!--</ul>-->
+            <!--<div class="clearfix"></div>-->
+            <!--<div class="margin-top-30"></div>-->
+            <!--<a href="browse-categories.html" class="button centered">Browse All Categories</a>-->
+            <!--<div class="margin-bottom-50"></div>-->
+        <!--</div>-->
+    <!--</div>-->
+</template>

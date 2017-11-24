@@ -1,0 +1,31 @@
+<template name="join">
+    <!--{{> titlebar}}-->
+    {{> sAlert}}
+    <div class="container join-page">
+        {{#if currentUser}}
+            <div>
+                <h2>
+                    Chào {{ currentUser.profile.full_name }}
+                </h2>
+            </div>
+        {{else}}
+            <div class="my-account">
+                <ul class="tabs-nav">
+                    <li class=""><a href="#tab1">Đăng nhập</a></li>
+                    <li><a href="#tab2" >Đăng ký</a></li>
+                </ul>
+                <div class="tabs-container">
+                    <!-- login and register form here -->
+                    <!-- Login -->
+                    <div class="tab-content" id="tab1" style="display: none;">
+                            {{> login }}
+                    </div>
+                    <!-- Register -->
+                    <div class="tab-content register" id="tab2" style="display: none;">
+                        {{> registerForm}}
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+</template>

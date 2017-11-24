@@ -1,0 +1,40 @@
+<template name="upload">
+    <h1>Simplest upload form!</h1>
+
+    {{> uploadForm}}
+
+    {{> uploadedFiles}}
+
+    {{> avatarProfile}}
+</template>
+
+<template name="uploadForm">
+    {{#with currentUpload}}
+        Uploading <b>{{file.name}}</b>:
+        <span id="progress">{{progress.get}}%</span>
+    {{else}}
+        <input id="fileInput" type="file" />
+        <p><small>Các định dạng file cho phép <code>jpeg, png</code>, kích thước ảnh phải nhỏ hơn 10MB</small></p>
+    {{/with}}
+</template>
+
+<template name="uploadedFiles">
+    {{#if uploadedFiles.count}}
+        <ul>
+            {{#each file in uploadedFiles.each}}
+                <li>
+                    <a href="{{file.link}}?download=true" download="{{file.name}}">{{file.name}}</a>
+                    <a href="{{file.link}}"><img src="{{file.link}}"></a>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <div>No files uploaded, yet</div>
+    {{/if}}
+</template>
+
+<template name="avatarProfile">
+    <img id="avatar-profile" alt="@{{currentUser.profile.full_name}}" class="avatar rounded-2" height="200"
+         src="{{avatarProfile._downloadRoute}}/{{avatarProfile._collectionName}}/{{avatarProfile._id}}/original/{{avatarProfile._id}}{{avatarProfile.extensionWithDot}}"
+         width="200">
+</template>

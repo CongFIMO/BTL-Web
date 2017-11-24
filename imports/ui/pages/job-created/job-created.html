@@ -1,0 +1,47 @@
+<template name="jobCreated">
+    {{isOwner}}
+    <h1>Job Created</h1>
+    <div class="block-content">
+        {{#each jobs}}
+            <div class="row-fluid row-result single category card">
+                <a href="/job/{{catSlug this.type_id}}/{{this._id}}">
+                    <h2>{{jobName this.type_id}}</h2>
+                </a>
+                <span>Ngày tạo: {{formatDateTime this.date_create}}</span>
+                <div class="">
+                    <div class="row-fluid">
+                        <div class="">
+                            <div class="row-fluid">
+                                <div class="">
+                                    <a href="#">
+                                        <img src="" >
+                                    </a>
+                                </div>
+                                <div class="span10">
+                                    <div class="info-client">
+                                        <!--<div class="user-name-info" title="Tên chủ nhà">Người tạo: {{this.user.profile.full_name}}</div>-->
+                                        <div class="salary-fl" title="Mức lương"><i></i>Giá 50.000₫/h </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-right span2">
+                            <ul>
+                                <li class="info-job place-work" title="Nơi làm việc">
+                                    <i class="fa fa-map-marker" aria-hidden="true">Địa chỉ: </i>
+                                    {{this.user.profile.home_address}}, {{this.user.profile.district}}, {{this.user.profile.province}}
+                                </li>
+                                <li class="info-job date-begin-work" title="Ngày bắt đầu làm việc"><i></i>Ngày bắt đầu làm việc: {{this.time_start}} {{this.date_start}}
+                                </li>
+                                <li class="info-job time-work" title="Thời gian làm việc">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    Số giờ làm: {{this.time}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</template>

@@ -1,0 +1,203 @@
+<template name="userManagement">
+    <div id="titlebar" class="single">
+        <div class="container">
+            <div class="sixteen columns">
+                <h2>Quản lí người dùng</h2>
+            </div>
+        </div>
+    </div>
+    <!--<div class="container">-->
+        <!--&lt;!&ndash; Recent Jobs &ndash;&gt;-->
+        <!--<div class="eleven columns">-->
+            <!--<div class="padding-right">-->
+    <div class="container">
+        <div id="profile-wrap">
+            <div class="page-content clearfix">
+                <div class="row">
+                    <div class="col-md-4 float-left" role="navigation">
+                        <nav class="right-sidebar-menu" data-pjax="">
+                            <div class="single category">
+                                <h3 class="side-title">Danh sách người dùng</h3>
+                                <ul class="list-group">
+                                    {{#each listUser}}
+                                        <li style="cursor:pointer" class="list-group-item item-user {{#if isCurrentUser
+                                                                                                          this._id}}active{{/if}}">
+                                            <!--<a href="/profile/change_password" title="fsfjsdf" class="profile_section"-->
+                                            <!--id="change_password">Đổi mật khẩu</a>-->
+                                            {{#each this.emails}}
+                                                <!--<a>-->
+                                                {{address}}
+                                                <!--</a>-->
+                                            {{/each}}
+                                        </li>
+                                    {{/each}}
+
+                                </ul>
+                                <div class="clearfix"></div>
+                                <!-- Pagination -->
+                                {{#if listUser}}
+                                    {{> paginationInUserManagement}}
+                                {{/if}}
+                            </div>
+                        </nav>
+                    </div>
+                    {{>userProfileInUserManagement}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="paginationInUserManagement">
+    <div class="pagination-container pagination-in-user-management">
+        <nav class="pagination">
+            <ul>
+                {{#if paginationMoreMode}}
+                    <li><a href="{{link}}{{pageNumbers.first.number}}"
+                           id="pageIndicator_{{pageNumbers.first.number}}"
+                           class="goPage {{pageNumbers.first.class}}">{{pageNumbers.first.number}}</a></li>
+                    {{#if pageNumbers.hasPre}}
+                        <li class="blank">...</li>
+                    {{/if}}
+                    <li><a href="{{link}}{{pageNumbers.preCurrent.number}}"
+                           id="pageIndicator_{{pageNumbers.preCurrent.number}}"
+                           class="goPage {{pageNumbers.preCurrent.class}}">{{pageNumbers.preCurrent.number}}</a>
+                    </li>
+                    <li><a href="{{link}}{{pageNumbers.current.number}}"
+                           id="pageIndicator_{{pageNumbers.current.number}}"
+                           class="goPage {{pageNumbers.current.class}}">{{pageNumbers.current.number}}</a>
+                    </li>
+                    <li><a href="{{link}}{{pageNumbers.postCurrent.number}}"
+                           id="pageIndicator_{{pageNumbers.postCurrent.number}}"
+                           class="goPage {{pageNumbers.postCurrent.class}}">{{pageNumbers.postCurrent.number}}</a>
+                    </li>
+                    {{#if pageNumbers.hasPost}}
+                        <li class="blank">...</li>
+                    {{/if}}
+                    <li><a href="{{link}}{{pageNumbers.last.number}}"
+                           id="pageIndicator_{{pageNumbers.last.number}}"
+                           class="goPage {{pageNumbers.last.class}}">{{pageNumbers.last.number}}</a></li>
+                {{else}}
+                    {{#each pageNumbers}}
+                        <li><a href="{{link}}{{this.number}}" id="pageIndicator_{{this.number}}"
+                               class="goPage {{this.class}}">{{this.number}}</a></li>
+                    {{/each}}
+                {{/if}}
+            </ul>
+        </nav>
+        <nav class="pagination-next-prev">
+            <ul>
+                <li>
+                    <a id="prevPage" href="{{prevPage}}" class="prev goPage">
+                        <span aria-hidden="true">&larr;</span>
+                    </a>
+                </li>
+                <li>
+                    <a id="nextPage" href="{{nextPage}}" class="next goPage">
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</template>
+<template name="profileAddressInUserManagement">
+    <div class="form-group">
+        <div class="">
+            <h6 class="">Địa chỉ:</h6>
+        </div>
+        <div class="">
+            <div class="">
+                <label>Tỉnh/Thành Phố:</label>
+                <div class="">
+                    <select class="form-control" id="provinceAddress" name="provinceAddress">
+                        {{#each provinceAddress}}
+                            <option value="{{@index}}" {{provinceSelected name @index}}>{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="">
+                <label>Quận/Huyện:</label>
+                <div class="">
+                    <select class="form-control" id="disAddress" name="disAddress">
+                        {{#each disAddress}}
+                            <option value="{{@index}}" {{disSelected this @index}}>{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="">
+                <label>Địa chỉ nhà:</label>
+                <input type="text" class="form-control" name="homeAddressProfile" id="homeAddressProfile" placeholder=""
+                       value="{{currentUser.profile.home_address}}">
+            </div>
+        </div>
+
+    </div>
+</template>
+<template name="userProfileInUserManagement">
+    {{> sAlert}}
+    <div class="col-md-8 float-left">
+        <div class="row">
+            <div class="">
+                <div class="subhead">
+                    <h2 class="subhead-heading">Thông tin cá nhân</h2>
+                </div>
+                <form accept-charset="UTF-8" action="" class="columns" method="post">
+                    <div class="col-md-8">
+                        <div class="column one-third my-account">
+                            <div class="form-group">
+                                <label for="">Tên đầy đủ</label>
+                                <input class="form-control" id="" name="nameProfile" size="30" type="text"
+                                       value="{{currentUser.profile.full_name}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input class="form-control" id="" name="emailProfile" size="30" type="email"
+                                       value="{{ currentUser.emails.[0].address }}" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phoneProfile">Số điện thoại</label>
+                                <input class="form-control" id="phoneProfile" name="phoneProfile" size="30" type="tel"
+                                       value="{{ currentUser.profile.phone }}">
+                            </div>
+
+                            {{> profileAddressInUserManagement}}
+
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="infoProfile">Thông tin thêm</label>
+                                    <input class="form-control" id="infoProfile" name="infoProfile" size="30"
+                                           type="text"
+                                           value="{{ currentUser.profile.info }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <p>
+                                <button type="submit" class="btn btn-primary">Cập nhật
+                                </button>
+                                <button type="button" id="delete_user" class="btn btn-danger">Xóa người dùng</button>
+                                {{#if currentUser.ban.status}}
+                                    <button type="button" id="unban_user" class="btn btn-warning">Bỏ cấm</button>
+                                {{else}}
+                                    <button type="button" id="ban_user" class="btn btn-warning">Cấm</button>
+                                {{/if}}
+
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>

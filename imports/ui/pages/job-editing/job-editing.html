@@ -1,0 +1,163 @@
+<template name="jobEditing">
+    <div id="titlebar" class="single submit-page">
+        <div class="container">
+            <div class="sixteen columns">
+                <h2><i class="fa fa-plus-circle"></i> Đăng việc</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="submit-page">
+            {{> sAlert}}
+            <div class="row">
+                {{> jobEditingForm }}
+            </div>
+            <!-- <div class="col-md-12">{{> jobDisplay }}   </div> -->
+        </div>
+    </div>
+</template>
+
+<template name="jobEditingForm">
+    <form>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="jobCatName"><strong>Lựa chọn nhóm công việc</strong></label>
+                <select class="form-control input-text" id="jobCatName" name="jobCatName">
+                    {{#each jobCats}}
+                        {{#if isSelectedJobCat jobDetail.cat_id this._id}}
+                            <option value="{{this._id}}" selected>{{name}}</option>
+                        {{else}}
+                            <option value="{{this._id}}">{{name}}</option>
+                        {{/if}}
+                    {{/each}}
+                </select>
+
+                <label for="jobName"><strong>Lựa chọn loại công việc</strong></label>
+                {{#each jobTypes}}
+                    {{#if isSelectedJobType jobDetail.job_group this._id}}
+                        <input checked type="checkbox" id="jobName" name="jobName" value="{{this._id}}"> {{name}}<br>
+                    {{else}}
+                        <input type="checkbox" id="jobName" name="jobName" value="{{this._id}}"> {{name}}<br>
+                    {{/if}}
+
+                {{/each}}
+            </div>
+            {{> addressJobEditing}}
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="jobDescription"><strong>Yêu cầu cụ thể</strong></label>
+                <!--<input type="text" class="form-control" id="jobDescription" aria-describedby="jobDescriptionHelp" name="jobDescription">-->
+                <textarea rows="2" required cols="30" name="jobDescription" id="jobDescription"
+                          aria-describedby="jobDescriptionHelp">{{jobDetail.description}}
+                </textarea>
+                <small id="jobDescriptionHelp" class="form-text text-muted">Nhập các yêu cầu cụ thể về công việc</small>
+            </div>
+            <div class="form-group">
+                <label for=""><strong>Kiểu việc</strong></label>
+                <label class="">
+                    <input type="radio" name="selectJobIntervalTime" value="1" {{isSelectedIntervalTime '1'
+                                                                                                        jobDetail.time_interval}}>
+                    Một lần
+                </label>
+                <label class="">
+                    <input type="radio" name="selectJobIntervalTime" value="2" {{isSelectedIntervalTime '2'
+                                                                                                        jobDetail.time_interval}}>
+                    Hàng ngày gồm cuối tuần
+                </label>
+                <label class="">
+                    <input type="radio" name="selectJobIntervalTime" value="3" {{isSelectedIntervalTime '3'
+                                                                                                        jobDetail.time_interval}}>Hàng
+                    ngày trừ cuối tuần
+                </label>
+            </div>
+
+            <label><strong>Ngày bắt đầu làm việc</strong></label>
+            <div class="input-group date">
+                <input class="form-control" required id="date-picker-start" name="jobDateStart"
+                       value="{{jobDetail.date_start}}"/><span
+                    class="input-group-addon"><span class="fa fa-calendar"></span></span>
+            </div>
+            <label><strong>Giờ bắt đầu</strong></label>
+            <div class="input-group date">
+                <input class="form-control" required id="time-picker-start" name="jobTimeStart"
+                       value="{{jobDetail.time_start}}"/><span
+                    class="input-group-addon"><span class="fa fa-clock-o"></span></span>
+            </div>
+            <div class="form-end-date" style="{{hiddenWhenTimeIntervalOne}}">
+                <label><strong>Ngày kết thúc làm việc</strong></label>
+                <div class="input-group date">
+                    <input class="form-control" style="{{checkSelectedJobIntervalTimeOneTime}}" id="date-picker-end"
+                           name="jobDateEnd" value="{{jobDetail.date_end}}"/><span
+                        class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+
+            <label><strong>Giờ kết thúc làm việc</strong></label>
+            <div class="input-group date">
+                <input class="form-control" required id="time-picker-end" name="jobTimeEnd"
+                       value="{{jobDetail.time_end}}"/><span
+                    class="input-group-addon"><span class="fa fa-clock-o"></span></span>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-12" id="submit-creation-job">
+            {{#if checkJobIsNotAccepted jobDetail.status}}
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            {{/if}}
+            <button type="button" id="delete_job" class="btn btn-danger">Xóa</button>
+        </div>
+    </form>
+    <div>
+
+    </div>
+</template>
+
+<template name="addressJobEditing">
+    <div class="form-group">
+        <div class="">
+            <h5 class=""><strong>Chọn khu vực làm việc</strong></h5>
+        </div>
+        <div class="">
+            <div class="">
+                <label><strong>Tỉnh/Thành Phố:</strong></label>
+                <div class="">
+                    <select class="form-control" id="provinceAddress" name="provinceAddress">
+                        {{#each provinceAddress}}
+                            {{#if isSelectedProvince name jobDetail.province @index}}
+                                <option selected value="{{@index}}">{{name}}</option>
+                            {{else}}
+                                <option value="{{@index}}">{{name}}</option>
+                            {{/if}}
+
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="">
+                <label><strong>Quận/Huyện:</strong></label>
+                <div class="">
+                    <select class="form-control" id="disAddress" name="disAddress">
+                        {{#each disAddress}}
+                            {{#if isSelectedDistrict this jobDetail.district}}
+                                <option value="{{@index}}" selected>{{this}}</option>
+                            {{else}}
+                                <option value="{{@index}}">{{this}}</option>
+                            {{/if}}
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="">
+                <label><strong>Địa chỉ nhà:</strong></label>
+                <input type="text" class="form-control" name="homeAddress" id="homeAddress" placeholder=""
+                       value="{{jobDetail.home}}">
+            </div>
+        </div>
+    </div>
+</template>
+

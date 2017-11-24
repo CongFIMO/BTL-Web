@@ -1,0 +1,45 @@
+<template name="login">
+    {{> sAlert}}
+    <div id="loginFormGVD">
+        <form method="post" class="login">
+
+            <p class="form-row form-row-wide">
+                <label for="loginEmail">Email:
+                    <i class="ln ln-icon-Email"></i>
+                    <input type="email" class="input input-text" name="loginEmail" id="loginEmail" autocomplete="on" required/>
+                </label>
+            </p>
+
+            <p class="form-row form-row-wide">
+                <label for="loginPassword">Password:
+                    <i class="ln ln-icon-Lock-2"></i>
+                    <input class="input-text input" type="password" data-type="password"  name="loginPassword" id="loginPassword" required/>
+                </label>
+            </p>
+
+            <p class="form-row">
+                <input type="submit" class="button border fw margin-top-10" name="login" value="Vào thôi"/>
+
+                <label for="rememberme" class="rememberme">
+                    <input name="rememberme" type="checkbox" id="rememberme" value="forever"/> Giữ đăng nhập</label>
+            </p>
+
+            <p class="lost_password">
+                <a href="/forgot">Quên mật khẩu?</a>
+            </p>
+
+        </form>
+    </div>
+    <script>
+        if (typeof(Storage) !== "undefined") {
+            $('input[name="loginEmail"]').change(function(){
+                // Store
+                localStorage.setItem("emailInput", $('input[name="loginEmail"]').val());
+            });
+            // Retrieve
+            console.log( localStorage.getItem("emailInput"));
+            document.getElementById('loginEmail').value=localStorage.getItem("emailInput"); 
+        }
+    </script>
+</template>
+

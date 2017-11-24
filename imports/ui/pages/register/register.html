@@ -1,0 +1,155 @@
+<template name="register">
+    <div class="alert alert-warning">
+        <h4>Đăng ký</h4>
+    </div>
+    <div class="col-md-6">
+        {{> registerForm}}
+    </div>
+</template>
+
+<template name="registerForm">
+    {{> sAlert}}
+    <div class="">
+        <form method="POST" class="register">
+            <div class="group userTypeRegister">
+                <label for="" class="label">Lựa chọn tài khoản đăng ký </label>
+                <div id="userTypeRegister" class="btn-group" data-toggle="buttons">
+                    <div id="userTypeOne" class="btn btn-default input">
+                        <input type="radio" name="userTypeRegister" id="userTypeOne" value="1" required/>
+                        <span>Chủ nhà</span>
+                    </div>
+                    <div id="userTypeTwo" class="btn btn-default input">
+                        <input type="radio" name="userTypeRegister" id="userTypeTwo" value="2" required/>
+                        <span>Người giúp việc</span>
+                    </div>
+                </div>
+            </div>
+            <div class="fill-value-register">
+                <p class="form-row form-row-wide">
+                    <label for="registerFullName">Tên đầy đủ:
+                        <i class="ln ln-icon-Male"></i>
+                        <input type="text" class="input-text" name="registerFullName" id="registerFullName" value="" required/>
+                    </label>
+                </p>
+
+                <p class="form-row form-row-wide">
+                    <label for="registerEmail">Địa chỉ Email:
+                        <i class="ln ln-icon-Mail"></i>
+                        <input type="email" class="input-text" name="registerEmail" id="registerEmail" value="" required />
+                    </label>
+                </p>
+
+                <p class="form-row form-row-wide">
+                    <label for="registerPassword">Mật khẩu:
+                        <i class="ln ln-icon-Lock-2"></i>
+                        <input class="input-text" type="password" name="registerPassword" id="registerPassword" required />
+                    </label>
+                </p>
+
+                <p class="form-row form-row-wide">
+                    <label for="registerAgainPassword">Nhập lại mật khẩu:
+                        <i class="ln ln-icon-Lock-2"></i>
+                        <input class="input-text" type="password" name="registerAgainPassword" id="registerAgainPassword" required />
+                    </label>
+                </p>
+            </div>
+
+            <p class="form-row">
+                <input type="submit" class="button border fw margin-top-10" name="register" value="Đăng ký"/>
+            </p>
+        </form>
+    </div>
+
+    <script>
+        (function ($) {
+
+            $.fn.floatLabels = function (options) {
+                // Settings
+                var self = this;
+                var settings = $.extend({}, options);
+
+                // Event Handlers
+                function registerEventHandlers() {
+                    self.on('input keyup change', 'input, textarea', function () {
+                        actions.swapLabels(this);
+                    });
+                }
+
+                // Actions
+                var actions = {
+                    initialize: function () {
+                        self.each(function () {
+                            var $this = $(this);
+                            var $label = $this.children('label');
+                            var $field = $this.find('input,textarea').first();
+                            if ($this.children().first().is('label')) {
+                                $this.children().first().remove();
+                                $this.append($label);
+                            }
+                            var placeholderText = ($field.attr('placeholder') && $field.attr('placeholder') != $label.text()) ? $field.attr('placeholder') : $label.text();
+                            $label.data('placeholder-text', placeholderText);
+                            $label.data('original-text', $label.text());
+                            if ($field.val() == '') {
+                                $field.addClass('empty')
+                            }
+                        });
+                    },
+                    swapLabels: function (field) {
+                        var $field = $(field);
+                        var $label = $(field).siblings('label').first();
+                        var isEmpty = Boolean($field.val());
+                        if (isEmpty) {
+                            $field.removeClass('empty');
+                            $label.text($label.data('original-text'));
+                        }
+                        else {
+                            $field.addClass('empty');
+                            $label.text($label.data('placeholder-text'));
+                        }
+                    }
+                };
+
+                // Initialization
+                function init() {
+                    registerEventHandlers();
+                    actions.initialize();
+                    self.each(function () {
+                        actions.swapLabels($(this).find('input,textarea').first());
+                    });
+                }
+
+                init();
+                return this;
+            };
+            $(function () {
+                $('.float-label-control').floatLabels();
+            });
+
+        })(jQuery);
+
+        // validates text only
+        function validateText(text) {
+//            var registerFullName = document.getElementById("registerFullName");
+            text.value = text.value.replace(/[^ a-zA-Z-'\n\r]+/g, '');
+        }
+
+        function validatePhone(phone) {
+            // registerPhone
+            var maintainplus = '';
+            var numval = phone.value;
+            if (numval.charAt(0) == '+') {
+                var maintainplus = '';
+            }
+            curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@#~,.Š\/<>?|`¬\]\[]/g, '');
+            phone.value = maintainplus + curphonevar;
+            var maintainplus = '';
+            phone.focus;
+        }
+
+//        console.log('before', $("input:radio[id=option1]").prop('checked'));
+//        // $("input:radio[id=option1]").prop('checked', true);
+//        $("input:radio[id=option2]").click();
+//        console.log('after', $("input:radio[id=option1]").prop('checked'));
+
+    </script>
+</template>

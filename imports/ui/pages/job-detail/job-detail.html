@@ -1,0 +1,230 @@
+<template name="jobDetail">
+    {{> sAlert}}
+    <div id="titlebar">
+        <div class="container">
+            <div class="ten columns">
+                <!--<span><a href="/">Restaurant / Food Service</a></span>-->
+                <!--<h2>Restaurant Team Member - Crew <span class="past-time">Past-Time</span></h2>-->
+            </div>
+            <!--<div class="six columns">-->
+                <!--<a href="#" class="button dark"><i class="fa fa-star"></i> Bookmark This Job</a>-->
+            <!--</div>-->
+        </div>
+    </div>
+    {{jobInfoID}}
+    <!---->
+
+    <!-- Content
+    ================================================== -->
+    <div class="container">
+        <!-- Recent Jobs -->
+        <div class="eleven columns">
+            <div class="padding-right">
+                <!-- Company Info -->
+                <div class="company-info">
+                    <img src="{{getAvatarUrl jobInfo.user_id_created_job}}" alt="">
+                    <div class="content">
+                        <h4>{{jobName.name}}
+                            {{#if isJobAccepted jobInfo.jobStatus}}
+                                <span class="btn btn-danger">DONE</span>
+                            {{/if}}
+                        </h4>
+                        <div><a href="#"><i class="fa fa-user"></i> Tạo bởi: {{jobInfo.full_name}}</a></div>
+                        <div><i class="fa fa-clock-o"></i> Ngày tạo: {{jobInfo.date_create}}</div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <p class="margin-reset description">
+                    {{jobInfo.description}}
+                    <!-- Google Maps -->
+                    <section class="google-map-container">
+                        <div id="homeAddress" class="google-map"></div>
+                    </section>
+                    <!-- Google Maps / End -->
+                </p>
+
+            </div>
+        </div>
+        <!-- Widgets -->
+        <div class="five columns">
+            <!-- Sort by -->
+            <div class="widget">
+                <h4>Thông tin việc làm</h4>
+                <div class="job-overview">
+                    <ul>
+                        <li>
+                            <i class="fa fa-map-marker"></i>
+                            <div>
+                                <strong>Địa chỉ: </strong>
+                                <span>{{jobInfo.home}}, {{jobInfo.district}}
+                                    , {{jobInfo.province}}
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-clock-o"></i>
+                            <div>
+                                <strong>Thời gian làm:</strong>
+                                <span>{{jobInfo.time}}</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-clock-o"></i>
+                            <div>
+                                <strong>Giờ bắt đầu:</strong>
+                                <span>{{jobInfo.time_start}}</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-calendar-o"></i>
+                            <div>
+                                <strong>Ngày bắt đầu:</strong>
+                                <span>{{jobInfo.date_start}}</span>
+                            </div>
+                        </li>
+                        {{#if multiDate}}
+                            <li>
+                                <i class="fa fa-calendar-times-o"></i>
+                                <div>
+                                    <strong>Ngày kết thúc:</strong>
+                                    <span>{{jobInfo.date_end}}</span>
+                                </div>
+                            </li>
+                        {{/if}}
+                    </ul>
+                    {{#if checkUserSlave}}
+                        {{#if checkStatusNotAccepted}}
+                            <div class="job-register button">
+                                {{#if checkUserInsideJobRegister}}
+                                    {{> cancelRegister}}
+                                {{else}}
+                                    {{> jobRegister}}
+                                {{/if}}
+                            </div>
+                        {{else}}
+                            <div class="job-register">
+                                <button class="bg-success btn disabled">Việc này đã đã được nhận</button>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <!-- Widgets / End -->
+    </div>
+    <!---->
+    <div class="container">
+        <div class="row list-user" id="list-user">
+            <div class="col-md-12">
+
+                {{#if listUser.userRegistered}}
+                    <div class="lis-user bg-success">
+                        <h4 class="title">Danh sách những người đã đăng ký nhận việc</h4>
+                    </div>
+                {{else}}
+                    <div class="lis-user bg-success">
+                        <h4 class="title">Chưa có người nào nhận việc này!</h4>
+                    </div>
+                {{/if}}
+
+                <div class="job-status">
+                    <ul class="resumes-list">
+                        {{#each listUser.userRegistered}}
+                            <li class="registered-user">
+                                <!--<a href="#">-->
+                                <img src="{{getAvatarUrl this._id}}" alt="" class="user-avatar">
+                                <div class="resumes-list-content">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h4>{{this.profile.full_name }}
+                                            </h4>
+                                            {{#if isUserRented this._id listUser.user_id_accepted jobInfo.jobStatus}}
+                                                <span class="btn btn-primary">Được nhận việc</span>
+                                            {{/if}}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="join-date">
+                                                <i class="fa fa-sign-in"></i> <span>Ngày gia nhập: {{formatDateTime
+                                                    this.createdAt}} </span>
+                                            </div>
+                                            <div>
+                                                <i class="fa fa-map-marker"></i>
+                                                Đến từ: {{this.profile.home_address}},
+                                                {{this.profile.district}},
+                                                {{this.profile.province}}
+                                            </div>
+                                            <div class="job">
+                                                {{#with userMilestone this._id}}
+                                                    <div class="job-accepted">
+                                                        <span>Số việc đã làm:  {{this.job_accepted}}</span>
+                                                    </div>
+                                                    <div class="time-worked">
+                                                        <span>Số giờ đã làm:  {{this.time_workerd}}</span>
+                                                    </div>
+                                                {{/with}}
+                                            </div>
+                                            <!--<div>-->
+                                                <!--<i class="fa fa-money"></i>Thu nhập trung bình: 50k/giờ-->
+                                            <!--</div>-->
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div>
+                                        {{this.profile.info}}
+                                    </div>
+                                    <!--<div class="skills">-->
+                                        <!--<span>Trông trẻ</span>-->
+                                        <!--<span>Nấu cơm</span>-->
+                                        <!--<span>Làm vườn</span>-->
+                                    <!--</div>-->
+                                    {{#if checkStatusNotAccepted}}
+                                        {{#if checkUserCreatedJob}}
+                                            <div class="accept">
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-primary accept-button"
+                                                            data-id="{{this._id}}">
+                                                        Chấp nhận người này
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        {{/if}}
+                                    {{/if}}
+                                    <div class="clearfix"></div>
+                                </div>
+                                <!--</a>-->
+                                <div class="clearfix"></div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
+
+<template name="jobRegister">
+    <form>
+        <div class="form-group">
+            <p>
+                <button type="submit" class="btn btn-primary">Đăng ký việc này</button>
+            </p>
+        </div>
+    </form>
+</template>
+
+<template name="cancelRegister">
+    <button class="btn btn-danger cancel">Huỷ đăng ký</button>
+</template>
+
+<template name="userRegisteredList">
+
+</template>
+
+<template name="jobDetailContent">
+
+</template>
+
+<template name="jobDetailOwner">
+
+</template>

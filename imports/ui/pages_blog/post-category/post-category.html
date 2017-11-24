@@ -1,0 +1,54 @@
+<!--<template name="post-category">-->
+  <!--<h1>Quản lí Nhóm bài viết</h1>-->
+    <!--{{> postCatForm}}-->
+    <!--<br>-->
+    <!--{{> showpostCat}}-->
+<!--</template>-->
+
+<!--<template name="postCatForm">-->
+    <!--<form>-->
+        <!--<div class="form-group">-->
+            <!--<label for="postCategory">Category</label>-->
+            <!--<input type="text" class="form-control" id="postCategory" aria-describedby="postHelp" name="postCategory">-->
+            <!--<small id="postHelp" class="form-text text-muted">Nhập Tên nhóm công viêc</small>-->
+        <!--</div>-->
+        <!--<button type="submit" class="btn btn-primary">Thêm</button>-->
+    <!--</form>-->
+<!--</template>-->
+
+<!--<template name="showpostCat">-->
+    <!--<table class="table table-striped">-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th>#</th>-->
+            <!--<th>Tên nhóm công việc</th>-->
+            <!--<th>Hành động</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--{{#each categories}}-->
+            <!--<tr>-->
+                <!--<th scope="row">{{incremented  @index }}</th>-->
+                <!--<td >-->
+                    <!--<span id="span_category_{{_id}}" >{{name}}</span>-->
+                    <!--<form class="form-edit" id="form_category_{{_id}}" hidden>-->
+                        <!--<input id="input_category_{{_id}}" type="text" name="name" value="{{name}}"/>-->
+                    <!--</form>-->
+                <!--</td>-->
+
+                <!--<td>-->
+                    <!--<button type="button" id="delete-post-category"-->
+                            <!--class="btn btn-danger delete-post-category">Xóa</button>-->
+                    <!--<button type="button" id="edit_post_category_{{_id}}"-->
+                            <!--class="btn btn-warning edit-post-category" name="edit_post_category" value="edit">Sửa</button>-->
+                    <!--&lt;!&ndash;<button type="button" id="save_post_category_{{_id}}"&ndash;&gt;-->
+                            <!--&lt;!&ndash;class="btn btn-warning save-post-category" name="save_post_category">Lưu</button>&ndash;&gt;-->
+                <!--</td>-->
+            <!--</tr>-->
+
+        <!--{{/each}}-->
+        <!--</tbody>-->
+    <!--</table>-->
+
+<!--</template>-->
+

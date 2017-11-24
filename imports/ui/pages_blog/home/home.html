@@ -1,0 +1,181 @@
+<template name="App_home_blog">
+    <div class="clearfix"></div>
+    <!-- Titlebar
+    ================================================== -->
+    <div id="titlebar" class="single">
+        <div class="container">
+            <div class="sixteen columns">
+                <h2>Blog</h2>
+                <span>Keep up to date with the latest news</span>
+            </div>
+            <div class="sixteen columns">
+                <a href="/blog/post-creation" class="button">Tạo bài viết</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Blog Posts -->
+        <div class="eleven columns">
+            <div class="padding-right">
+                <div class="clearfix"></div>
+                <!-- Post -->
+                {{#each postSummarizations}}
+                    <div class="post-container">
+                        <div class="post-img"><a href="/blog/{{this.id}}"><img src="{{this.featuredImage}}" alt=""></a>
+                            <div class="hover-icon"></div>
+                        </div>
+                        <div class="post-content">
+                            <a href="/blog/{{this.id}}"><h3>{{this.title}}</h3></a>
+                            <div class="meta-tags">
+                                <span>{{this.date}}</span>
+                                <!--<span><a href="#">0 Comments</a></span>-->
+                            </div>
+                            <p>{{this.content}}</p>
+                            <a class="button" href="/blog/{{this.id}}">Read More</a>
+                        </div>
+                    </div>
+                {{/each}}
+
+                <!-- Pagination -->
+                {{#if postSummarizations}}
+                    <div class="pagination-container">
+                        <nav class="pagination">
+                            <ul>
+                                {{#if paginationMoreMode}}
+                                    <li><a href="/blog/page/{{pageNumbers.first.number}}"
+                                           class="goPage {{pageNumbers.first.class}}">{{pageNumbers.first.number}}</a>
+                                    </li>
+                                    {{#if pageNumbers.hasPre}}
+                                        <li class="blank">...</li>
+                                    {{/if}}
+                                    <li><a href="/blog/page/{{pageNumbers.preCurrent.number}}"
+                                           class="goPage {{pageNumbers.preCurrent.class}}">{{pageNumbers.preCurrent.number}}</a>
+                                    </li>
+                                    <li><a href="/blog/page/{{pageNumbers.current.number}}"
+                                           class="goPage {{pageNumbers.current.class}}">{{pageNumbers.current.number}}</a>
+                                    </li>
+                                    <li><a href="/blog/page/{{pageNumbers.postCurrent.number}}"
+                                           class="goPage {{pageNumbers.postCurrent.class}}">{{pageNumbers.postCurrent.number}}</a>
+                                    </li>
+                                    {{#if pageNumbers.hasPost}}
+                                        <li class="blank">...</li>
+                                    {{/if}}
+                                    <li><a href="/blog/page/{{pageNumbers.last.number}}"
+                                           class="goPage {{pageNumbers.last.class}}">{{pageNumbers.last.number}}</a>
+                                    </li>
+                                {{else}}
+                                    {{#each pageNumbers}}
+                                        <li><a href="/blog/page/{{this.number}}"
+                                               class="goPage {{this.class}}">{{this.number}}</a></li>
+                                    {{/each}}
+                                {{/if}}
+                            </ul>
+                        </nav>
+
+                        <nav class="pagination-next-prev">
+                            <ul>
+                                <li>
+                                    <a id="prevPage" href="{{prevPage}}" class="prev goPage">
+                                        <span aria-hidden="true">&larr;</span> Previous
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="nextPage" href="{{nextPage}}" class="next goPage">
+                                        Next <span aria-hidden="true">&rarr;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+        <!-- Blog Posts / End -->
+        <!-- Widgets -->
+        <div class="five columns blog">
+            <div class="widget">
+                <!-- Tabs Content -->
+                <div class="tabs-container">
+                    {{#basicTabs name="" tabs=tabs}}
+                        {{#tabContent slug="recent"}}
+                            {{> recent_post}}
+                        {{/tabContent}}
+                        {{#tabContent slug="popular"}}
+                            {{> popular_post}}
+                        {{/tabContent}}
+                        {{#tabContent slug="featured"}}
+                            {{> featured_post}}
+                        {{/tabContent}}
+                    {{/basicTabs}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<template name="recent_post">
+    <div class="tab-content">
+        {{#each data}}
+            <!-- Recent Posts -->
+            <ul class="widget-tabs">
+                <!-- Post #1 -->
+                <li>
+                    <div class="widget-thumb">
+                        <a href="/blog/{{this.id}}"><img src="{{this.featuredImage}}" alt=""></a>
+                    </div>
+                    <div class="widget-text">
+                        <h5><a href="/blog/{{this.id}}">{{this.title}}</a>
+                        </h5>
+                        <span>{{this.date}}</span>
+                        <span><p>{{this.content}}</p></span>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+        {{/each}}
+    </div>
+</template>
+<template name="popular_post">
+    <div class="tab-content">
+        {{#each data}}
+            <!-- Recent Posts -->
+            <ul class="widget-tabs">
+                <!-- Post #1 -->
+                <li>
+                    <div class="widget-thumb">
+                        <a href="/blog/{{this.id}}"><img src="{{this.featuredImage}}" alt=""></a>
+                    </div>
+                    <div class="widget-text">
+                        <h5><a href="/blog/{{this.id}}">{{this.title}}</a>
+                        </h5>
+                        <span>{{this.date}}</span>
+                        <p>{{this.content}}</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+        {{/each}}
+    </div>
+</template>
+<template name="featured_post">
+    <div class="tab-content">
+        {{#each data}}
+            <!-- Recent Posts -->
+            <ul class="widget-tabs">
+                <!-- Post #1 -->
+                <li>
+                    <div class="widget-thumb">
+                        <a href="/blog/{{this.id}}"><img src="{{this.featuredImage}}" alt=""></a>
+                    </div>
+                    <div class="widget-text">
+                        <h5><a href="/blog/{{this.id}}">{{this.title}}</a>
+                        </h5>
+                        <span>{{this.date}}</span>
+                        <p>{{this.content}}</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+        {{/each}}
+    </div>
+</template>
