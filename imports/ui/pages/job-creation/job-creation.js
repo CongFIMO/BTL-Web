@@ -10,7 +10,7 @@ import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 
 if (Meteor.isClient) {
-    const JOB_STATUS = "BIDDING";
+    const jobStatus = "BIDDING";
     Template.jobForm.onRendered(function () {
         Meteor.setTimeout(function () {
             this.$('#date-picker-start').datetimepicker({
@@ -43,7 +43,7 @@ if (Meteor.isClient) {
             });
         }, 10);
         Session.setDefault("jobCatID", JobCat.findOne()._id);
-        Session.setDefault("jobIntervalTime", 1);
+        // Session.setDefault("jobIntervalTime", 1);
     });
 
     Template.jobForm.helpers({
@@ -54,25 +54,25 @@ if (Meteor.isClient) {
         jobCats: function () {
             return JobCat.find({}, {sort: {score: -1, name: 1}});
         },
-        checkSelectedJobIntervalTimeOneTime: function () {
-            if (Session.get('jobIntervalTime') == 1) {
-                return 'disabled';
-            } else {
-                return 'required'
-            }
-        },
-        hiddenWhenTimeIntervalOne: function () {
-            if (Session.get('jobIntervalTime') == 1) {
-                return 'display:none';
-            }
-        },
-        changeTextDisplayForTimeInterverlOne: function () {
-            if (Session.get('jobIntervalTime') == 1) {
-                return true;
-            } else {
-                return false
-            }
-        }
+        // checkSelectedJobIntervalTimeOneTime: function () {
+        //     if (Session.get('jobIntervalTime') == 1) {
+        //         return 'disabled';
+        //     } else {
+        //         return 'required'
+        //     }
+        // },
+        // hiddenWhenTimeIntervalOne: function () {
+        //     if (Session.get('jobIntervalTime') == 1) {
+        //         return 'display:none';
+        //     }
+        // },
+        // changeTextDisplayForTimeInterverlOne: function () {
+        //     if (Session.get('jobIntervalTime') == 1) {
+        //         return true;
+        //     } else {
+        //         return false
+        //     }
+        // }
     });
 
 
@@ -96,14 +96,15 @@ if (Meteor.isClient) {
             var jobCatID = event.target.jobCatName.value;
             var jobDescription = event.target.jobDescription.value;
             // var selectJobTime = event.target.selectJobTime.value;
-            var selectTimeInterval = event.target.selectJobIntervalTime.value;
+            //var selectTimeInterval = event.target.selectJobIntervalTime.value;
             var jobDateStart = event.target.jobDateStart.value;
-            var jobTimeStart = event.target.jobTimeStart.value;
+            //var jobTimeStart = event.target.jobTimeStart.value;
             var jobDateEnd = event.target.jobDateEnd.value;
-            var jobTimeEnd = event.target.jobTimeEnd.value;
-            var provinceAddress = event.target.provinceAddress.value;
-            var disAddress = event.target.disAddress.value;
-            var homeAddress = event.target.homeAddress.value;
+            var jobPref = event.target.jobPref.value;
+            //var jobTimeEnd = event.target.jobTimeEnd.value;
+            //var provinceAddress = event.target.provinceAddress.value;
+            //var disAddress = event.target.disAddress.value;
+            //var homeAddress = event.target.homeAddress.value;
             var currentUserID = Meteor.userId();
             var user = Meteor.user();
             // console.log(currentUserID);
@@ -117,13 +118,13 @@ if (Meteor.isClient) {
                 return;
             }
 
-            //console.log(Prov[provinceAddress].name);
-            var newProvinceAddress = Prov[provinceAddress].name;
-            // console.log(Prov[provinceAddress].dis[disAddress]);
-            var newdisAddress = Prov[provinceAddress].dis[disAddress];
-            Meteor.call("JobCollection.insert", jobChecked, jobCatID, JOB_STATUS, currentUserID,
-                user, jobDescription, selectTimeInterval, jobDateStart,
-                jobTimeStart, jobDateEnd, jobTimeEnd, newProvinceAddress, newdisAddress, homeAddress, function (error, result) {
+
+            //var newProvinceAddress = Prov[provinceAddress].name;
+
+            //var newdisAddress = Prov[provinceAddress].dis[disAddress];
+            Meteor.call("JobCollection.insert", jobChecked, jobCatID, jobStatus, currentUserID,
+                user, jobDescription, jobDateStart,
+                jobDateEnd,jobPref , function (error, result) {
                     if (result === "error") {
                         messageLogError("Thao tác bị lỗi");
                     }

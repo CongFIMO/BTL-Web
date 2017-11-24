@@ -17,8 +17,8 @@ Meteor.methods({
             return Job.update({_id: jobID}, {$set: {user_id_accepted: user_id_accepted, status: 'ACCEPTED'}});
         },
         "JobCollection.updateMultipleField"(jobID, jobChecked, jobCatID, jobDescription,
-                                            selectTimeInterval, jobDateStart, jobTimeStart,
-                                            jobDateEnd, jobTimeEnd, newProvinceAddress, newdisAddress, homeAddress)
+                                            selectTimeInterval, jobDateStart,
+                                            jobDateEnd, jobName,jobStatus, jobPref )
         {
             return Job.update({_id: jobID},
                 {
@@ -28,14 +28,17 @@ Meteor.methods({
                         date_modified: new Date(),
                         description: jobDescription,
                         // time: selectJobTime,
-                        time_interval: selectTimeInterval,
+                        //time_interval: selectTimeInterval,
                         date_start: jobDateStart,
-                        time_start: jobTimeStart,
+                        //time_start: jobTimeStart,
                         date_end: (selectTimeInterval == 1) ? "" : jobDateEnd,
-                        time_end: jobTimeEnd,
-                        province: newProvinceAddress,
-                        district: newdisAddress,
-                        home: homeAddress
+                        name : jobName,
+                        status : jobStatus,
+                        preference : jobPref
+                        //time_end: jobTimeEnd,
+                        //province: newProvinceAddress,
+                        //district: newdisAddress,
+                        //home: homeAddress
                     }
                 }, function (error, result) {
                     if (error) {
@@ -61,29 +64,30 @@ Meteor.methods({
                 }
             });
         },
-        "JobCollection.insert"(jobChecked, jobCatID, JOB_STATUS, currentUserID,
-                               user, jobDescription, selectTimeInterval, jobDateStart,
-                               jobTimeStart, jobDateEnd, jobTimeEnd, newProvinceAddress, newdisAddress, homeAddress)
+        "JobCollection.insert"(jobChecked, jobCatID, jobStatus, currentUserID,
+                               user, jobDescription, jobDateStart,
+                               jobDateEnd,jobPref)
         {
             return Job.insert(
                 {
                     job_group: jobChecked,
                     cat_id: jobCatID,
-                    status: JOB_STATUS,
+                    status: jobStatus,
                     user_id: currentUserID,
                     user: user,
                     user_id_accepted: 0,
                     date_create: new Date(),
                     description: jobDescription,
                     // time: selectJobTime,
-                    time_interval: selectTimeInterval,
+                   //time_interval: selectTimeInterval,
                     date_start: jobDateStart,
-                    time_start: jobTimeStart,
-                    date_end: (selectTimeInterval == 1) ? "" : jobDateEnd,
-                    time_end: jobTimeEnd,
-                    province: newProvinceAddress,
-                    district: newdisAddress,
-                    home: homeAddress
+                    //time_start: jobTimeStart,
+                    date_end: jobDateEnd,
+                    preference: jobPref
+                    //time_end: jobTimeEnd,
+                    //province: newProvinceAddress,
+                    //district: newdisAddress,
+                    //home: homeAddress
                 }, function (error, id) {
                     if (error) {
                         console.log('Insert Fail!!!: ' + error); //info about what went wrong
