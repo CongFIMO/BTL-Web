@@ -3,7 +3,7 @@ import '../../layouts/banner/banner.js';
 import '../../layouts/categories/categories.js';
 import '../../layouts/testimonial/testimonial.js';
 import '../../layouts/infobox/infobox.js';
-import '../../layouts/recent-posts/recent-posts.js';
+// import '../../layouts/recent-posts/recent-posts.js';
 import '../../layouts/script/script.js';
 
 Template.landingPage.onCreated(function () {

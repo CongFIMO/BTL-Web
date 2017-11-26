@@ -14,9 +14,7 @@ import "/imports/startup/both/images.collection";
 // import "/imports/startup/both/jobCollection"; // Job
 // import "/imports/startup/both/jobCatCollection"; // Job Category
 // import "/imports/startup/both/jobTypeCollection"; // Job Type
-// import "/imports/startup/both/postCatCollection";
-// import "/imports/startup/both/postTagCollection";
-// import "/imports/startup/both/postCollection";
+
 import "/imports/startup/both/comment";
 import "/imports/startup/both/featureImageCollection";
 import "/imports/helpers/formatdate";
@@ -32,8 +30,6 @@ import  "../imports/startup/both/userCollection";
 
 if (Meteor.isServer) {
     Job.after.insert(function (userID, doc) {
-        // console.log('AAAAA' + doc);
-        // var jobtype = JobType.findOne({_id : doc.type_id});
         var jobcat = JobCat.findOne({_id : doc.cat_id});
         var users = Meteor.users.find({},{sort:{score: -1}});
         // Push.Permission.GRANTED;

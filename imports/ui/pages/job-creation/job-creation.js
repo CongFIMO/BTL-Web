@@ -47,10 +47,10 @@ if (Meteor.isClient) {
     });
 
     Template.jobForm.helpers({
-        jobTypes: function () {
-            // var currentUserId = Meteor.userId();
-            return JobType.find({cat_id: Session.get('jobCatID')}, {sort: {score: -1, name: 1}});
-        },
+        // jobTypes: function () {
+        //     // var currentUserId = Meteor.userId();
+        //     return JobType.find({cat_id: Session.get('jobCatID')}, {sort: {score: -1, name: 1}});
+        // },
         jobCats: function () {
             return JobCat.find({}, {sort: {score: -1, name: 1}});
         },
@@ -77,13 +77,13 @@ if (Meteor.isClient) {
 
 
     Template.jobForm.events({
-        'change input[name=selectJobIntervalTime]:radio': function (event) {
-            var val = event.currentTarget.value;
-            // console.log(val);
-            // use this value to set a reactive var
-            // then use that var in the helper
-            Session.set("jobIntervalTime", val);
-        },
+        // 'change input[name=selectJobIntervalTime]:radio': function (event) {
+        //     var val = event.currentTarget.value;
+        //     // console.log(val);
+        //     // use this value to set a reactive var
+        //     // then use that var in the helper
+        //     Session.set("jobIntervalTime", val);
+        // },
         'change #jobCatName': function (event) {
             event.preventDefault();
             var jobCatID = $(event.target).val();
@@ -92,7 +92,7 @@ if (Meteor.isClient) {
         },
         'submit form': function (event) {
             event.preventDefault();
-            // var jobName = event.target.jobName.value;
+            var jobName = event.target.jobName.value;
             var jobCatID = event.target.jobCatName.value;
             var jobDescription = event.target.jobDescription.value;
             // var selectJobTime = event.target.selectJobTime.value;
@@ -109,21 +109,21 @@ if (Meteor.isClient) {
             var user = Meteor.user();
             // console.log(currentUserID);
 
-            var jobChecked = [];
-            $.each($('[name="jobName"]:checked'), function (index, item) {
-                jobChecked.push(item.value);
-            });
-            if (jobChecked.length === 0) {
-                alert("Hãy chọn loại công việc!");
-                return;
-            }
+            // var jobChecked = [];
+            // $.each($('[name="jobName"]:checked'), function (index, item) {
+            //     jobChecked.push(item.value);
+            // });
+            // if (jobChecked.length === 0) {
+            //     alert("Hãy chọn loại công việc!");
+            //     return;
+            // }
 
 
             //var newProvinceAddress = Prov[provinceAddress].name;
 
             //var newdisAddress = Prov[provinceAddress].dis[disAddress];
-            Meteor.call("JobCollection.insert", jobChecked, jobCatID, jobStatus, currentUserID,
-                user, jobDescription, jobDateStart,
+            Meteor.call("JobCollection.insert", jobCatID, jobStatus, currentUserID,
+                user, jobDescription, jobDateStart,jobName,
                 jobDateEnd,jobPref , function (error, result) {
                     if (result === "error") {
                         messageLogError("Thao tác bị lỗi");
