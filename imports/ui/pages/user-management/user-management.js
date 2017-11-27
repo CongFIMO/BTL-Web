@@ -1,9 +1,7 @@
 import "./user-management.html"
 import '../../../startup/both/userCollection';
-import {Prov} from "../../../startup/both/province";
 import {messageLogError} from "../../../partials/messages-error";
 import {messageLogSuccess} from "../../../partials/messages-success";
-// import "../common-template/pagination.html";
 import {paginationDataGeneration} from "../../../helpers/paginationDataGeneration";
 if (Meteor.isClient){
     Session.setDefault("currentUserProfile", "");
@@ -59,7 +57,7 @@ if (Meteor.isClient){
                 $('#nextPage').css("pointer-events", "none");
             }
         })
-    })
+    });
     //////////////////////////////////////////////
     Session.setDefault("indexDis", 0);
     Template.profileAddressInUserManagement.helpers({

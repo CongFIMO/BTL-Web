@@ -4,7 +4,7 @@ import {Session} from "meteor/session";
 import {Job} from "../../../startup/both/jobCollection.js";
 import {JobCat} from "../../../startup/both/jobCatCollection";
 import {JobType} from "../../../startup/both/jobTypeCollection";
-import {Prov} from "../../../startup/both/province";
+// import {Prov} from "../../../startup/both/province";
 import "./job-creation.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
@@ -43,7 +43,6 @@ if (Meteor.isClient) {
             });
         }, 10);
         Session.setDefault("jobCatID", JobCat.findOne()._id);
-        // Session.setDefault("jobIntervalTime", 1);
     });
 
     Template.jobForm.helpers({
@@ -54,36 +53,11 @@ if (Meteor.isClient) {
         jobCats: function () {
             return JobCat.find({}, {sort: {score: -1, name: 1}});
         },
-        // checkSelectedJobIntervalTimeOneTime: function () {
-        //     if (Session.get('jobIntervalTime') == 1) {
-        //         return 'disabled';
-        //     } else {
-        //         return 'required'
-        //     }
-        // },
-        // hiddenWhenTimeIntervalOne: function () {
-        //     if (Session.get('jobIntervalTime') == 1) {
-        //         return 'display:none';
-        //     }
-        // },
-        // changeTextDisplayForTimeInterverlOne: function () {
-        //     if (Session.get('jobIntervalTime') == 1) {
-        //         return true;
-        //     } else {
-        //         return false
-        //     }
-        // }
     });
 
 
     Template.jobForm.events({
-        // 'change input[name=selectJobIntervalTime]:radio': function (event) {
-        //     var val = event.currentTarget.value;
-        //     // console.log(val);
-        //     // use this value to set a reactive var
-        //     // then use that var in the helper
-        //     Session.set("jobIntervalTime", val);
-        // },
+
         'change #jobCatName': function (event) {
             event.preventDefault();
             var jobCatID = $(event.target).val();
@@ -95,16 +69,9 @@ if (Meteor.isClient) {
             var jobName = event.target.jobName.value;
             var jobCatID = event.target.jobCatName.value;
             var jobDescription = event.target.jobDescription.value;
-            // var selectJobTime = event.target.selectJobTime.value;
-            //var selectTimeInterval = event.target.selectJobIntervalTime.value;
             var jobDateStart = event.target.jobDateStart.value;
-            //var jobTimeStart = event.target.jobTimeStart.value;
             var jobDateEnd = event.target.jobDateEnd.value;
             var jobPref = event.target.jobPref.value;
-            //var jobTimeEnd = event.target.jobTimeEnd.value;
-            //var provinceAddress = event.target.provinceAddress.value;
-            //var disAddress = event.target.disAddress.value;
-            //var homeAddress = event.target.homeAddress.value;
             var currentUserID = Meteor.userId();
             var user = Meteor.user();
             // console.log(currentUserID);
@@ -118,8 +85,6 @@ if (Meteor.isClient) {
             //     return;
             // }
 
-
-            //var newProvinceAddress = Prov[provinceAddress].name;
 
             //var newdisAddress = Prov[provinceAddress].dis[disAddress];
             Meteor.call("JobCollection.insert", jobCatID, jobStatus, currentUserID,
@@ -140,45 +105,6 @@ if (Meteor.isClient) {
         },
     });
     Session.setDefault("indexDis", 0);
-
-    Template.addressJob.helpers({
-        'provinceAddress': function () {
-            // console.log(Prov);
-            return Prov;
-        },
-        'disAddress': function () {
-            // console.log(Prov[index]);
-            var index = Session.get("indexDis");
-            // console.log(Prov[index]);
-            return Prov[index].dis;
-        },
-        'provinceSelected': function (provinceName, index) {
-            var selected = '';
-            if (Meteor.user() && provinceName === Meteor.user().profile.province) {
-                selected = 'selected';
-                Session.set('indexDis', index);
-            }
-            return selected;
-        },
-        'disSelected': function (districtName, index) {
-            var selected = '';
-            if (Meteor.user() && districtName === Meteor.user().profile.district) {
-                selected = 'selected';
-
-                // Session.set('indexDis', index);
-            }
-            return selected;
-        },
-    });
-
-    Template.addressJob.events({
-        "change #provinceAddress": function (evt) {
-            var provinceId = $(evt.target).val();
-            // console.log(provinceId);
-            Session.set("indexDis", provinceId);
-            // console.log((Session.get("indexDis")));
-        }
-    });
 
     Template.jobDisplay.helpers({
         jobDisplay: function (currentUserID) {

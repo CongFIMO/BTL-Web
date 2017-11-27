@@ -1,6 +1,6 @@
 import {Meteor} from "meteor/meteor";
 import "./profile.html";
-import {Prov} from "../../../startup/both/province";
+// import {Prov} from "../../../startup/both/province";
 import {utilities} from "../../../helpers/utilities.js";
 import {messageLogError} from "../../../partials/messages-error";
 import {messageLogSuccess} from "../../../partials/messages-success";

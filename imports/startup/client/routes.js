@@ -19,14 +19,10 @@ import "../../ui/pages/not-authorization/not-authorization.js";
 import "../../ui/pages/landing-page/landing-page.js";
 import "../../ui/pages/reset-password/reset-password.js";
 import "../../ui/pages/job-created/job-created.js";
-import "../../ui/pages/contact/contact.js";
-// import "../../ui/pages_blog/home/home.js";
-// import "../../ui/pages_blog/post-category/post-category.js";
-// import "../../ui/pages_blog/category/category";
-// import "../../ui/pages_blog/tag/tag";
-// import "../../ui/pages_blog/post-creation/post-creation.js";
-// import "../../ui/pages_blog/post/post-page.js";
-// import "../../ui/pages_blog/post-edit/post-edit.js";
+
+
+
+
 
 import "../../ui/pages/job-editing/job-editing";
 import "../../ui/pages/search/search.js"
@@ -139,12 +135,12 @@ FlowRouter.route('/join', {
     },
 });
 
-FlowRouter.route('/contact', {
-    name: 'App.contact',
-    action() {
-        BlazeLayout.render('App_body', {main: 'contact'});
-    },
-});
+// FlowRouter.route('/contact', {
+//     name: 'App.contact',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'contact'});
+//     },
+// });
 
 FlowRouter.route('/upload', {
     name: 'App.upload',
@@ -174,12 +170,12 @@ FlowRouter.route('/user-management/page/:page', {
 
 
 
-adminRoutes.route('/job-type', {
-    name: 'App.job-type',
-    action() {
-        BlazeLayout.render('App_body', {main: 'job-type'});
-    }
-});
+// adminRoutes.route('/job-type', {
+//     name: 'App.job-type',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'job-type'});
+//     }
+// });
 
 FlowRouter.route('/not-authorization', {
     name: 'App.not-authorization',
@@ -333,61 +329,5 @@ FlowRouter.route('/notification/page/:page',{
     },
 });
 
-// FlowRouter.route('/blog/page/:page', {
-//     name: 'App.blog',
-//     action() {
-//         BlazeLayout.render('App_body', {main: 'App_home_blog'});
-//     },
-// });
-// loggedOut.route('/blog/post-creation', {
-//     name: 'App.post-creation',
-//     action() {
-//         BlazeLayout.render('App_body', {main: 'post_creation'});
-//     },
-// });
-// FlowRouter.route('/blog/:postId/page/:page/', {
-//     name: 'App.post',
-//
-//     action: function() {
-//         BlazeLayout.render('App_body', {main: 'Postshow'});
-//     }
-// });
-
-// FlowRouter.route("/blog/:postId/", {
-//     name: "App.post",
-//     action: function() {
-//
-//         BlazeLayout.render('App_body', {main: 'Postshow'});
-//     }
-// });
-//
-// FlowRouter.route("/blog/:postId/edit", {
-//     name: "App.post_edit",
-//     action: function(params) {
-//         //...
-//         BlazeLayout.render('App_body', {main: 'post_edit'});
-//     }
-// });
-// FlowRouter.route("/blog/category/:slug", {
-//     name: "App.category",
-//     action: function(params) {
-//         //...
-//         BlazeLayout.render('App_body', {main: 'category'});
-//     }
-// });
-// FlowRouter.route("/blog/tag/:slug", {
-//     name: "App.tag",
-//     action: function(params) {
-//         //...
-//         BlazeLayout.render('App_body', {main: 'tag'});
-//     }
-// });
-
-// FlowRouter.route('/blog/tag', {
-//     name: 'App.tag',
-//     action() {
-//         BlazeLayout.render('App_body', { main: 'tag' });
-//     },
-// });
 
 // https://medium.com/@satyavh/using-flow-router-for-authentication-ba7bb2644f42

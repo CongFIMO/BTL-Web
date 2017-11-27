@@ -4,7 +4,7 @@ import {Session} from "meteor/session";
 import {Job} from "../../../startup/both/jobCollection.js";
 import {JobCat} from "../../../startup/both/jobCatCollection";
 import {JobType} from "../../../startup/both/jobTypeCollection";
-import {Prov} from "../../../startup/both/province";
+// import {Prov} from "../../../startup/both/province";
 import "./job-editing.html";
 import {messageLogError} from "../../../partials/messages-error";
 import {slugifyString} from "../../../helpers/slugifyString";

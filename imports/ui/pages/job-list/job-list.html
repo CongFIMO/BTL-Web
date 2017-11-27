@@ -35,7 +35,8 @@
                             <a href="/job/{{catSlug this.cat_id}}/{{this._id}}">
                                 <img src="{{avatar this.user_id}}" alt="" class="avatar">
                                 <div class="job-list-content">
-                                    <h4>{{jobName this.cat_id}}
+                                    <h4> {{name}}
+                                        <!--{{jobName this.cat_id}}-->
                                         {{#if checkAccepted this.status}}
                                             <span class="btn btn-warning">DONE
                                             </span>
@@ -49,12 +50,10 @@
                                             {{/if}}
                                             <span class="btn btn-danger delete_job">Xóa</span>
                                         {{/if}}
-                                        <span class="part-time">Part-Time</span>
                                     </h4>
                                     <div class="job-icons">
                                         <div><i class="fa fa-user"></i> {{this.user.profile.full_name}} </div>
-                                        <div><i class="fa fa-map-marker"></i> {{this.home}}, {{this.district}}
-                                            , {{this.province}}</div>
+                                        <div><i class="fa fa-map-marker"></i> {{jobName this.cat_id}}</div>
                                         <!--<div><i class="fa fa-money"></i> $100 / hour</div>-->
                                     </div>
                                     <p>{{this.description}}</p>

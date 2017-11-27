@@ -77,37 +77,6 @@
     </form>
 </template>
 
-<template name="addressJob">
-    <div class="form-group">
-        <div class="">
-            <h5 class=""><strong>Chọn khu vực làm việc</strong></h5>
-        </div>
-        <div class="">
-            <div class="">
-                <label><strong>Tỉnh/Thành Phố:</strong></label>
-                <div class="">
-                    <select class="form-control" id="provinceAddress" name="provinceAddress">
-                        {{#each provinceAddress}}
-                            <option value="{{@index}}" {{provinceSelected name @index}}>{{name}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-
-            <div class="">
-                <label><strong>Quận/Huyện:</strong></label>
-                <div class="">
-                    <select class="form-control" id="disAddress" name="disAddress">
-                        {{#each disAddress}}
-                            <option value="{{@index}}" {{disSelected this @index}}>{{this}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</template>
 
 <template name="jobDisplay">
     {{#each jobDisplay currentUser._id }}

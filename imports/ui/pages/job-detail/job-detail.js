@@ -9,8 +9,6 @@ import {JobCat} from "../../../startup/both/jobCatCollection";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import Images from "../../../startup/both/images.collection.js";
 import {splitURL} from "../../../helpers/splitURL";
-import {postSummary} from "../../../helpers/postsummary";
-import {UserActivityHistory} from "../../../startup/both/userActivityHistoryCollection";
 import {formatDate} from "../../../helpers/formatdate";
 
 Template.jobDetail.onCreated(function () {
@@ -87,16 +85,11 @@ if (Meteor.isClient) {
                             date_create: 1,
                             description: 1,
                             user_id: 1,
-                            // time: 1,
-                            time_start: 1,
-                            time_end: 1,
                             status: 1,
                             date_start: 1,
                             date_end: 1,
-                            time_interval: 1,
                             user_id_accepted: 1,
-                            province: 1,
-                            district: 1,
+                            name: 1,
                             cat_id: 1,
                             // user_registered: 1,
                             home: 1,
@@ -114,24 +107,25 @@ if (Meteor.isClient) {
             var date_create = job && job.date_create;
             var user_id_accepted = job && job.user_id_accepted;
             var description = job && job.description;
+            var name = job && job.name;
             // var time = job && job.time;
             var user_id_created_job = job && job.user_id;
             var date_start = job && job.date_start;
             var date_end = job && job.date_end;
-            var time_start = job && job.time_start;
-            var time_end = job && job.time_end;
-            var time_interval = job && job.time_interval;
-            var province = job && job.province;
-            var district = job && job.district;
-            var home = job && job.home;
+            // var time_start = job && job.time_start;
+            // var time_end = job && job.time_end;
+            // var time_interval = job && job.time_interval;
+            // var province = job && job.province;
+            // var district = job && job.district;
+            // var home = job && job.home;
             var email = job && job.user.emails;
             var full_name = job && job.user.profile.full_name;
             var avatar = job && job.user.profile.avatar;
             var phone = job && job.user.profile.phone;
             var info = job && job.user.profile.info;
-            var user_province = job && job.user.profile.province;
-            var user_district = job && job.user.profile.district;
-            var user_home_address = job && job.user.profile.home_address;
+            // var user_province = job && job.user.profile.province;
+            // var user_district = job && job.user.profile.district;
+            // var user_home_address = job && job.user.profile.home_address;
 
             var jobCatID = job && job.cat_id;
             var jobStatus = job && job.status;
@@ -165,21 +159,14 @@ if (Meteor.isClient) {
                 time,
                 user_id_created_job,
                 date_start,
-                time_start,
+                name,
                 date_end,
-                time_interval,
                 user_id_accepted,
-                province,
-                district,
-                home,
                 avatar,
                 email,
                 full_name,
                 phone,
                 info,
-                user_province,
-                user_district,
-                user_home_address,
                 jobStatus
             }
         },
