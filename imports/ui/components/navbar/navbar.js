@@ -14,26 +14,26 @@ if (Meteor.isClient) {
             });
         });
 
-        if (window.Notification) {
-            if (Notification.permission != 'granted') {
-                new Confirmation(
-                    {
-                        message: "Hãy bật nhận thông báo để cập nhật thông tin việc làm mới nhất từ Giúp Việc Đây!",
-                        title: "Theo dõi Giúp Việc Đây",
-                        cancelText: "Huỷ",
-                        okText: "Đồng ý",
-                        success: true, // whether the button should be green or red
-                        focus: "none" // which button to autofocus, "cancel" (default) or "ok", or "none"
-                    }, function (ok) {
-                        // ok is true if the user clicked on "ok", false otherwise
-                        // console.log(ok);
-                        if (ok) {
-                            Notification.requestPermission();
-                        }
-                    }
-                );
-            }
-        }
+        // if (window.Notification) {
+        //     if (Notification.permission != 'granted') {
+        //         new Confirmation(
+        //             {
+        //                 message: "Hãy bật nhận thông báo để cập nhật thông tin việc làm mới nhất từ Giúp Việc Đây!",
+        //                 title: "Theo dõi Giúp Việc Đây",
+        //                 cancelText: "Huỷ",
+        //                 okText: "Đồng ý",
+        //                 success: true, // whether the button should be green or red
+        //                 focus: "none" // which button to autofocus, "cancel" (default) or "ok", or "none"
+        //             }, function (ok) {
+        //                 // ok is true if the user clicked on "ok", false otherwise
+        //                 // console.log(ok);
+        //                 if (ok) {
+        //                     Notification.requestPermission();
+        //                 }
+        //             }
+        //         );
+        //     }
+        // }
     });
 
     Template.navbar.helpers({
