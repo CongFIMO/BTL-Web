@@ -10,7 +10,7 @@ if (Meteor.isClient) {
     Template.showJobCat.helpers({
         'categories': function () {
             var currentUserId = Meteor.userId();
-            var jobT = JobType.find({}, {sort: {score: -1, name: 1}}).fetch();
+            // var jobT = JobType.find({}, {sort: {score: -1, name: 1}}).fetch();
             var jobC = JobCat.find({}, {sort: {score: -1, name: 1}}).fetch();
 
             jobC.forEach((itemT, indexT) => {
@@ -18,21 +18,21 @@ if (Meteor.isClient) {
             });
 
             //add job to each jobType
-            jobT.forEach(function (jobTypeElement) {
-                jobC.forEach(function (jobCatElement) {
-                    if (jobTypeElement.cat_id === jobCatElement._id) {
-                        jobCatElement.listType.push(
-                            {
-                                catId: jobTypeElement._id,
-                                name: jobTypeElement.name
-                            });
-                        // console.log("jobCatElement._id " + jobCatElement.type_id + " contains : " + jobTypeElement._id);
-                    }
-                })
-            });
-            jobC.forEach(function (jobCatElement) {
-                jobCatElement.numberOfType = jobCatElement.listType.length;
-            });
+            // jobT.forEach(function (jobTypeElement) {
+            //     jobC.forEach(function (jobCatElement) {
+            //         if (jobTypeElement.cat_id === jobCatElement._id) {
+            //             jobCatElement.listType.push(
+            //                 {
+            //                     catId: jobTypeElement._id,
+            //                     name: jobTypeElement.name
+            //                 });
+            //             // console.log("jobCatElement._id " + jobCatElement.type_id + " contains : " + jobTypeElement._id);
+            //         }
+            //     })
+            // });
+            // jobC.forEach(function (jobCatElement) {
+            //     jobCatElement.numberOfType = jobCatElement.listType.length;
+            // });
             return jobC;
         },
         "isErasable": function (numberOfType) {
@@ -70,11 +70,11 @@ if (Meteor.isClient) {
 
     Template.showJobCat.events({
         'click #delete-job-category': function () {
-            if (this.listType.length === 0)
+            // if (this.listType.length === 0)
                 // JobCat.remove({_id: this._id});
                 Meteor.call("JobCatCollection.remove", this._id);
-            else
-                alert("Bạn chỉ có thể xóa nhóm công việc chưa được dùng!");
+            // else
+            //     alert("Bạn chỉ có thể xóa nhóm công việc chưa được dùng!");
         },
         'click .showMore': function () {
             $('#header_' + this._id).nextUntil('tr.header').slideToggle(50);
