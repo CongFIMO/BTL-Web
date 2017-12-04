@@ -42,6 +42,13 @@ if (Meteor.isClient) {
                 }
             });
         }, 10);
+        $(document).ready(function () {
+            $('#jobDescription').summernote({
+                height: 200,                 // set editor height
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,
+            });
+        })
         Session.setDefault("jobCatID", JobCat.findOne()._id);
     });
 
@@ -57,7 +64,6 @@ if (Meteor.isClient) {
 
 
     Template.jobForm.events({
-
         'change #jobCatName': function (event) {
             event.preventDefault();
             var jobCatID = $(event.target).val();
@@ -68,7 +74,7 @@ if (Meteor.isClient) {
             event.preventDefault();
             var jobName = event.target.jobName.value;
             var jobCatID = event.target.jobCatName.value;
-            var jobDescription = event.target.jobDescription.value;
+            var jobDescription =$('#jobDescription').summernote('code');
             var jobDateStart = event.target.jobDateStart.value;
             var jobDateEnd = event.target.jobDateEnd.value;
             var jobPref = event.target.jobPref.value;
@@ -121,5 +127,8 @@ if (Meteor.isClient) {
             return jobs;
         }
     });
+    Template.jobForm.onDestroyed(function () {
+        $('#jobDescription').tokenfield('destroy');
+    })
 }
 

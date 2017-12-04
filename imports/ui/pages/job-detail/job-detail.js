@@ -130,18 +130,7 @@ if (Meteor.isClient) {
             var jobCatID = job && job.cat_id;
             var jobStatus = job && job.status;
 
-            // console.log(time_start - time_end);
-            var startTime = moment(time_start, 'hh:mm:ss a');
-            var endTime = moment(time_end, 'hh:mm:ss a');
-            var totalHours = (endTime.diff(startTime, 'hours'));
-            var totalMinutes = endTime.diff(startTime, 'minutes');
-            var clearMinutes = totalMinutes % 60;
-            var time = totalHours + " giờ " + clearMinutes + ' phút';
-            if (time_interval > 1) {
-                time = time + ' mỗi ngày';
-                Session.set("multiDate", true);
-            }
-            //https://stackoverflow.com/questions/29745873/hour-difference-between-two-timeshhmmss-ain-momentjs
+            //stackoverflow.com/questions/29745873/hour-difference-between-two-timeshhmmss-ain-momentjs
 
             // description = postSummary(description);
             // user_registered = job && job.user_registered;
@@ -156,7 +145,6 @@ if (Meteor.isClient) {
             return {
                 date_create,
                 description,
-                time,
                 user_id_created_job,
                 date_start,
                 name,
