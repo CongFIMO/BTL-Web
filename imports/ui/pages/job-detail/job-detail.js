@@ -131,7 +131,6 @@ if (Meteor.isClient) {
             var jobStatus = job && job.status;
 
             //stackoverflow.com/questions/29745873/hour-difference-between-two-timeshhmmss-ain-momentjs
-
             // description = postSummary(description);
             // user_registered = job && job.user_registered;
 
@@ -271,14 +270,14 @@ if (Meteor.isClient) {
             // console.log("user id = " + userId + "/ accepted = " + acceptedUserId + "/ jobStatus= " + jobStatus);
             return (userId === acceptedUserId && jobStatus === 'ACCEPTED');
         },
-        'multiDate' : function () {
-            // console.log('multiDate => ',Session.get("multiDate"));
-            if (Session.get("multiDate")){
-                return true;
-            } else {
-                return false;
-            }
-        }
+        // 'multiDate' : function () {
+        //     // console.log('multiDate => ',Session.get("multiDate"));
+        //     if (Session.get("multiDate")){
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
     });
 
     Template.cancelRegister.events({
