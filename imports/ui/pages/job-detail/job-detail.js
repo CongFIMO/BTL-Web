@@ -141,9 +141,10 @@ if (Meteor.isClient) {
             // console.log(d);
             date_create = formatDate(dateTme);
 
+            $("description").html(description);
             return {
                 date_create,
-                description,
+                // description,
                 user_id_created_job,
                 date_start,
                 name,

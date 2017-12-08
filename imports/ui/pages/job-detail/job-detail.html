@@ -20,7 +20,7 @@
                     <img src="{{getAvatarUrl jobInfo.user_id_created_job}}" alt="">
                     <div class="content">
                         <h4>{{name}}
-                                
+
                         </h4>
                         <div><a href="#"><i class="fa fa-user"></i> Tạo bởi: {{this.user.profile.full_name}}</a></div>
                         <div><i class="fa fa-clock-o"></i> Ngày tạo: {{this.date_create}}</div>
@@ -28,7 +28,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <p class="margin-reset description">
-                    {{jobInfo.description}}
+                    <div id="description"></div>
                     <!-- Google Maps -->
                     <section class="google-map-container">
                         <div id="homeAddress" class="google-map"></div>
