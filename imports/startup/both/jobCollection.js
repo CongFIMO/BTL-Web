@@ -23,6 +23,7 @@ Meteor.methods({
             return Job.update({_id: jobID},
                 {
                     $set: {
+                        name: jobName,
                         //job_group: jobChecked,
                         cat_id: jobCatID,
                         date_modified: new Date(),
