@@ -4,7 +4,7 @@ import {Session} from 'meteor/session';
 
 import {Job} from "../../../startup/both/jobCollection.js";
 import {JobCat} from "../../../startup/both/jobCatCollection";
-import {JobType} from "../../../startup/both/jobTypeCollection";
+// import {JobType} from "../../../startup/both/jobTypeCollection";
 import "../../layouts/titlebar/job-list/titlebar.js";
 
 import Images from "../../../startup/both/images.collection.js";
@@ -76,7 +76,7 @@ if (Meteor.isClient) {
             new Confirmation(
                 {
                     message: "Bạn có thực sự muốn xóa công việc này?",
-                    title: "Giúp Việc Đây",
+                    title: "Xóa Công Việc",
                     cancelText: "Huỷ",
                     okText: "Đồng ý",
                     success: true, // whether the button should be green or red

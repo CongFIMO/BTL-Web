@@ -4,7 +4,7 @@ import { Session } from "meteor/session";
 import { ReactiveVar } from "meteor/reactive-var";
 import { Job } from "../../../startup/both/jobCollection.js";
 import { JobCat } from "../../../startup/both/jobCatCollection";
-import { JobType } from "../../../startup/both/jobTypeCollection";
+// import { JobType } from "../../../startup/both/jobTypeCollection";
 // import { Prov } from "../../../startup/both/province";
 import "./job-created.html";
 

@@ -73,7 +73,7 @@ if (Meteor.isClient) {
             var passwordVar = event.target.registerPassword.value;
             var passwordAgainVar = event.target.registerAgainPassword.value;
             var fullNameVar = event.target.registerFullName.value;
-            var userTypeRegisterVar = event.target.userTypeRegister.value;
+            var  userTypeRegisterVar = event.target.userTypeRegister.value;
 
             // Trim Helper
             var trimInput = function (val) {

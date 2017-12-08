@@ -4,7 +4,7 @@ import "../job-type/job-type.html";
 import {Meteor} from "meteor/meteor";
 import {slugifyString} from "../../../helpers/slugifyString";
 
-import {JobType} from "../../../startup/both/jobTypeCollection.js";
+// import {JobType} from "../../../startup/both/jobTypeCollection.js";
 
 if (Meteor.isClient) {
     Template.showJobCat.helpers({
