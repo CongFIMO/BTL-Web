@@ -18,6 +18,17 @@
                 <!-- Company Info -->
                 <div class="company-info">
                     <img src="{{getAvatarUrl jobInfo.user_id_created_job}}" alt="">
+                        <div class="content">
+                            <h4>{{jobInfo.name}}
+                                <!--{{#if isJobAccepted jobInfo.jobStatus}}-->
+                                    <!--<span class="btn btn-danger">DONE</span>-->
+                                <!--{{/if}}-->
+                            </h4>
+                            <div><a href="#"><i class="fa fa-user"></i> Tạo bởi: {{jobInfo.user.profile.full_name}}</a></div>
+                            <div><i class="fa fa-clock-o"></i> Ngày tạo: {{jobInfo.date_create}}</div>
+                        </div>
+                         <div class="clearfix"></div>
+                        </div>
                     <div class="content">
                         <h4>{{name}}
 
@@ -45,15 +56,15 @@
                 <h4>Thông tin việc làm</h4>
                 <div class="job-overview">
                     <ul>
-                        <li>
-                            <i class="fa fa-map-marker"></i>
-                            <div>
-                                <strong>Địa chỉ: </strong>
-                                <span>{{jobInfo.home}}, {{jobInfo.district}}
-                                    , {{jobInfo.province}}
-                                </span>
-                            </div>
-                        </li>
+                        <!--<li>-->
+                            <!--<i class="fa fa-map-marker"></i>-->
+                            <!--<div>-->
+                                <!--<strong>Địa chỉ: </strong>-->
+                                <!--<span>{{jobInfo.home}}, {{jobInfo.district}}-->
+                                    <!--, {{jobInfo.province}}-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
                         <!--<li>-->
                         <!--<i class="fa fa-clock-o"></i>-->
                         <!--<div>-->
@@ -75,15 +86,15 @@
                                 <span>{{jobInfo.date_start}}</span>
                             </div>
                         </li>
-                            <!--{{#if multiDate}}-->
-                        <li>
-                            <i class="fa fa-calendar-times-o"></i>
-                            <div>
-                                <strong>Ngày kết thúc:</strong>
-                                <span>{{jobInfo.date_end}}</span>
-                            </div>
-                        </li>
-                            <!--{{/if}}-->
+
+                            <li>
+                                <i class="fa fa-calendar-times-o"></i>
+                                <div>
+                                    <strong>Ngày kết thúc:</strong>
+                                    <span>{{jobInfo.date_end}}</span>
+                                </div>
+                            </li>
+
                     </ul>
                     {{#if checkUserSlave}}
                         {{#if checkStatusNotAccepted}}

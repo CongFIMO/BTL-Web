@@ -32,17 +32,19 @@
                     {{/each}}
                 </select>
 
-                <label for="jobName"><strong>Lựa chọn loại công việc</strong></label>
-                {{#each jobTypes}}
-                    {{#if isSelectedJobType jobDetail.job_group this._id}}
-                        <input checked type="checkbox" id="jobName" name="jobName" value="{{this._id}}"> {{name}}<br>
-                    {{else}}
-                        <input type="checkbox" id="jobName" name="jobName" value="{{this._id}}"> {{name}}<br>
-                    {{/if}}
+                <label for="jobName"><strong>Tên công việc</strong></label>
+                <input type="text" id="jobName" name="jobName" value="{{jobDetail.name}}"><br>
+                <!--<label for="jobName"><strong>Lựa chọn loại công việc</strong></label>-->
 
-                {{/each}}
+                <div class="form-group">
+                    <label for="priority"><strong> Độ ưu tiên </strong></label>
+                    <label><input type="radio" name="jobPref" value="1">Khẩn cấp</label>
+                    <label><input type="radio" name="jobPref" value="2"> Cao </label>
+                    <label><input type="radio" name="jobPref" value="3">Trung bình</label>
+                    <label><input type="radio" name="jobPref" value="4"> Thấp </label>
+                </div>
             </div>
-            {{> addressJobEditing}}
+            <!--{{> addressJobEditing}}-->
 
         </div>
 
@@ -55,24 +57,6 @@
                 </textarea>
                 <small id="jobDescriptionHelp" class="form-text text-muted">Nhập các yêu cầu cụ thể về công việc</small>
             </div>
-            <div class="form-group">
-                <label for=""><strong>Kiểu việc</strong></label>
-                <label class="">
-                    <input type="radio" name="selectJobIntervalTime" value="1" {{isSelectedIntervalTime '1'
-                                                                                                        jobDetail.time_interval}}>
-                    Một lần
-                </label>
-                <label class="">
-                    <input type="radio" name="selectJobIntervalTime" value="2" {{isSelectedIntervalTime '2'
-                                                                                                        jobDetail.time_interval}}>
-                    Hàng ngày gồm cuối tuần
-                </label>
-                <label class="">
-                    <input type="radio" name="selectJobIntervalTime" value="3" {{isSelectedIntervalTime '3'
-                                                                                                        jobDetail.time_interval}}>Hàng
-                    ngày trừ cuối tuần
-                </label>
-            </div>
 
             <label><strong>Ngày bắt đầu làm việc</strong></label>
             <div class="input-group date">
@@ -80,27 +64,27 @@
                        value="{{jobDetail.date_start}}"/><span
                     class="input-group-addon"><span class="fa fa-calendar"></span></span>
             </div>
-            <label><strong>Giờ bắt đầu</strong></label>
-            <div class="input-group date">
-                <input class="form-control" required id="time-picker-start" name="jobTimeStart"
-                       value="{{jobDetail.time_start}}"/><span
-                    class="input-group-addon"><span class="fa fa-clock-o"></span></span>
-            </div>
-            <div class="form-end-date" style="{{hiddenWhenTimeIntervalOne}}">
+            <!--<label><strong>Giờ bắt đầu</strong></label>-->
+            <!--<div class="input-group date">-->
+                <!--<input class="form-control" required id="time-picker-start" name="jobTimeStart"-->
+                       <!--value="{{jobDetail.time_start}}"/><span-->
+                    <!--class="input-group-addon"><span class="fa fa-clock-o"></span></span>-->
+            <!--</div>-->
+            <div class="form-end-date" >
                 <label><strong>Ngày kết thúc làm việc</strong></label>
                 <div class="input-group date">
-                    <input class="form-control" style="{{checkSelectedJobIntervalTimeOneTime}}" id="date-picker-end"
+                    <input class="form-control"  id="date-picker-end"
                            name="jobDateEnd" value="{{jobDetail.date_end}}"/><span
                         class="input-group-addon"><span class="fa fa-calendar"></span></span>
                 </div>
             </div>
 
-            <label><strong>Giờ kết thúc làm việc</strong></label>
-            <div class="input-group date">
-                <input class="form-control" required id="time-picker-end" name="jobTimeEnd"
-                       value="{{jobDetail.time_end}}"/><span
-                    class="input-group-addon"><span class="fa fa-clock-o"></span></span>
-            </div>
+            <!--<label><strong>Giờ kết thúc làm việc</strong></label>-->
+            <!--<div class="input-group date">-->
+                <!--<input class="form-control" required id="time-picker-end" name="jobTimeEnd"-->
+                       <!--value="{{jobDetail.time_end}}"/><span-->
+                    <!--class="input-group-addon"><span class="fa fa-clock-o"></span></span>-->
+            <!--</div>-->
         </div>
         <hr>
         <div class="col-md-12" id="submit-creation-job">

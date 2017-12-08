@@ -3,7 +3,7 @@ import {Template} from "meteor/templating";
 import {Session} from "meteor/session";
 import {Job} from "../../../startup/both/jobCollection.js";
 import {JobCat} from "../../../startup/both/jobCatCollection";
-import {JobType} from "../../../startup/both/jobTypeCollection";
+// import {JobType} from "../../../startup/both/jobTypeCollection";
 // import {Prov} from "../../../startup/both/province";
 import "./job-creation.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
@@ -82,14 +82,7 @@ if (Meteor.isClient) {
             var user = Meteor.user();
             // console.log(currentUserID);
 
-            // var jobChecked = [];
-            // $.each($('[name="jobName"]:checked'), function (index, item) {
-            //     jobChecked.push(item.value);
-            // });
-            // if (jobChecked.length === 0) {
-            //     alert("Hãy chọn loại công việc!");
-            //     return;
-            // }
+
 
 
             //var newdisAddress = Prov[provinceAddress].dis[disAddress];

@@ -52,17 +52,17 @@ if (Meteor.isClient) {
         // $(".register input").focus(function () {
         //
         // });
-        if (!Session.get("checkedUserType")) {
-            console.log('Not Checked');
-            $(".fill-value-register input").addClass("btn disabled");
-            $(".fill-value-register input").attr(
-                {
-                    "disabled": true,
-                    rel: "tooltip",
-                    "data-title": "Bạn phải lựa chọn loại tài khoản đăng ký trước"
-                }
-            );
-        }
+        // if (!Session.get("checkedUserType")) {
+        //     console.log('Not Checked');
+        //     $(".fill-value-register input").addClass("btn disabled");
+        //     $(".fill-value-register input").attr(
+        //         {
+        //             "disabled": true,
+        //             rel: "tooltip",
+        //             "data-title": "Bạn phải lựa chọn loại tài khoản đăng ký trước"
+        //         }
+        //     );
+        // }
     });
 
     Template.join.events({
@@ -73,7 +73,7 @@ if (Meteor.isClient) {
             var passwordVar = event.target.registerPassword.value;
             var passwordAgainVar = event.target.registerAgainPassword.value;
             var fullNameVar = event.target.registerFullName.value;
-            var userTypeRegisterVar = event.target.userTypeRegister.value;
+            var  userTypeRegisterVar = event.target.userTypeRegister.value;
 
             // Trim Helper
             var trimInput = function (val) {
