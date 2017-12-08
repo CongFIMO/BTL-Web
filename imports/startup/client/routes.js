@@ -200,7 +200,7 @@ FlowRouter.route("/job/:cat/:id", {
     }
 });
 adminRoutes.route("/job/:cat/:id/edit", {
-    name: "App.jobDetail",
+    name: "App.jobEditing",
     action: function (params) {
         //...
         BlazeLayout.render('App_body', {main: 'jobEditing'});

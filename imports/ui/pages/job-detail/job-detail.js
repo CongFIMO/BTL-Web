@@ -123,9 +123,7 @@ if (Meteor.isClient) {
             var avatar = job && job.user.profile.avatar;
             var phone = job && job.user.profile.phone;
             var info = job && job.user.profile.info;
-            // var user_province = job && job.user.profile.province;
-            // var user_district = job && job.user.profile.district;
-            // var user_home_address = job && job.user.profile.home_address;
+
 
             var jobCatID = job && job.cat_id;
             var jobStatus = job && job.status;
@@ -141,7 +139,7 @@ if (Meteor.isClient) {
             // console.log(d);
             date_create = formatDate(dateTme);
 
-            $("description").html(description);
+            $("#description").html(description);
             return {
                 date_create,
                 // description,
@@ -155,7 +153,8 @@ if (Meteor.isClient) {
                 full_name,
                 phone,
                 info,
-                jobStatus
+                jobStatus,
+
             }
         },
         'jobName': function () {

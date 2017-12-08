@@ -57,18 +57,20 @@ if (Meteor.isClient) {
 
         var current = FlowRouter.current();
         var jobID = current.params.id;
+        // console.log("jobId= " +jobID);
         var job = Job.findOne(
             {_id: jobID}, {});
-        Session.set("jobCatID", job.cat_id);
-        console.log("job.cat_id= " + job.cat_id);
+        console.log(job);
+        Session.set("jobCatID", current.params.cat);
+        console.log("job.cat_id= " + current.params.cat);
         Session.set("currentJobDetail", job);
         // Session.set("jobName", job.jobName);
         // Session.set("jobPref", job.jobPref);
         // Session.set("jobIntervalTime", job.time_interval);
         /*
-        * Todo: need refactor DRY
-        * https://forums.meteor.com/t/solved-flowrouter-detect-route-change/19938/6
-        * */
+         * Todo: need refactor DRY
+         * https://forums.meteor.com/t/solved-flowrouter-detect-route-change/19938/6
+         * */
         Tracker.autorun(function () {
             FlowRouter.watchPathChange();
             var route = FlowRouter.current().route.pathDef;
@@ -78,6 +80,13 @@ if (Meteor.isClient) {
                 }
             }
         });
+        $(document).ready(function () {
+            $('#jobDescription').summernote({
+                height: 200,                 // set editor height
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,
+            });
+        })
     });
 
     Template.jobEditingForm.helpers({
@@ -94,7 +103,14 @@ if (Meteor.isClient) {
         },
 
         jobDetail: function () {
-            var job = Session.get("currentJobDetail");
+            var current = FlowRouter.current();
+            var jobID = current.params.id;
+            var job = Job.findOne(
+                {_id: jobID}, {});
+            if(!job)
+                return;
+            console.log("jobDescription: "+ job.description);
+            $('#jobDescription').html(job.description);
             return job;
         },
         isSelectedJobCat: function (selectedJobCatId, jobCatElementId) {
@@ -106,6 +122,10 @@ if (Meteor.isClient) {
         checkJobIsNotAccepted: function (isAccepted) {
             return isAccepted !== 'ACCEPTED';
         },
+        isCurrentPreference: function(p, current){
+            let r = (p == current)? 'checked' : "";
+            return r;
+        }
     });
 
 
@@ -123,7 +143,7 @@ if (Meteor.isClient) {
             var jobCatNameElement = event.target.jobCatName;
             var jobCatSlug = slugifyString(jobCatNameElement.options[jobCatNameElement.selectedIndex].text);
             console.log("jobCatSlug = " + jobCatSlug);
-            var jobDescription = event.target.jobDescription.value;
+            var jobDescription =$('#jobDescription').summernote('code');
             var jobDateStart = event.target.jobDateStart.value;
             // var jobTimeStart = event.target.jobTimeStart.value;
             var jobDateEnd = event.target.jobDateEnd.value;
@@ -132,7 +152,8 @@ if (Meteor.isClient) {
 
             var current = FlowRouter.current();
             var jobID = current.params.id;
-            Meteor.call("JobCollection.updateMultipleField",jobID, jobCatID,jobName, jobDescription, jobPref, jobDateStart, jobDateEnd,  function (error, result) {
+            Meteor.call("JobCollection.updateMultipleField",jobID, jobCatID, jobDescription, jobDateStart,
+                jobDateEnd, jobName, JOB_STATUS, jobPref, function (error, result) {
                 // console.log("result ="+ result);
                 if (result === "error"){
                     messageLogError("Cập nhật không thành công!");
@@ -179,6 +200,8 @@ if (Meteor.isClient) {
 
     });
     Session.setDefault("indexDis", 0);
-
+    Template.jobEditingForm.onDestroyed(function () {
+        $('#jobDescription').tokenfield('destroy');
+    })
 }
 

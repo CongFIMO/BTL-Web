@@ -38,10 +38,10 @@
 
                 <div class="form-group">
                     <label for="priority"><strong> Độ ưu tiên </strong></label>
-                    <label><input type="radio" name="jobPref" value="1">Khẩn cấp</label>
-                    <label><input type="radio" name="jobPref" value="2"> Cao </label>
-                    <label><input type="radio" name="jobPref" value="3">Trung bình</label>
-                    <label><input type="radio" name="jobPref" value="4"> Thấp </label>
+                    <label><input type="radio" name="jobPref" value="1" {{isCurrentPreference 1 jobDetail.preference}}>Khẩn cấp</label>
+                    <label><input type="radio" name="jobPref" value="2" {{isCurrentPreference 2 jobDetail.preference}}> Cao </label>
+                    <label><input type="radio" name="jobPref" value="3" {{isCurrentPreference 3 jobDetail.preference}}>Trung bình</label>
+                    <label><input type="radio" name="jobPref" value="4" {{isCurrentPreference 4 jobDetail.preference}}> Thấp </label>
                 </div>
             </div>
             <!--{{> addressJobEditing}}-->
@@ -52,9 +52,10 @@
             <div class="form-group">
                 <label for="jobDescription"><strong>Yêu cầu cụ thể</strong></label>
                 <!--<input type="text" class="form-control" id="jobDescription" aria-describedby="jobDescriptionHelp" name="jobDescription">-->
-                <textarea rows="2" required cols="30" name="jobDescription" id="jobDescription"
-                          aria-describedby="jobDescriptionHelp">{{jobDetail.description}}
-                </textarea>
+                <!--<textarea rows="2" required cols="30" name="jobDescription" id="jobDescription"-->
+                <!--aria-describedby="jobDescriptionHelp">-->
+                <!--</textarea>-->
+                <div id="jobDescription" required name="jobDescription"></div>
                 <small id="jobDescriptionHelp" class="form-text text-muted">Nhập các yêu cầu cụ thể về công việc</small>
             </div>
 
@@ -98,50 +99,3 @@
 
     </div>
 </template>
-
-<template name="addressJobEditing">
-    <div class="form-group">
-        <div class="">
-            <h5 class=""><strong>Chọn khu vực làm việc</strong></h5>
-        </div>
-        <div class="">
-            <div class="">
-                <label><strong>Tỉnh/Thành Phố:</strong></label>
-                <div class="">
-                    <select class="form-control" id="provinceAddress" name="provinceAddress">
-                        {{#each provinceAddress}}
-                            {{#if isSelectedProvince name jobDetail.province @index}}
-                                <option selected value="{{@index}}">{{name}}</option>
-                            {{else}}
-                                <option value="{{@index}}">{{name}}</option>
-                            {{/if}}
-
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-
-            <div class="">
-                <label><strong>Quận/Huyện:</strong></label>
-                <div class="">
-                    <select class="form-control" id="disAddress" name="disAddress">
-                        {{#each disAddress}}
-                            {{#if isSelectedDistrict this jobDetail.district}}
-                                <option value="{{@index}}" selected>{{this}}</option>
-                            {{else}}
-                                <option value="{{@index}}">{{this}}</option>
-                            {{/if}}
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-
-            <div class="">
-                <label><strong>Địa chỉ nhà:</strong></label>
-                <input type="text" class="form-control" name="homeAddress" id="homeAddress" placeholder=""
-                       value="{{jobDetail.home}}">
-            </div>
-        </div>
-    </div>
-</template>
-
