@@ -176,7 +176,7 @@ if (Meteor.isClient) {
             new Confirmation(
                 {
                     message: "Bạn có thực sự muốn xóa công việc này?",
-                    title: "Giúp Việc Đây",
+                    title: "Xóa",
                     cancelText: "Huỷ",
                     okText: "Đồng ý",
                     success: true, // whether the button should be green or red
