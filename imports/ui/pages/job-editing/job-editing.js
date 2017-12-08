@@ -109,7 +109,7 @@ if (Meteor.isClient) {
                 {_id: jobID}, {});
             if(!job)
                 return;
-            console.log("jobDescription: "+ job.description);
+            // console.log("jobDescription: "+ job.description);
             $('#jobDescription').html(job.description);
             return job;
         },
