@@ -91,6 +91,7 @@ if (Meteor.isClient) {
                             user_id_accepted: 1,
                             name: 1,
                             cat_id: 1,
+                            preference: 1,
                             // user_registered: 1,
                             home: 1,
                             'user.emails': 1,
@@ -112,6 +113,7 @@ if (Meteor.isClient) {
             var user_id_created_job = job && job.user_id;
             var date_start = job && job.date_start;
             var date_end = job && job.date_end;
+            var preference = job && job.preference;
             // var time_start = job && job.time_start;
             // var time_end = job && job.time_end;
             // var time_interval = job && job.time_interval;
@@ -154,6 +156,7 @@ if (Meteor.isClient) {
                 phone,
                 info,
                 jobStatus,
+                preference,
 
             }
         },
