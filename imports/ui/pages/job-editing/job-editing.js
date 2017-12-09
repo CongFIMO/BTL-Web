@@ -110,7 +110,7 @@ if (Meteor.isClient) {
             if(!job)
                 return;
             // console.log("jobDescription: "+ job.description);
-            $('#jobDescription').html(job.description);
+            $("#jobDescription").summernote("code", job.description);
             return job;
         },
         isSelectedJobCat: function (selectedJobCatId, jobCatElementId) {
