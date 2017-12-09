@@ -2,10 +2,10 @@ import {Mongo} from "meteor/mongo";
 import { Session } from 'meteor/session'
 export const Cmt = new Mongo.Collection('comment');
 Cmt.allow({
-    insert: function( name, date, author, postID){
+    insert: function( name, date, author, jobID){
         return true;
     },
-    update: function(name, author,postID){
+    update: function(name, author,jobID){
         return true;
     },
     remove: function (_id){
@@ -18,7 +18,7 @@ Meteor.methods({
             name: Comment,
             date: new Date(),
             author: Meteor.user().profile.full_name,
-            postID: id
+            jobID: id
         });
     },
     "CommentCollection.remove"(_id){

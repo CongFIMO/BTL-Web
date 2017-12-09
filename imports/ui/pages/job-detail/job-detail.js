@@ -10,6 +10,10 @@ import {messageLogSuccess} from "../../../partials/messages-success";
 import Images from "../../../startup/both/images.collection.js";
 import {splitURL} from "../../../helpers/splitURL";
 import {formatDate} from "../../../helpers/formatdate";
+import {Cmt} from "../../../../imports/startup/both/comment";
+
+const crypto = require("crypto");
+
 
 Template.jobDetail.onCreated(function () {
     this.subscribe("users");
@@ -112,12 +116,6 @@ if (Meteor.isClient) {
             var user_id_created_job = job && job.user_id;
             var date_start = job && job.date_start;
             var date_end = job && job.date_end;
-            // var time_start = job && job.time_start;
-            // var time_end = job && job.time_end;
-            // var time_interval = job && job.time_interval;
-            // var province = job && job.province;
-            // var district = job && job.district;
-            // var home = job && job.home;
             var email = job && job.user.emails;
             var full_name = job && job.user.profile.full_name;
             var avatar = job && job.user.profile.avatar;
@@ -270,14 +268,6 @@ if (Meteor.isClient) {
             // console.log("user id = " + userId + "/ accepted = " + acceptedUserId + "/ jobStatus= " + jobStatus);
             return (userId === acceptedUserId && jobStatus === 'ACCEPTED');
         },
-        // 'multiDate' : function () {
-        //     // console.log('multiDate => ',Session.get("multiDate"));
-        //     if (Session.get("multiDate")){
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // }
     });
 
     Template.cancelRegister.events({
@@ -350,5 +340,85 @@ if (Meteor.isClient) {
             Session.set('jobStatus', 'ACCEPTED');
             Session.set('userAcceptedID', user_id_accepted);
         }
-    })
+    });
+
+    Template.showcmt.helpers({
+        'comments': function () {
+            let data = Cmt.find(
+                {jobID: FlowRouter.current().params.id},
+                {
+                    sort: {
+                        date: -1
+                    }
+                }
+            );
+            // console.log("cmt data " + data);
+            return data;
+        }
+    });
+
+    Template.comment.events({
+        'submit form': function () {
+            event.preventDefault();
+            var Comment = event.target.comment.value;
+            if (Comment === '') {
+                alert("Enter Comment!");
+                return;
+            }
+            Meteor.call("CommentCollection.insert", Comment, FlowRouter.current().params.id);
+            event.target.comment.value = "";
+        },
+
+    });
+
+    let id = "";
+    Template.showcmt.events({
+        'submit .form-cmt': function () {
+            event.preventDefault();
+            const name = event.target.name.value;
+            Meteor.call("CommentCollection.updateName", this._id, name);
+        },
+
+        'submit .form-rep': function () {
+            event.preventDefault();
+            const name = event.target.name.value;
+            console.log("name: " + name);
+
+            Meteor.call("CommentCollection.updateName", this._id, name);
+        },
+
+        'click .btn-rep': function () {
+            event.preventDefault();
+
+            if (Meteor.user()) {
+                id = crypto.randomBytes(16).toString("hex");
+                var textRep = document.createElement("textarea");
+                textRep.id = 'Txt-rep' + id;
+                textRep.className = "reps";
+
+                document.getElementById("save_" + this._id).style.display = "block";
+                document.getElementById("form_cmt_" + this._id).appendChild(textRep);
+
+                document.getElementById("rep_" + this._id).disabled = true;
+            }
+            else {
+                document.getElementById("rep_" + this._id).disabled = true;
+            }
+        },
+        'click .btn-save': function () {
+            event.preventDefault();
+            if (document.getElementById("Txt-rep" + id).value == "") {
+                document.getElementById("loicmt_" + this._id).innerHTML = "Bạn chưa nhập bình luận !!"
+            } else {
+                let val = $("#Txt-rep" + id).val();
+
+                Meteor.call("CommentCollection.addReplyToComment", this._id, val, id);
+                document.getElementById("save_" + this._id).style.display = "none";
+                document.getElementById("Txt-rep" + id).style.display = "none";
+                document.getElementById("loicmt_" + this._id).innerHTML = "";
+                document.getElementById("rep_" + this._id).disabled = false;
+            }
+        }
+
+    });
 }
