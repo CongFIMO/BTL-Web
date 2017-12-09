@@ -5,7 +5,7 @@ import './register-field.js';
 //
 
 var messageLogError = function ($message) {
-    
+
     Meteor.startup(function () {
         var options = {
             effect: 'flip',
