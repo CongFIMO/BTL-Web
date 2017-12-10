@@ -7,7 +7,8 @@ Meteor.startup(() => {
             password: '123456',
             full_name: 'AdminHN',
             user_type: 0,
-            roles: 'admin'
+            roles: 'admin',
+            jobcat: 'IT-Hanoi'
         });
 
         Accounts.createUser({
@@ -16,7 +17,8 @@ Meteor.startup(() => {
             password: '123456',
             full_name: 'AdminDN',
             user_type: 0,
-            roles: 'admin'
+            roles: 'admin',
+            jobcat: 'IT-Danang'
         });
     }
 });

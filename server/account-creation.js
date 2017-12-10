@@ -19,15 +19,15 @@ Accounts.onCreateUser(function(options, user) {
     user.profile.user_type = options.user_type;
     // console.log(options.user_type);
     user.profile.avatar = '';
-    user.profile.phone = '';
+    // user.profile.phone = '';
     // user.profile.address = '';
     user.profile.info = '';
     user.profile.join_date = Date.now();
 
     // Address
-    user.profile.province = '';
-    user.profile.district = '';
-    user.profile.home_address = '';
+    // user.profile.province = '';
+    // user.profile.district = '';
+    // user.profile.home_address = '';
 
     // Milestone
     user.milestone.job_accepted = 0;
@@ -42,14 +42,14 @@ Accounts.onCreateUser(function(options, user) {
     // if (role )
     role = (role == null) ? ((options.user_type == 1) ? "owner" : "slave") : role;
     user.roles = [role];
-    if (role == 'slave') {
-        user.profile.price = 25000;
-    }
+    // if (role == 'slave') {
+    //     user.profile.price = 25000;
+    // }
     // console.log(user._id);
     // console.log(role);
     Roles.addUsersToRoles(user._id, role);
     // console.log(options);
-
+    user.jobcat = options.jobcat;
     user.verified = false;
 
     return user;
