@@ -22,13 +22,11 @@
                                 regex='^\\/job'}}" >Job</a>
                             <ul class="dropdown-menu">
                                 {{#if currentUser}}
-                                    {{#if isInRole 'admin'}}
-                                        <li><a tabindex="-1" href="/job-category" class="{{isActiveRoute
-                                                name="App.job-category"}}">Nhóm công việc</a></li>
-                                        <!--<li><a href="/job-type" class="{{isActiveRoute-->
-                                            <!--name="App.job-type"}}">Loại công việc</a></li>-->
-                                    {{/if}}
-                                    {{#if isInRole 'admin,owner'}}
+                                    <!--{{#if isInRole 'admin'}}-->
+                                        <!--<li><a tabindex="-1" href="/job-category" class="{{isActiveRoute-->
+                                                <!--name="App.job-category"}}">Nhóm công việc</a></li>-->
+                                    <!--{{/if}}-->
+                                    {{#if isInRole 'admin,owner,slave'}}
                                         <li><a href="/job-creation" class="{{isActiveRoute
                                                 name="App.job-creation"}}">Tạo công việc</a></li>
                                     {{/if}}
@@ -37,12 +35,6 @@
                                         name="App.job-list"}}">Danh sách công việc</a></li>
                             </ul>
                         </li>
-                        <!--{{#if currentUser}}-->
-                            <!--<li class="dropdown" >-->
-                                <!--{{> notifications}}-->
-                            <!--</li>-->
-                        <!--{{/if}}-->
-                        <!--<li ><a href="/blog" class="{{isActivePath regex='/blog'}}" >Blog</a></li>-->
                     </ul>
 
                     <ul class="float-right">
@@ -55,10 +47,7 @@
                                    aria-haspopup="true" aria-expanded="false">{{currentUser.profile.full_name}} <span
                                         class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="/profile">Profile</a></li>
-                                    <!--{{#if isInRole 'admin'}}-->
-                                        <!--<li ><a href="/user-management">User Management</a></li>-->
-                                    <!--{{/if}}-->
+                                    <!--<li><a tabindex="-1" href="/profile">Profile</a></li>-->
                                     <li class="logout"><a href="#">Logout</a></li>
                                 </ul>
                             </li>

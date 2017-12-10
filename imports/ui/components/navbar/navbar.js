@@ -13,27 +13,6 @@ if (Meteor.isClient) {
                 $(this).contents().wrapAll('<div id="wrapper">');
             });
         });
-
-        // if (window.Notification) {
-        //     if (Notification.permission != 'granted') {
-        //         new Confirmation(
-        //             {
-        //                 message: "Hãy bật nhận thông báo để cập nhật thông tin việc làm mới nhất từ Giúp Việc Đây!",
-        //                 title: "Theo dõi Giúp Việc Đây",
-        //                 cancelText: "Huỷ",
-        //                 okText: "Đồng ý",
-        //                 success: true, // whether the button should be green or red
-        //                 focus: "none" // which button to autofocus, "cancel" (default) or "ok", or "none"
-        //             }, function (ok) {
-        //                 // ok is true if the user clicked on "ok", false otherwise
-        //                 // console.log(ok);
-        //                 if (ok) {
-        //                     Notification.requestPermission();
-        //                 }
-        //             }
-        //         );
-        //     }
-        // }
     });
 
     Template.navbar.helpers({
@@ -55,17 +34,16 @@ if (Meteor.isClient) {
     Template.navbar.events({
         'click .logout': function (event) {
             event.preventDefault();
-            //
-            // console.log("Meteor.logout();");
+            console.log("Meteor.logout();");
             Meteor.logout(function () {
-                var currentPath = FlowRouter.current().path;
-                console.log('Current Path: ' + currentPath);
-                if (currentPath === "/join") {
-                    // document.location.reload(true);
-                }
-                // document.location.reload(true);
+                // var currentPath = FlowRouter.current().path;
+                // console.log('Current Path: ' + currentPath);
+                // if (currentPath === "/join") {
+                // }
+                FlowRouter.go('/join');
 
             });
+
         },
         'click #homeURL': function () {
             // document.location.reload(true);

@@ -12,12 +12,12 @@ import "../../ui/pages/upload/upload.js";
 import "../../ui/pages/join/join.js";
 import "../../ui/pages/job-creation/job-creation.js";
 import "../../ui/pages/job-category/job-category.js";
-import "../../ui/pages/job-type/job-type.js";
+// import "../../ui/pages/job-type/job-type.js";
 import "../../ui/pages/job-detail/job-detail.js";
 import "../../ui/pages/job-list/job-list.js";
 import "../../ui/pages/not-authorization/not-authorization.js";
 import "../../ui/pages/landing-page/landing-page.js";
-import "../../ui/pages/reset-password/reset-password.js";
+// import "../../ui/pages/reset-password/reset-password.js";
 import "../../ui/pages/job-created/job-created.js";
 
 
@@ -245,19 +245,19 @@ loggedIn = FlowRouter.group({
         }
     ]
 });
-FlowRouter.route('/reset-password/:token', {
-    name: 'App.reset-password',
-    action() {
-        BlazeLayout.render('App_body', {main: 'ResetPassword'});
-    },
-});
+// FlowRouter.route('/reset-password/:token', {
+//     name: 'App.reset-password',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'ResetPassword'});
+//     },
+// });
 
-loggedIn.route('/forgot', {
-    name: 'App.reset-password',
-    action() {
-        BlazeLayout.render('App_body', {main: 'ForgotPassword'});
-    },
-});
+// loggedIn.route('/forgot', {
+//     name: 'App.reset-password',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'ForgotPassword'});
+//     },
+// });
 
 
 var loggedOut;
@@ -309,25 +309,20 @@ ownerRoutes.route('/job-creation', {
         BlazeLayout.render('App_body', {main: 'job-creation'});
     },
 });
-// FlowRouter.route('/blog/', {
-//     name: 'App.blog',
+
+// FlowRouter.route('/notification', {
+//     name: 'App.notification',
 //     action() {
-//         BlazeLayout.render('App_body', {main: 'App_home_blog'});
+//         BlazeLayout.render('App_body', {main: 'shownoti'});
 //     },
 // });
-FlowRouter.route('/notification', {
-    name: 'App.notification',
-    action() {
-        BlazeLayout.render('App_body', {main: 'shownoti'});
-    },
-});
-
-FlowRouter.route('/notification/page/:page',{
-    name: 'App.notification',
-    action(){
-        BlazeLayout.render('App_body',{main: 'shownoti'});
-    },
-});
+//
+// FlowRouter.route('/notification/page/:page',{
+//     name: 'App.notification',
+//     action(){
+//         BlazeLayout.render('App_body',{main: 'shownoti'});
+//     },
+// });
 
 
 // https://medium.com/@satyavh/using-flow-router-for-authentication-ba7bb2644f42
