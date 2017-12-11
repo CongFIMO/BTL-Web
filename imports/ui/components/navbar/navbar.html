@@ -17,9 +17,9 @@
                 <!-- Menu -->
                 <nav id="navigation" class="menu">
                     <ul id="responsive">
-                        <li><a class="{{isActiveRoute name='App.home'}}" href="/home">Home</a></li>
+                        <li><a class="{{isActiveRoute name='App.home'}}" href="/home">Trang chủ</a></li>
                         <li><a href="#" class="{{isActivePath
-                                regex='^\\/job'}}" >Job</a>
+                                regex='^\\/job'}}" >Công việc</a>
                             <ul class="dropdown-menu">
                                 {{#if currentUser}}
                                     <!--{{#if isInRole 'admin'}}-->
@@ -31,8 +31,14 @@
                                                 name="App.job-creation"}}">Tạo công việc</a></li>
                                     {{/if}}
                                 {{/if}}
-                                <li><a href="/job-list" class="{{isActiveRoute
-                                        name="App.job-list"}}">Danh sách công việc</a></li>
+                                <li><a href="/job-list" class="{{isActiveRoute name="App.job-list"}}">
+                                    {{#if isInRole 'admin,owner'}}
+                                        Công việc của team
+                                    {{else}}
+                                        Công việc đã tạo
+                                    {{/if}}
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

@@ -5,19 +5,15 @@ import {BlazeLayout} from "meteor/kadira:blaze-layout";
 import "../../ui/layouts/body/body.js";
 import "../../ui/pages/home/home.js";
 import "../../ui/pages/not-found/not-found.js";
-// import "../../ui/pages/register/register.js";
-// import "../../ui/pages/login/login.js";
 import "../../ui/pages/profile/profile.js";
 import "../../ui/pages/upload/upload.js";
 import "../../ui/pages/join/join.js";
 import "../../ui/pages/job-creation/job-creation.js";
 import "../../ui/pages/job-category/job-category.js";
-// import "../../ui/pages/job-type/job-type.js";
 import "../../ui/pages/job-detail/job-detail.js";
 import "../../ui/pages/job-list/job-list.js";
 import "../../ui/pages/not-authorization/not-authorization.js";
 import "../../ui/pages/landing-page/landing-page.js";
-// import "../../ui/pages/reset-password/reset-password.js";
 import "../../ui/pages/job-created/job-created.js";
 
 
@@ -73,27 +69,23 @@ function isOwner(ctx, redirect) {
         BlazeLayout.reset();
         redirect("/not-authorization");
     }
-    if (Roles.userIsInRole(Meteor.userId(), ["admin", 'owner'])) {
+    if (Roles.userIsInRole(Meteor.userId(), ["admin", 'owner','slave'])) {
         console.log('Owner');
-    } else {
-        console.log('Slave');
-        // FlowRouter.go('/');
-        BlazeLayout.reset();
-        redirect("/not-authorization");
-
     }
+     // } else {
+    //     console.log('Slave');
+    //     // FlowRouter.go('/');
+    //     BlazeLayout.reset();
+    //     redirect("/not-authorization");
+    //
+    // }
 }
 
 var ownerRoutes = FlowRouter.group({
     name: "owner",
     triggersEnter: [isOwner]
 });
-// const scrollToTopRoutes = FlowRouter.group({
-//     name: 'scrollToTopRoutes',
-//     triggersEnter: [() => {
-//         window.scrollTo(0, 0);
-//     }],
-// });
+
 
 function isAdmin(ctx, redirect) {
     if (!Meteor.userId()) {
@@ -135,13 +127,6 @@ FlowRouter.route('/join', {
     },
 });
 
-// FlowRouter.route('/contact', {
-//     name: 'App.contact',
-//     action() {
-//         BlazeLayout.render('App_body', {main: 'contact'});
-//     },
-// });
-
 FlowRouter.route('/upload', {
     name: 'App.upload',
     action() {
@@ -168,29 +153,12 @@ FlowRouter.route('/user-management/page/:page', {
     },
 });
 
-
-
-// adminRoutes.route('/job-type', {
-//     name: 'App.job-type',
-//     action() {
-//         BlazeLayout.render('App_body', {main: 'job-type'});
-//     }
-// });
-
 FlowRouter.route('/not-authorization', {
     name: 'App.not-authorization',
     action() {
         BlazeLayout.render('App_body', {main: 'notAuthorization'});
     },
 });
-
-//
-// FlowRouter.route('/job-detail', {
-//     name: 'App.job-detail',
-//     action() {
-//         BlazeLayout.render('App_body', {main: 'job-detail'});
-//     },
-// });
 
 FlowRouter.route("/job/:cat/:id", {
     name: "App.jobDetail",
@@ -199,7 +167,7 @@ FlowRouter.route("/job/:cat/:id", {
         BlazeLayout.render('App_body', {main: 'jobDetail'});
     }
 });
-adminRoutes.route("/job/:cat/:id/edit", {
+ownerRoutes.route("/job/:cat/:id/edit", {
     name: "App.jobEditing",
     action: function (params) {
         //...
@@ -213,12 +181,6 @@ FlowRouter.route("/job/:cat", {
         BlazeLayout.render('App_body', {main: 'job-detail'});
     }
 });
-
-// var params = {cat: "meteor", id: "abc"};
-// var queryParams = {show: "yes", color: "black"};
-//
-// var path = FlowRouter.path("blogPostRoute", params, queryParams);
-// console.log(path); // prints "/blog/meteor/abc?show=yes&color=black"
 
 FlowRouter.route('/job-list/page/:page', {
     name: 'App.job-list',
@@ -245,19 +207,6 @@ loggedIn = FlowRouter.group({
         }
     ]
 });
-// FlowRouter.route('/reset-password/:token', {
-//     name: 'App.reset-password',
-//     action() {
-//         BlazeLayout.render('App_body', {main: 'ResetPassword'});
-//     },
-// });
-
-// loggedIn.route('/forgot', {
-//     name: 'App.reset-password',
-//     action() {
-//         BlazeLayout.render('App_body', {main: 'ForgotPassword'});
-//     },
-// });
 
 
 var loggedOut;
@@ -309,20 +258,6 @@ ownerRoutes.route('/job-creation', {
         BlazeLayout.render('App_body', {main: 'job-creation'});
     },
 });
-
-// FlowRouter.route('/notification', {
-//     name: 'App.notification',
-//     action() {
-//         BlazeLayout.render('App_body', {main: 'shownoti'});
-//     },
-// });
-//
-// FlowRouter.route('/notification/page/:page',{
-//     name: 'App.notification',
-//     action(){
-//         BlazeLayout.render('App_body',{main: 'shownoti'});
-//     },
-// });
 
 
 // https://medium.com/@satyavh/using-flow-router-for-authentication-ba7bb2644f42

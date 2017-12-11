@@ -10,7 +10,8 @@ import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 
 if (Meteor.isClient) {
-    const jobStatus = "BIDDING";
+    const jobStatus = "New" +
+        "";
     Template.jobForm.onRendered(function () {
         Meteor.setTimeout(function () {
             this.$('#date-picker-start').datetimepicker({
@@ -86,7 +87,7 @@ if (Meteor.isClient) {
 
 
             //var newdisAddress = Prov[provinceAddress].dis[disAddress];
-            Meteor.call("JobCollection.insert", jobCatID, jobStatus, currentUserID,
+            Meteor.call("JobCollection.insert", jobCatID, jobCatName, jobStatus, currentUserID,
                 user, jobDescription, jobDateStart,jobName,
                 jobDateEnd,jobPref , function (error, result) {
                     if (result === "error") {
@@ -107,10 +108,8 @@ if (Meteor.isClient) {
 
     Template.jobDisplay.helpers({
         jobDisplay: function (currentUserID) {
-            // console.log(currentUserID);
             var jobs = Job.find({user_id: currentUserID}, {sort: {score: -1, name: 1}}).fetch();
             var jobT = JobType.find({}, {sort: {score: -1, name: 1}}).fetch();
-            // var jobC = JobCat.find({},{sort:{score: -1,name: 1}}).fetch();
             jobs.forEach((item, index) => {
                 jobT.forEach((itemT, indexT) => {
                     if (itemT._id === item.type_id)

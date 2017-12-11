@@ -16,7 +16,7 @@ Meteor.methods({
         "JobCollection.updateAcceptedUser"(jobID, user_id_accepted){
             return Job.update({_id: jobID}, {$set: {user_id_accepted: user_id_accepted, status: 'ACCEPTED'}});
         },
-        "JobCollection.updateMultipleField"(jobID, jobCatID, jobDescription,
+        "JobCollection.updateMultipleField"(jobID, jobCatID, jobCatName, jobDescription,
                                             jobDateStart,
                                             jobDateEnd, jobName,jobStatus, jobPref )
         {
@@ -26,6 +26,7 @@ Meteor.methods({
                         name: jobName,
                         //job_group: jobChecked,
                         cat_id: jobCatID,
+                        cat_name: jobCatName,
                         date_modified: new Date(),
                         description: jobDescription,
                         date_start: jobDateStart,
@@ -60,7 +61,7 @@ Meteor.methods({
                 }
             });
         },
-        "JobCollection.insert"(jobCatID, jobStatus, currentUserID,
+        "JobCollection.insert"(jobCatID,jobCatName, jobStatus, currentUserID,
                                user, jobDescription, jobDateStart, jobName,
                                jobDateEnd,jobPref)
         {
@@ -68,6 +69,7 @@ Meteor.methods({
                 {
                     //job_group: jobChecked,
                     cat_id: jobCatID,
+                    cat_name: jobCatName,
                     name : jobName,
                     status: jobStatus,
                     user_id: currentUserID,
@@ -98,7 +100,7 @@ Meteor.methods({
 
 if (Meteor.isServer) {
     Meteor.publish('jobs', function () {
-        if (Roles.userIsInRole(Meteor.userId(), ['owner'])){
+        if (Roles.userIsInRole(Meteor.userId(), ['owner']) || Roles.userIsInRole(Meteor.userId(), ['slave']) ){
             return Job.find({user_id: Meteor.userId()});
             // console.log("get job for owner");
         }
@@ -106,7 +108,7 @@ if (Meteor.isServer) {
         return Job.find();
     });
         Meteor.publish('jobPagination', function (skipCount) {
-        if (Roles.userIsInRole(Meteor.userId(), ['owner'])) {
+        if (Roles.userIsInRole(Meteor.userId(), ['owner']) || Roles.userIsInRole(Meteor.userId(), ['slave'])) {
             Counts.publish(this, 'jobCount', Job.find({user_id: Meteor.userId()}), {
                 noReady: true
             });

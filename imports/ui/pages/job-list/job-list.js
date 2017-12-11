@@ -4,13 +4,12 @@ import {Session} from 'meteor/session';
 
 import {Job} from "../../../startup/both/jobCollection.js";
 import {JobCat} from "../../../startup/both/jobCatCollection";
-// import {JobType} from "../../../startup/both/jobTypeCollection";
 import "../../layouts/titlebar/job-list/titlebar.js";
 
 import Images from "../../../startup/both/images.collection.js";
 
 import "./job-list.html";
-import "../common-template/pagination.html"
+import "../common-template/pagination.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 import {splitURL} from "../../../helpers/splitURL";
@@ -98,10 +97,7 @@ if (Meteor.isClient) {
     Template.jobLists.helpers({
         'jobs': function () {
             // var currentUserId = Meteor.userId();
-            var jobs = Job.find(
-                // {},
-                // {sort: {date_create: -1, cat_id: 1}, limit: 5, skip: skipCount}
-            )
+            var jobs = Job.find()
                 .fetch();
             jobs.forEach(function (element) {
                 element.description = postSummary(element.description);
@@ -139,6 +135,19 @@ if (Meteor.isClient) {
             }
         },
 
+        'checkUserCreatedJob': function () {
+            var currentUserID = Meteor.userId();
+            var jobID = Session.get("jobID");
+            var job = Job.findOne({_id: jobID}, {fields: {user_id: 1,}});
+            var userIDCreatedJob = job && job.user_id;
+            // console.log(userIDCreatedJob);
+            if (userIDCreatedJob === currentUserID) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
         checkAccepted: function (isAccepted) {
             return isAccepted === 'ACCEPTED';
         },
@@ -150,13 +159,13 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.sidebarJobList.helpers({
-        'listJobName': function () {
-            var jobTypes = JobType.find({}, {fields: {name: 1},});
-            // console.log(jobTypes);
-            return jobTypes;
-        },
-    });
+    // Template.sidebarJobList.helpers({
+    //     'listJobName': function () {
+    //         var jobTypes = JobType.find({}, {fields: {name: 1},});
+    //         // console.log(jobTypes);
+    //         return jobTypes;
+    //     },
+    // });
     ///////////////////////////////////
     Template.pagination.helpers({
         prevPage: function () {

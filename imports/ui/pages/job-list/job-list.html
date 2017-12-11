@@ -41,15 +41,16 @@
                                             <span class="btn btn-warning">DONE
                                             </span>
                                         {{/if}}
-                                        {{#if isAdmin}}
-                                            {{#if checkJobIsNotAccepted this.status}}
+                                        <!--{{#if isAdmin}}-->
+                                            <!--{{#if checkJobIsNotAccepted this.status}}-->
                                                 <span class="btn btn-primary">
                                                     <a href="/job/{{catSlug this.cat_id}}/{{this._id}}/edit"
                                                        class="edit_button_style">Chỉnh sửa</a>
                                                 </span>
-                                            {{/if}}
+                                            <!--{{/if}}-->
                                             <span class="btn btn-danger delete_job">Xóa</span>
-                                        {{/if}}
+                                        <!--{{/if}}-->
+
                                     </h4>
                                     <div class="job-icons">
                                         <div><i class="fa fa-user"></i> {{this.user.profile.full_name}} </div>
@@ -82,17 +83,19 @@
         <div class="container">
             <div class="ten columns">
                 {{numberUserFindJob}}
-                {{#unless isInRole 'admin,owner'}}
-                    <span>Có tất cả <strong>{{jobNumbers}} </strong> việc đang đợi bạn:</span>
-                {{/unless}}
-                <h2>Công việc của team</h2>
+                {{#if isInRole 'admin,owner'}}
+                    <!--<span>Có tất cả <strong>{{jobNumbers}} </strong> việc đang đợi bạn:</span>-->
+                    <h2>Công việc của team</h2>
+                {{else}}
+                    <h2>Công việc đã tạo</h2>
+                {{/if}}
             </div>
 
             <div class="six columns">
                 {{#unless currentUser}}
                     <a href="/jon" class="button">Gia nhập thôi</a>
                     {{else}}
-                        {{#if isInRole 'admin,owner'}}
+                        {{#if isInRole 'admin,owner,slave'}}
                             <a href="/job-creation" class="button">Thêm mới một việc</a>
                         {{/if}}
                 {{/unless}}

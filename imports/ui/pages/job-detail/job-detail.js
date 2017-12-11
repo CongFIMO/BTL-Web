@@ -118,12 +118,6 @@ if (Meteor.isClient) {
             var date_start = job && job.date_start;
             var date_end = job && job.date_end;
             var preference = job && job.preference;
-            // var time_start = job && job.time_start;
-            // var time_end = job && job.time_end;
-            // var time_interval = job && job.time_interval;
-            // var province = job && job.province;
-            // var district = job && job.district;
-            // var home = job && job.home;
             var email = job && job.user.emails;
             var full_name = job && job.user.profile.full_name;
             var avatar = job && job.user.profile.avatar;

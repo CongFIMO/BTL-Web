@@ -8,8 +8,6 @@ import '/imports/startup/server/fixtures.js';
 import '/imports/startup/both';
 import './account-creation';
 import './user-data-pubs';
-import './smtp';
-
 import "/imports/startup/both/images.collection";
 
 import "/imports/startup/both/comment";

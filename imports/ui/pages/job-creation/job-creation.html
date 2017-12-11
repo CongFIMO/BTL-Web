@@ -27,14 +27,12 @@
                 <select class="form-control input-text" id="jobCatName" name="jobCatName">
                     {{#each jobCats}}
                         <option value="{{this._id}}">{{name}}</option>
+
                     {{/each}}
                 </select>
-
                 <label for="jobName"><strong>Tên công việc</strong></label>
                 <input type="text" id="jobName" name="jobName" ><br>
-                <!--{{#each jobTypes}}-->
-                    <!--<input type="checkbox" id="jobName"  name="jobName" value="{{this._id}}"> {{name}}<br>-->
-                <!--{{/each}}-->
+
                 <div class="form-group">
                     <label for="priority"><strong> Độ ưu tiên </strong></label>
                     <label><input type="radio" name="jobPref" value="Khẩn cấp">Khẩn cấp</label>
