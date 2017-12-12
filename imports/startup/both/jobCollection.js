@@ -16,6 +16,9 @@ Meteor.methods({
         "JobCollection.updateAcceptedUser"(jobID, user_id_accepted){
             return Job.update({_id: jobID}, {$set: {user_id_accepted: user_id_accepted, status: 'ACCEPTED'}});
         },
+        "JobCollection.updateStatus"(jobID, jobStatus){
+            return Job.update({_id:jobID}, {$set: {status: jobStatus}});
+        },
         "JobCollection.updateMultipleField"(jobID, jobCatID, jobDescription,
                                             jobDateStart,
                                             jobDateEnd, jobName,jobStatus, jobPref )

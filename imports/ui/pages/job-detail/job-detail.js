@@ -273,6 +273,16 @@ if (Meteor.isClient) {
         },
     });
 
+    Template.jobDetail.events({
+       'change #jobStatus': function (event) {
+           event.preventDefault();
+           var jobID = Session.get("jobID");
+           var newStat = event.target.jobStatus.value;
+           // Meteor.call("JobCollection.updateStatus",jobID,newStat)
+           Session.set('jobStatus', newStat);
+       }
+    });
+
     Template.cancelRegister.events({
         'click .cancel': function (event) {
             event.preventDefault();
