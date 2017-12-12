@@ -61,23 +61,39 @@
                                 <span>{{jobInfo.date_end}}</span>
                             </div>
                         </li>
+
+                        <li>
+                            <a href="#">
+                                <span class="glyphicon glyphicon-stats"></span>
+                            </a>
+                            <div>
+                                <label for="jobStatus"><strong>Trạng thái công việc</strong></label>
+                                <select class="form-control input-text" id="jobStatus" name="jobStatus">
+                                    <option value="New">NEW</option>
+                                    <option value="Inprogress">Inprogress</option>
+                                    <option value="Resolved">Resolved</option>
+                                    <option value="Feedback">Feedback</option>
+                                    <option value="Closed">Closed</option>
+                                </select>
+                            </div>
+                        </li>
                             <!--{{/if}}-->
                     </ul>
-                    {{#if checkUserSlave}}
-                        {{#if checkStatusNotAccepted}}
-                            <div class="job-register button">
-                                {{#if checkUserInsideJobRegister}}
-                                    {{> cancelRegister}}
-                                {{else}}
-                                    {{> jobRegister}}
-                                {{/if}}
-                            </div>
-                        {{else}}
-                            <div class="job-register">
-                                <button class="bg-success btn disabled">Việc này đã đã được nhận</button>
-                            </div>
-                        {{/if}}
-                    {{/if}}
+                    <!--{{#if checkUserSlave}}-->
+                        <!--{{#if checkStatusNotAccepted}}-->
+                            <!--<div class="job-register button">-->
+                                <!--{{#if checkUserInsideJobRegister}}-->
+                                    <!--{{> cancelRegister}}-->
+                                <!--{{else}}-->
+                                    <!--{{> jobRegister}}-->
+                                <!--{{/if}}-->
+                            <!--</div>-->
+                        <!--{{else}}-->
+                            <!--<div class="job-register">-->
+                                <!--<button class="bg-success btn disabled">Việc này đã đã được nhận</button>-->
+                            <!--</div>-->
+                        <!--{{/if}}-->
+                    <!--{{/if}}-->
                 </div>
             </div>
         </div>

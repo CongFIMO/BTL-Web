@@ -10,8 +10,7 @@ import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 
 if (Meteor.isClient) {
-    const jobStatus = "New" +
-        "";
+    const jobStatus = "New";
     Template.jobForm.onRendered(function () {
         Meteor.setTimeout(function () {
             this.$('#date-picker-start').datetimepicker({
@@ -87,7 +86,7 @@ if (Meteor.isClient) {
 
 
             //var newdisAddress = Prov[provinceAddress].dis[disAddress];
-            Meteor.call("JobCollection.insert", jobCatID, jobCatName, jobStatus, currentUserID,
+            Meteor.call("JobCollection.insert", jobCatID, jobStatus, currentUserID,
                 user, jobDescription, jobDateStart,jobName,
                 jobDateEnd,jobPref , function (error, result) {
                     if (result === "error") {

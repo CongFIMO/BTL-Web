@@ -16,7 +16,7 @@ Meteor.methods({
         "JobCollection.updateAcceptedUser"(jobID, user_id_accepted){
             return Job.update({_id: jobID}, {$set: {user_id_accepted: user_id_accepted, status: 'ACCEPTED'}});
         },
-        "JobCollection.updateMultipleField"(jobID, jobCatID, jobCatName, jobDescription,
+        "JobCollection.updateMultipleField"(jobID, jobCatID, jobDescription,
                                             jobDateStart,
                                             jobDateEnd, jobName,jobStatus, jobPref )
         {
@@ -26,7 +26,6 @@ Meteor.methods({
                         name: jobName,
                         //job_group: jobChecked,
                         cat_id: jobCatID,
-                        cat_name: jobCatName,
                         date_modified: new Date(),
                         description: jobDescription,
                         date_start: jobDateStart,
@@ -61,7 +60,7 @@ Meteor.methods({
                 }
             });
         },
-        "JobCollection.insert"(jobCatID,jobCatName, jobStatus, currentUserID,
+        "JobCollection.insert"(jobCatID, jobStatus, currentUserID,
                                user, jobDescription, jobDateStart, jobName,
                                jobDateEnd,jobPref)
         {
@@ -69,7 +68,6 @@ Meteor.methods({
                 {
                     //job_group: jobChecked,
                     cat_id: jobCatID,
-                    cat_name: jobCatName,
                     name : jobName,
                     status: jobStatus,
                     user_id: currentUserID,
