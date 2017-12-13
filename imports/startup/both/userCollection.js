@@ -1,6 +1,7 @@
 if (Meteor.isServer) {
     Meteor.publish('listUser', function (skipCount, jobcat) {
-        Counts.publish(this, 'userCount', Meteor.users.find(), {
+        Counts.publish(this, 'userCount', Meteor.users.find({jobcat: jobcat
+           }), {
             noReady: true
         });
 
