@@ -271,17 +271,13 @@ if (Meteor.isClient) {
             // console.log("user id = " + userId + "/ accepted = " + acceptedUserId + "/ jobStatus= " + jobStatus);
             return (userId === acceptedUserId && jobStatus === 'ACCEPTED');
         },
+        'isCurrentStatus': function (status,current) {
+            var jobStat = (status == current)? 'selected' : "";
+            return jobStat;
+        }
     });
 
-    Template.jobDetail.events({
-       'change #jobStatus': function (event) {
-           event.preventDefault();
-           var jobID = Session.get("jobID");
-           var newStat = event.target.jobStatus.value;
-           // Meteor.call("JobCollection.updateStatus",jobID,newStat)
-           Session.set('jobStatus', newStat);
-       }
-    });
+
 
     Template.cancelRegister.events({
         'click .cancel': function (event) {
@@ -352,6 +348,16 @@ if (Meteor.isClient) {
 
             Session.set('jobStatus', 'ACCEPTED');
             Session.set('userAcceptedID', user_id_accepted);
+        },
+        'change #jobStatus': function (event) {
+            event.preventDefault();
+            // var jobID = Session.get("jobID");
+            var current = FlowRouter.current();
+            var jobID = current.params.id;
+            var newStat = $(event.target).val();
+            Meteor.call("JobCollection.updateStatus",jobID,newStat)
+            Session.set('jobStatus', newStat);
+            console.log("status changed");
         }
     });
 

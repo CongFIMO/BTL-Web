@@ -69,11 +69,11 @@
                             <div>
                                 <label for="jobStatus"><strong>Trạng thái công việc</strong></label>
                                 <select class="form-control input-text" id="jobStatus" name="jobStatus">
-                                    <option value="New">NEW</option>
-                                    <option value="Inprogress">Inprogress</option>
-                                    <option value="Resolved">Resolved</option>
-                                    <option value="Feedback">Feedback</option>
-                                    <option value="Closed">Closed</option>
+                                    <option value="New" {{isCurrentStatus 'New' jobInfo.status}}>New</option>
+                                    <option value="Inprogress" {{isCurrentStatus 'Inprogress' jobInfo.status}}>Inprogress</option>
+                                    <option value="Resolved" {{isCurrentStatus 'Resolved' jobInfo.status}}>Resolved</option>
+                                    <option value="Feedback" {{isCurrentStatus 'Feedback' jobInfo.status}}>Feedback</option>
+                                    <option value="Closed" {{isCurrentStatus 'Closed' jobInfo.status}}>Closed</option>
                                 </select>
                             </div>
                         </li>
