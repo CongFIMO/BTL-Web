@@ -17,15 +17,15 @@ const crypto = require("crypto");
 if (Meteor.isClient) {
     const RECORD_PER_PAGE = 10;
     const NUMBER_OF_VISIBLE_PAGE = 5;
-    var PATH_JOB_PAGE ;
+    var PATH_JOB_PAGE;
     var skipCount = 1;
 
     Template.jobDetail.onCreated(function () {
         var id = FlowRouter.current().params.id;
         var cat = FlowRouter.current().params.cat;
-        PATH_JOB_PAGE  = '/job/' + cat + "/" + id+"/";
+        PATH_JOB_PAGE = '/job/' + cat + "/" + id + "/";
         console.log("PATH_JOB_PAGE= " + PATH_JOB_PAGE);
-        this.subscribe("users");
+        // this.subscribe("users");
         var current = FlowRouter.current();
         var currentID = current.params.id;
         this.subscribe("jobs", function () {
@@ -49,15 +49,14 @@ if (Meteor.isClient) {
         // Session.setDefault("check", check);
         this.subscribe("jobcat", function () {
             var jobCat = JobCat.findOne({slug: cat});
-            console.log("cat= "+cat);
-            console.log("jobCat.name= "+jobCat.name);
+            console.log("cat= " + cat);
+            console.log("jobCat.name= " + jobCat.name);
 
             template.subscribe('listUser', skipCount, jobCat.name);
         });
         var template = this;
         template.autorun(function () {
             skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
-
 
             if (currentPage() === 1) {
                 $('#prevPage').css("pointer-events", "none");
@@ -147,7 +146,10 @@ if (Meteor.isClient) {
 
             var jobCatID = job && job.cat_id;
             var jobStatus = job && job.status;
-            var status = job && job.status;            //stackoverflow.com/questions/29745873/hour-difference-between-two-timeshhmmss-ain-momentjs
+
+            var status = job && job.status;
+            //stackoverflow.com/questions/29745873/hour-difference-between-two-timeshhmmss-ain-momentjs
+
             // description = postSummary(description);
             // user_registered = job && job.user_registered;
 
@@ -302,11 +304,22 @@ if (Meteor.isClient) {
                     createdAt: -1
                 }
             }).fetch();
+            var currentEmail = Meteor.user().emails[0].address;
+            var currentUserIndex = -1;
+            listUser.forEach(function (element, i) {
+                if (element.emails[0].address=== currentEmail){
+                    currentUserIndex= i;
+                }
+            })
+            if (currentUserIndex>0){
+                listUser.splice(currentUserIndex, 1);
+            }
             console.log("listUser = " + listUser[0]);
             return listUser;
         },
-        'isCurrentStatus': function (status,current) {
-            var jobStat = (status == current)? 'selected' : "";
+        'isCurrentStatus': function (status, current) {
+            console.log("isCurrentStatus: " + status + "--" + current);
+            var jobStat = (status == current) ? 'selected' : "";
             return jobStat;
         }
     });
@@ -388,7 +401,7 @@ if (Meteor.isClient) {
             var current = FlowRouter.current();
             var jobID = current.params.id;
             var newStat = $(event.target).val();
-            Meteor.call("JobCollection.updateStatus",jobID,newStat)
+            Meteor.call("JobCollection.updateStatus", jobID, newStat)
             Session.set('jobStatus', newStat);
             console.log("status changed");
         }
