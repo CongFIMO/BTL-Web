@@ -7,6 +7,7 @@ import {JobCat} from "../../../startup/both/jobCatCollection";
 import "./job-editing.html";
 import {messageLogError} from "../../../partials/messages-error";
 import {slugifyString} from "../../../helpers/slugifyString";
+import '../../../helpers/convertStringToDate'
 if (Meteor.isClient) {
     const JOB_STATUS = "BIDDING";
 
@@ -149,6 +150,15 @@ if (Meteor.isClient) {
             var jobDateEnd = event.target.jobDateEnd.value;
             var jobPref = event.target.jobPref.value;
 
+            //check condition between datetime start and datetime end
+            var dateTimeStart = jobDateStart.toDate('mm-dd-yyyy');
+            var dateTimeEnd= jobDateEnd.toDate('mm-dd-yyyy');
+            // console.log("dateTimeStart= "+dateTimeStart);
+            // console.log("dateTimeEnd= "+dateTimeEnd);
+            if (dateTimeStart >= dateTimeEnd){
+                messageLogError("Thời gian bắt đầu phải sớm hơn thời gian kết thúc!");
+                return;
+            }
 
             var current = FlowRouter.current();
             var jobID = current.params.id;

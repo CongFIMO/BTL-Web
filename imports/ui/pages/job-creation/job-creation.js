@@ -8,7 +8,7 @@ import {JobCat} from "../../../startup/both/jobCatCollection";
 import "./job-creation.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
-
+import '../../../helpers/convertStringToDate'
 if (Meteor.isClient) {
     const jobStatus = "New";
     Template.jobForm.onRendered(function () {
@@ -82,8 +82,16 @@ if (Meteor.isClient) {
             var user = Meteor.user();
             // console.log(currentUserID);
 
+            //check condition between datetime start and datetime end
+            var dateTimeStart = jobDateStart.toDate('mm-dd-yyyy');
+            var dateTimeEnd= jobDateEnd.toDate('mm-dd-yyyy');
+            console.log("dateTimeStart= "+dateTimeStart);
+            console.log("dateTimeEnd= "+dateTimeEnd);
 
-
+            if (dateTimeStart >= dateTimeEnd){
+                messageLogError("Thời gian bắt đầu phải sớm hơn thời gian kết thúc!");
+                return;
+            }
 
             //var newdisAddress = Prov[provinceAddress].dis[disAddress];
             Meteor.call("JobCollection.insert", jobCatID, jobStatus, currentUserID,

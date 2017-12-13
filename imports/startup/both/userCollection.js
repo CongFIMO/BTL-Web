@@ -1,10 +1,10 @@
 if (Meteor.isServer) {
-    Meteor.publish('listUser', function (skipCount) {
+    Meteor.publish('listUser', function (skipCount, jobcat) {
         Counts.publish(this, 'userCount', Meteor.users.find(), {
             noReady: true
         });
 
-        return Meteor.users.find({}, {
+        return Meteor.users.find({jobcat: jobcat}, {
             sort:{
                 createdAt: -1
             },
@@ -12,10 +12,11 @@ if (Meteor.isServer) {
             skip: skipCount
         });
     });
+
 } else {
     Tracker.autorun(function () {
         var routeName = FlowRouter.getRouteName();
-        if (routeName && routeName === "App.user-management") {
+        if (routeName && routeName === "App.jobDetail") {
             // console.log("App.user-management");
             // Meteor.subscribe('listUser');
         }

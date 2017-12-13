@@ -167,6 +167,13 @@ FlowRouter.route("/job/:cat/:id", {
         BlazeLayout.render('App_body', {main: 'jobDetail'});
     }
 });
+FlowRouter.route("/job/:cat/:id/:page", {
+    name: "App.jobDetail",
+    action: function (params) {
+        //...
+        BlazeLayout.render('App_body', {main: 'jobDetail'});
+    }
+});
 ownerRoutes.route("/job/:cat/:id/edit", {
     name: "App.jobEditing",
     action: function (params) {

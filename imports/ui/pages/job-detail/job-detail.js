@@ -11,53 +11,74 @@ import Images from "../../../startup/both/images.collection.js";
 import {splitURL} from "../../../helpers/splitURL";
 import {formatDate} from "../../../helpers/formatdate";
 import {Cmt} from "../../../../imports/startup/both/comment";
-
+import {paginationDataGeneration} from "../../../helpers/paginationDataGeneration";
 const crypto = require("crypto");
 
-
-Template.jobDetail.onCreated(function () {
-    this.subscribe("users");
-    var current = FlowRouter.current();
-    var currentID = current.params.id;
-    this.subscribe("jobs", function () {
-        var check = Job.findOne({_id: currentID});
-        if (!check) {
-            FlowRouter.go('/job-list');
-        }
-    });
-    Session.set('avatarSubscribeReady', false);
-    this.subscribe("avatar", {
-        onReady: function () {
-            Session.set('avatarSubscribeReady', true);
-        }
-    });
-    Session.setDefault("jobID", '');
-    Session.setDefault("jobCatID", '');
-    Session.setDefault("jobStatus", '');
-    Session.setDefault("userAcceptedID", '');
-    Session.setDefault("acceptCancel", '');
-    Session.setDefault("multiDate", false);
-    // Session.setDefault("check", check);
-});
-Template.jobDetail.onRendered(function () {
-    jQuery(document).ready(function ($) {
-        $('#homeAddress').gMap({
-            maptype: 'ROADMAP',
-            scrollwheel: false,
-            zoom: 13,
-            markers: [
-                {
-                    address: 'New York, 45 Park Avenue', // Your Address Here
-                    html: '<strong>Our Office</strong><br>45 Park Avenue, Apt. 303 </br>New York, NY 10016 ',
-                    popup: true,
-                }
-            ],
-        });
-
-    });
-});
-
 if (Meteor.isClient) {
+    const RECORD_PER_PAGE = 10;
+    const NUMBER_OF_VISIBLE_PAGE = 5;
+    var PATH_JOB_PAGE ;
+    var skipCount = 1;
+
+    Template.jobDetail.onCreated(function () {
+        var id = FlowRouter.current().params.id;
+        var cat = FlowRouter.current().params.cat;
+        PATH_JOB_PAGE  = '/job/' + cat + "/" + id+"/";
+        console.log("PATH_JOB_PAGE= " + PATH_JOB_PAGE);
+        this.subscribe("users");
+        var current = FlowRouter.current();
+        var currentID = current.params.id;
+        this.subscribe("jobs", function () {
+            var check = Job.findOne({_id: currentID});
+            if (!check) {
+                FlowRouter.go('/job-list');
+            }
+        });
+        Session.set('avatarSubscribeReady', false);
+        this.subscribe("avatar", {
+            onReady: function () {
+                Session.set('avatarSubscribeReady', true);
+            }
+        });
+        Session.setDefault("jobID", '');
+        Session.setDefault("jobCatID", '');
+        Session.setDefault("jobStatus", '');
+        Session.setDefault("userAcceptedID", '');
+        Session.setDefault("acceptCancel", '');
+        Session.setDefault("multiDate", false);
+        // Session.setDefault("check", check);
+        this.subscribe("jobcat", function () {
+            var jobCat = JobCat.findOne({slug: cat});
+            console.log("cat= "+cat);
+            console.log("jobCat.name= "+jobCat.name);
+
+            template.subscribe('listUser', skipCount, jobCat.name);
+        });
+        var template = this;
+        template.autorun(function () {
+            skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
+
+
+            if (currentPage() === 1) {
+                $('#prevPage').css("pointer-events", "none");
+                // console.log("currentpage=1");
+            }
+            if (currentPage() === getNumberOfPage()) {
+                $('#nextPage').css("pointer-events", "none");
+                // console.log("currentpage=n");
+            }
+        });
+    });
+    Template.jobDetail.onRendered(function () {
+        $(document).ready(function () {
+            if (currentPage() === 1) {
+                $('#prevPage').css("pointer-events", "none");
+            }
+            if (currentPage() === getNumberOfPage()) {
+                $('#nextPage').css("pointer-events", "none");
+            }
+        })
+    });
     Template.jobDetail.helpers({
         'checkUserSlave': function () {
             var user = Meteor.user();
@@ -83,30 +104,29 @@ if (Meteor.isClient) {
             // console.log(jobID);
             var job = Job.findOne({_id: jobID},
                 {
-                    fields:
-                        {
-                            _id: 1,
-                            date_create: 1,
-                            description: 1,
-                            user_id: 1,
-                            status: 1,
-                            date_start: 1,
-                            date_end: 1,
-                            user_id_accepted: 1,
-                            name: 1,
-                            cat_id: 1,
-                            preference: 1,
-                            // user_registered: 1,
-                            home: 1,
-                            'user.emails': 1,
-                            'user.profile.full_name': 1,
-                            'user.profile.avatar': 1,
-                            'user.profile.phone': 1,
-                            'user.profile.province': 1,
-                            'user.profile.district': 1,
-                            'user.profile.home_address': 1,
-                            'user.profile.info': 1,
-                        }
+                    fields: {
+                        _id: 1,
+                        date_create: 1,
+                        description: 1,
+                        user_id: 1,
+                        status: 1,
+                        date_start: 1,
+                        date_end: 1,
+                        user_id_accepted: 1,
+                        name: 1,
+                        cat_id: 1,
+                        preference: 1,
+                        // user_registered: 1,
+                        home: 1,
+                        'user.emails': 1,
+                        'user.profile.full_name': 1,
+                        'user.profile.avatar': 1,
+                        'user.profile.phone': 1,
+                        'user.profile.province': 1,
+                        'user.profile.district': 1,
+                        'user.profile.home_address': 1,
+                        'user.profile.info': 1,
+                    }
                 }
             );
             var date_create = job && job.date_create;
@@ -236,7 +256,7 @@ if (Meteor.isClient) {
             if (Session.get('avatarSubscribeReady')) {
                 if (userID !== undefined) {
                     var avatar = Images.findOne({userId: userID});
-                    if(avatar !== undefined) {
+                    if (avatar !== undefined) {
                         avatar = avatar.link();
                     } else {
                         return '#';
@@ -271,16 +291,31 @@ if (Meteor.isClient) {
             // console.log("user id = " + userId + "/ accepted = " + acceptedUserId + "/ jobStatus= " + jobStatus);
             return (userId === acceptedUserId && jobStatus === 'ACCEPTED');
         },
+        getJobCatName: function () {
+            var jobCat = JobCat.findOne({_id: Session.get("jobCatID")});
+            console.log(jobCat.name);
+            return jobCat.name;
+        },
+        listUserToChoice: function () {
+            //get list user
+            var listUser = Meteor.users.find({}, {
+                fields: {_id: 1, username: 1, emails: 1}, sort: {
+                    createdAt: -1
+                }
+            }).fetch();
+            console.log("listUser = "+ listUser[0]);
+            return listUser;
+        }
     });
 
     Template.jobDetail.events({
-       'change #jobStatus': function (event) {
-           event.preventDefault();
-           var jobID = Session.get("jobID");
-           var newStat = event.target.jobStatus.value;
-           // Meteor.call("JobCollection.updateStatus",jobID,newStat)
-           Session.set('jobStatus', newStat);
-       }
+        'change #jobStatus': function (event) {
+            event.preventDefault();
+            var jobID = Session.get("jobID");
+            var newStat = event.target.jobStatus.value;
+            // Meteor.call("JobCollection.updateStatus",jobID,newStat)
+            Session.set('jobStatus', newStat);
+        }
     });
 
     Template.cancelRegister.events({
@@ -314,7 +349,7 @@ if (Meteor.isClient) {
                             });
                             // Job.update({_id: jobID}, {$set: {user_registered: user_registered}});
                             Meteor.call("JobCollection.updateUserRegisteredList", jobID, user_registered);
-                            Meteor.call("UAHCollection.insert", "job", doc._id, "Bạn đã hủy đăng kí công việc" );
+                            Meteor.call("UAHCollection.insert", "job", doc._id, "Bạn đã hủy đăng kí công việc");
                         }
                     } else {
                         Session.set("acceptCancel", 'cancel');
@@ -333,7 +368,7 @@ if (Meteor.isClient) {
             var jobID = Session.get("jobID");
 
             Meteor.call("JobCollection.updateUserRegistered", jobID, currentUser);
-            Meteor.call("UAHCollection.insert", "job", jobID, "Bạn đã đăng kí việc thành công" );
+            Meteor.call("UAHCollection.insert", "job", jobID, "Bạn đã đăng kí việc thành công");
             messageLogSuccess('Đăng ký việc thành công');
             event.target.reset();
         },
@@ -348,7 +383,7 @@ if (Meteor.isClient) {
             var jobID = Session.get("jobID");
             // Job.update({_id: jobID}, {$set: {user_id_accepted: user_id_accepted, status: 'ACCEPTED'}});
             Meteor.call("JobCollection.updateAcceptedUser", jobID, user_id_accepted);
-            Meteor.call("UAHCollection.insert", "job", jobID, "Bạn đã chấp nhận người giúp việc" );
+            Meteor.call("UAHCollection.insert", "job", jobID, "Bạn đã chấp nhận người giúp việc");
 
             Session.set('jobStatus', 'ACCEPTED');
             Session.set('userAcceptedID', user_id_accepted);
@@ -434,4 +469,50 @@ if (Meteor.isClient) {
         }
 
     });
+
+    ///////////////////////////
+    Template.paginationInUserManagement.events({
+        "click .goPage": function () {
+            BlazeLayout.reset();
+        }
+    })
+    Template.paginationInUserManagement.helpers({
+        prevPage: function () {
+            var previousPage = currentPage() === 1 ? 1 : currentPage() - 1;
+            return PATH_JOB_PAGE + previousPage;
+        },
+        nextPage: function () {
+            var nextPage = hasMorePages() ? currentPage() + 1 : currentPage();
+            return PATH_JOB_PAGE + nextPage;
+        },
+        pageNumbers: function () {
+            return paginationDataGeneration(paginationMoreMode(), currentPage(), getNumberOfPage());
+        },
+        link: function () {
+            return PATH_JOB_PAGE;
+        },
+        paginationMoreMode: function () {
+            return paginationMoreMode();
+        }
+    })
+    var hasMorePages = function () {
+        var currentPage = parseInt(FlowRouter.current().params.page) || 1;
+        var userCount = Counts.get('userCount');
+        console.log("userCount= " + userCount);
+        return currentPage * RECORD_PER_PAGE < userCount;
+    };
+    var currentPage = function () {
+        return parseInt(FlowRouter.current().params.page) || 1;
+    };
+    var paginationMoreMode = function () {
+        if (getNumberOfPage() > NUMBER_OF_VISIBLE_PAGE)
+            return true;
+        return false;
+    };
+    var getNumberOfPage = function () {
+        let userCount = Counts.get('userCount');
+        let numberOfPage = (userCount / RECORD_PER_PAGE) > Math.floor(userCount / RECORD_PER_PAGE)
+            ? (Math.floor(userCount / RECORD_PER_PAGE) + 1) : Math.floor(userCount / RECORD_PER_PAGE);
+        return numberOfPage;
+    }
 }
