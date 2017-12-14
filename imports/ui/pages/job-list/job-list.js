@@ -189,8 +189,19 @@ if (Meteor.isClient) {
     })
 
     Template.titlebarJobList.helpers({
-        jobNumbers () {
-            return Job.find({status: 'BIDDING'}).count();
+        jobNumbers(){
+            return Counts.get("jobCount");
+        },
+        newJobNumbers () {
+            return Counts.get('newJobCount');
+        },inprogressJobNumbers () {
+            return Counts.get('inprogressJobCount');
+        },resolvedJobNumbers () {
+            return Counts.get('resolvedJobCount');
+        },feedbackJobNumbers () {
+            return Counts.get('feedbackJobCount');
+        },closedJobNumbers () {
+            return Counts.get('closedJobCount');
         },
         numberUserFindJob () {
             // console.log( Meteor.users.find().count());
