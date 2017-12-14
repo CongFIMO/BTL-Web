@@ -9,7 +9,7 @@ import {messageLogError} from "../../../partials/messages-error";
 import {slugifyString} from "../../../helpers/slugifyString";
 import '../../../helpers/convertStringToDate'
 if (Meteor.isClient) {
-    const JOB_STATUS = "BIDDING";
+    const JOB_STATUS = "New";
 
     var messageLogSuccess = function ($message) {
         Meteor.startup(function () {

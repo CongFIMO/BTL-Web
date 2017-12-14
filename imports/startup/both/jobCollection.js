@@ -101,7 +101,7 @@ Meteor.methods({
 
 if (Meteor.isServer) {
     Meteor.publish('jobs', function () {
-        if (Roles.userIsInRole(Meteor.userId(), ['owner']) || Roles.userIsInRole(Meteor.userId(), ['slave']) ){
+        if (Roles.userIsInRole(Meteor.userId(), ['slave']) ){
             return Job.find({user_id: Meteor.userId()});
             // console.log("get job for owner");
         }
@@ -109,7 +109,7 @@ if (Meteor.isServer) {
         return Job.find();
     });
         Meteor.publish('jobPagination', function (skipCount) {
-        if (Roles.userIsInRole(Meteor.userId(), ['owner']) || Roles.userIsInRole(Meteor.userId(), ['slave'])) {
+        if ( Roles.userIsInRole(Meteor.userId(), ['slave'])) {
             Counts.publish(this, 'jobCount', Job.find({user_id: Meteor.userId()}), {
                 noReady: true
             });
