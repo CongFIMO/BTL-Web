@@ -83,9 +83,21 @@
         <div class="container">
             <div class="ten columns">
                 {{numberUserFindJob}}
-                {{#if isInRole 'admin,owner'}}
-                    <!--<span>Có tất cả <strong>{{jobNumbers}} </strong> việc đang đợi bạn:</span>-->
-                    <h2>Công việc của team</h2>
+                {{#if isInRole 'slave'}}
+                    <p>
+                        <span>Có tất cả  <strong>{{jobNumbers}} </strong> việc.</span>
+                        Trong đó:
+                        {{#if newJobNumbers}}<span>- <strong>{{newJobNumbers}}</strong> việc mới.</span>{{/if}}
+                        {{#if inprogressJobNumbers}}
+                            <span>- <strong>{{inprogressJobNumbers}}</strong> việc đang làm.</span>{{/if}}
+                        {{#if resolvedJobNumbers}}
+                            <span>- <strong>{{resolvedJobNumbers}}</strong> việc đã được giải quyết.</span>{{/if}}
+                        {{#if feedbackJobNumbers}}
+                            <span>- <strong>{{feedbackJobNumbers}}</strong> việc đang đợi phản hồi.</span>{{/if}}
+                        {{#if closedJobNumbers}}
+                            <span>- <strong>{{closedJobNumbers}}</strong> việc đã xong.</span>{{/if}}
+                    </p>
+                    <h2>Công việc của bạn</h2>
                 {{else}}
                     <h2>Công việc đã tạo</h2>
                 {{/if}}
@@ -94,10 +106,10 @@
             <div class="six columns">
                 {{#unless currentUser}}
                     <a href="/jon" class="button">Gia nhập thôi</a>
-                    {{else}}
-                        {{#if isInRole 'admin,owner,slave'}}
-                            <a href="/job-creation" class="button">Thêm mới một việc</a>
-                        {{/if}}
+                {{else}}
+                    {{#if isInRole 'admin,owner,slave'}}
+                        <a href="/job-creation" class="button">Thêm mới một việc</a>
+                    {{/if}}
                 {{/unless}}
             </div>
         </div>

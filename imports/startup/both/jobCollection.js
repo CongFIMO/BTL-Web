@@ -3,9 +3,9 @@ import {Mongo} from 'meteor/mongo';
 export const Job = new Mongo.Collection('job');
 
 Meteor.methods({
-    // 'numberUserFindJob': function numberUserFindJob() {
-    //     Session.set('numberUserFindJob',Meteor.users.find().count());
-    // },
+        // 'numberUserFindJob': function numberUserFindJob() {
+        //     Session.set('numberUserFindJob',Meteor.users.find().count());
+        // },
         "JobCollection.updateUserRegisteredList"(jobID, user_registered)
         {
             return Job.update({_id: jobID}, {$set: {user_registered: user_registered}});
@@ -33,11 +33,11 @@ Meteor.methods({
                         description: jobDescription,
                         date_start: jobDateStart,
                         //time_start: jobTimeStart,
-                        date_end:  jobDateEnd,
-                        name : jobName,
-                        status : jobStatus,
-                        preference : jobPref
-                        
+                        date_end: jobDateEnd,
+                        name: jobName,
+                        status: jobStatus,
+                        preference: jobPref
+
                     }
                 }, function (error, result) {
                     if (error) {
@@ -65,13 +65,13 @@ Meteor.methods({
         },
         "JobCollection.insert"(jobCatID, jobStatus, currentUserID,
                                user, jobDescription, jobDateStart, jobName,
-                               jobDateEnd,jobPref)
+                               jobDateEnd, jobPref)
         {
             return Job.insert(
                 {
                     //job_group: jobChecked,
                     cat_id: jobCatID,
-                    name : jobName,
+                    name: jobName,
                     status: jobStatus,
                     user_id: currentUserID,
                     user: user,
@@ -114,6 +114,22 @@ if (Meteor.isServer) {
                 noReady: true
             });
 
+            Counts.publish(this, 'newJobCount', Job.find({status: 'New',user_id: Meteor.userId()}), {
+                noReady: true
+            });
+            Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+            Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+            Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+            Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+
             console.log("get job for owner")
             return Job.find({user_id: Meteor.userId()}, {
                 sort: {
@@ -125,9 +141,22 @@ if (Meteor.isServer) {
             });
         }
         else {
-            // console.log("get all jobPa");
-
             Counts.publish(this, 'jobCount', Job.find(), {
+                noReady: true
+            });
+            Counts.publish(this, 'newJobCount', Job.find({status: 'New'}), {
+                noReady: true
+            });
+            Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress'}), {
+                noReady: true
+            });
+            Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved'}), {
+                noReady: true
+            });
+            Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback'}), {
+                noReady: true
+            });
+            Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed'}), {
                 noReady: true
             });
             return Job.find({}, {
@@ -143,8 +172,8 @@ if (Meteor.isServer) {
 } else {
     Tracker.autorun(function () {
         var routeName = FlowRouter.getRouteName();
-        console.log("routeName= "+ routeName);
-        if (routeName && routeName==="App.job-list") {
+        console.log("routeName= " + routeName);
+        if (routeName && routeName === "App.job-list") {
             console.log("routeName && routeName===App.job-list");
         }
         //normal sub mode
