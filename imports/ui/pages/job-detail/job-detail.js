@@ -304,17 +304,17 @@ if (Meteor.isClient) {
                     createdAt: -1
                 }
             }).fetch();
-            var currentEmail = Meteor.user().emails[0].address;
-            var currentUserIndex = -1;
-            listUser.forEach(function (element, i) {
-                if (element.emails[0].address=== currentEmail){
-                    currentUserIndex= i;
-                }
-            })
-            if (currentUserIndex>0){
-                listUser.splice(currentUserIndex, 1);
-            }
-            console.log("listUser = " + listUser[0]);
+            // var currentEmail = Meteor.user().emails[0].address;
+            // var currentUserIndex = -1;
+            // listUser.forEach(function (element, i) {
+            //     if (element.emails[0].address=== currentEmail){
+            //         currentUserIndex= i;
+            //     }
+            // })
+            // if (currentUserIndex>0){
+            //     listUser.splice(currentUserIndex, 1);
+            // }
+            // console.log("listUser = " + listUser[0]);
             return listUser;
         },
         'isCurrentStatus': function (status, current) {
