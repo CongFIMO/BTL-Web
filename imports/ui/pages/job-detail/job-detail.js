@@ -146,8 +146,10 @@ if (Meteor.isClient) {
 
             var jobCatID = job && job.cat_id;
             var jobStatus = job && job.status;
+
             var status = job && job.status;
             //stackoverflow.com/questions/29745873/hour-difference-between-two-timeshhmmss-ain-momentjs
+
             // description = postSummary(description);
             // user_registered = job && job.user_registered;
 
@@ -322,15 +324,6 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.jobDetail.events({
-        'change #jobStatus': function (event) {
-            event.preventDefault();
-            var jobID = Session.get("jobID");
-            var newStat = event.target.jobStatus.value;
-            // Meteor.call("JobCollection.updateStatus",jobID,newStat)
-            Session.set('jobStatus', newStat);
-        }
-    });
 
     Template.cancelRegister.events({
         'click .cancel': function (event) {

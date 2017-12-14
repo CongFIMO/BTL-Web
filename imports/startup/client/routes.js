@@ -14,7 +14,7 @@ import "../../ui/pages/job-detail/job-detail.js";
 import "../../ui/pages/job-list/job-list.js";
 import "../../ui/pages/not-authorization/not-authorization.js";
 import "../../ui/pages/landing-page/landing-page.js";
-import "../../ui/pages/job-created/job-created.js";
+// import "../../ui/pages/job-created/job-created.js";
 
 
 
@@ -22,7 +22,7 @@ import "../../ui/pages/job-created/job-created.js";
 
 import "../../ui/pages/job-editing/job-editing";
 import "../../ui/pages/search/search.js"
-import "../../ui/pages/user-management/user-management"
+// import "../../ui/pages/user-management/user-management"
 
 // Tracker.autorun(function() {
 //     FlowRouter.watchPathChange();
@@ -140,18 +140,18 @@ adminRoutes.route('/job-category', {
         BlazeLayout.render('App_body', {main: 'job-category'});
     },
 });
-FlowRouter.route('/user-management', {
-    name: 'App.user-management',
-    action() {
-        BlazeLayout.render('App_body', {main: 'userManagement'});
-    },
-});
-FlowRouter.route('/user-management/page/:page', {
-    name: 'App.user-management',
-    action() {
-        BlazeLayout.render('App_body', {main: 'userManagement'});
-    },
-});
+// FlowRouter.route('/user-management', {
+//     name: 'App.user-management',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'userManagement'});
+//     },
+// });
+// FlowRouter.route('/user-management/page/:page', {
+//     name: 'App.user-management',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'userManagement'});
+//     },
+// });
 
 FlowRouter.route('/not-authorization', {
     name: 'App.not-authorization',
@@ -175,6 +175,7 @@ ownerRoutes.route("/job/:cat/:id/edit", {
         BlazeLayout.render('App_body', {main: 'jobEditing'});
     }
 });
+
 FlowRouter.route("/job/:cat/:id/:page", {
     name: "App.jobDetail",
     action: function (params) {
@@ -182,6 +183,7 @@ FlowRouter.route("/job/:cat/:id/:page", {
         BlazeLayout.render('App_body', {main: 'jobDetail'});
     }
 });
+
 FlowRouter.route("/job/:cat", {
     name: "App.job-detail",
     action: function (params) {
@@ -232,32 +234,32 @@ loggedOut = FlowRouter.group({
     ]
 });
 
-FlowRouter.route('/profile/:section/page/:page', {
-    name: 'App.profile.history',
-    action() {
-        BlazeLayout.render('App_body', {main: 'profile'});
-    },
-});
+// FlowRouter.route('/profile/:section/page/:page', {
+//     name: 'App.profile.history',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'profile'});
+//     },
+// });
 
-loggedOut.route('/profile/:section', {
-    name: 'App.profile',
-    action() {
-        BlazeLayout.render('App_body', {main: 'profile'});
-    },
-});
-
-loggedOut.route('/profile/', {
-    name: 'App.profile',
-    action() {
-        BlazeLayout.render('App_body', {main: 'profile'});
-    },
-});
-ownerRoutes.route("/job-created", {
-    name: "job-created",
-    action: function () {
-        BlazeLayout.render("App_body", {main: "jobCreated"});
-    }
-});
+// loggedOut.route('/profile/:section', {
+//     name: 'App.profile',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'profile'});
+//     },
+// });
+//
+// loggedOut.route('/profile/', {
+//     name: 'App.profile',
+//     action() {
+//         BlazeLayout.render('App_body', {main: 'profile'});
+//     },
+// });
+// ownerRoutes.route("/job-created", {
+//     name: "job-created",
+//     action: function () {
+//         BlazeLayout.render("App_body", {main: "jobCreated"});
+//     }
+// });
 
 ownerRoutes.route('/job-creation', {
     name: 'App.job-creation',

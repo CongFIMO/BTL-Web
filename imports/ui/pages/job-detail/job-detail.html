@@ -19,27 +19,28 @@
                     <div class="row">
                         <!--<div class="col-md-4 float-left" role="navigation">-->
                         <nav class="right-sidebar-menu" data-pjax="">
-                            <div class="single category">
-                                <h5 class="side-title">Danh sách nhân viên thuộc cùng bộ phận</h5>
-                                {{#if listUserToChoice}}
-                                    <ul class="list-group">
-                                        {{#each listUserToChoice}}
-                                            <li style="cursor:pointer" class="list-group-item item-user {{#if
-                                                    isCurrentUserthis._id}}active{{/if}}">
-                                                {{this.emails.[0].address}}
-                                            </li>
-                                        {{/each}}
-                                    </ul>
-                                    <div class="clearfix"></div>
-                                    <!-- Pagination -->
+                            {{#if isInRole 'admin'}}
+                                <div class="single category " style="margin-right: 20px">
+                                    <h5 class="side-title">Danh sách nhân viên thuộc cùng bộ phận</h5>
                                     {{#if listUserToChoice}}
-                                        {{> paginationInUserManagement}}
+                                        <ul class="list-group ">
+                                            {{#each listUserToChoice}}
+                                                <li style="cursor:pointer" class="list-group-item item-user {{#if
+                                                        isCurrentUserthis._id}}active{{/if}}">
+                                                    {{this.emails.[0].address}}
+                                                </li>
+                                            {{/each}}
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                        <!-- Pagination -->
+                                        {{#if listUserToChoice}}
+                                            {{> paginationInUserManagement}}
+                                        {{/if}}
+                                    {{else}}
+                                        Không có nhân viên thuộc bộ phận này
                                     {{/if}}
-                                {{else}}
-                                    Không có nhân viên thuộc bộ phận này
-                                {{/if}}
-
-                            </div>
+                                </div>
+                            {{/if}}
                         </nav>
                         <!--</div>-->
                         <!--{{>userProfileInUserManagement}}-->
@@ -47,19 +48,19 @@
                 </div>
             </div>
         </div>
-        <div class="seven columns">
+        <div class="eight columns">
             <!--<div class="padding-right">-->
             <!-- Company Info -->
             <div class="company-info">
-                <img src="{{getAvatarUrl jobInfo.user_id_created_job}}" alt="">
+                <!--<img src="{{getAvatarUrl jobInfo.user_id_created_job}}" alt="">-->
                 <div class="content">
                     <h4>{{jobInfo.name}}
 
                     </h4>
                     <div><a href="#"><i class="fa fa-user"></i> Tạo bởi: {{jobInfo.full_name}}</a></div>
                     <div><i class="fa fa-clock-o"></i> Ngày tạo: {{jobInfo.date_create}}</div>
-                    <div><i class="alert-name"></i> Độ ưu tiên: <strong>{{jobInfo.preference}}</strong></div>
-                    <div><i class="alert-name"></i> Bộ phận IT:{{getJobCatName}}</div>
+                    <div><i class="fa fa-star-o"></i> Độ ưu tiên: <strong>{{jobInfo.preference}}</strong></div>
+                    <div><i class="fa fa-map-marker"></i> Bộ phận : {{getJobCatName}}</div>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -77,7 +78,7 @@
         <!-- Widgets -->
         <div class="four columns">
             <!-- Sort by -->
-            <div class="widget">
+            <div class="widget pull-right">
                 <h4>Thông tin việc làm</h4>
                 <div class="job-overview">
                     <ul>
@@ -260,7 +261,7 @@
 </template>
 
 <template name="paginationInUserManagement">
-    <div class="pagination-container pagination-in-user-management">
+    <div class="pagination-container pagination-in-user-management ">
         <nav class="pagination">
             <ul>
                 {{#if paginationMoreMode}}

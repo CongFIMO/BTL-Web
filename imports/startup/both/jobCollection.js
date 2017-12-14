@@ -17,11 +17,11 @@ Meteor.methods({
             return Job.update({_id: jobID}, {$set: {user_id_accepted: user_id_accepted, status: 'ACCEPTED'}});
         },
         "JobCollection.updateStatus"(jobID, jobStatus){
-            return Job.update({_id: jobID}, {$set: {status: jobStatus}});
+            return Job.update({_id:jobID}, {$set: {status: jobStatus}});
         },
         "JobCollection.updateMultipleField"(jobID, jobCatID, jobDescription,
                                             jobDateStart,
-                                            jobDateEnd, jobName, jobStatus, jobPref)
+                                            jobDateEnd, jobName,jobStatus, jobPref )
         {
             return Job.update({_id: jobID},
                 {
@@ -101,15 +101,15 @@ Meteor.methods({
 
 if (Meteor.isServer) {
     Meteor.publish('jobs', function () {
-        if (Roles.userIsInRole(Meteor.userId(), ['owner']) || Roles.userIsInRole(Meteor.userId(), ['slave'])) {
+        if (Roles.userIsInRole(Meteor.userId(), ['slave']) ){
             return Job.find({user_id: Meteor.userId()});
             // console.log("get job for owner");
         }
         // console.log("get all job");
         return Job.find();
     });
-    Meteor.publish('jobPagination', function (skipCount) {
-        if (Roles.userIsInRole(Meteor.userId(), ['slave'])) {
+        Meteor.publish('jobPagination', function (skipCount) {
+        if ( Roles.userIsInRole(Meteor.userId(), ['slave'])) {
             Counts.publish(this, 'jobCount', Job.find({user_id: Meteor.userId()}), {
                 noReady: true
             });
