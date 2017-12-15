@@ -101,7 +101,9 @@ Meteor.methods({
 
 if (Meteor.isServer) {
     Meteor.publish('jobs', function () {
+        // var routeName = FlowRouter.getRouteName();
         if (Roles.userIsInRole(Meteor.userId(), ['slave']) ){
+        // if( routeName && routeName === 'App.job-list'){
             return Job.find({user_id: Meteor.userId()});
             // console.log("get job for owner");
         }
