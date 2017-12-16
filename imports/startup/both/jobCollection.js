@@ -101,14 +101,10 @@ Meteor.methods({
 
 if (Meteor.isServer) {
     Meteor.publish('jobs', function () {
-        // var routeName = FlowRouter.getRouteName();
-        if (Roles.userIsInRole(Meteor.userId(), ['slave']) ){
-        // if( routeName && routeName === 'App.job-list'){
-            return Job.find({user_id: Meteor.userId()});
-            // console.log("get job for owner");
+        if (Meteor.user() ){
+            return Job.find();
         }
         // console.log("get all job");
-        return Job.find();
     });
         Meteor.publish('jobPagination', function (skipCount) {
         if ( Roles.userIsInRole(Meteor.userId(), ['slave'])) {
@@ -133,7 +129,7 @@ if (Meteor.isServer) {
             });
 
             console.log("get job for owner")
-            return Job.find({user_id: Meteor.userId()}, {
+            return Job.find({},{
                 sort: {
                     date_create: -1,
                     cat_id: 1

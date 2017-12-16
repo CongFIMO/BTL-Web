@@ -1,10 +1,10 @@
-<template name="job-created">
+<template name="job-assigned">
     {{> sAlert}}
-    {{> titlebarJobCreated}}
-    {{> jobCreated}}
+    {{> titlebarJobAssigned}}
+    {{> jobAssigned}}
 </template>
 
-<template name="sidebarJobCreated">
+<template name="sidebarJobAssigned">
     <nav class="right-sidebar-menu" data-pjax="">
         <div class="single category">
             <h3 class="side-title">Loại công việc</h3>
@@ -17,11 +17,18 @@
     </nav>
 </template>
 
-<template name="jobCreated">
+<template name="jobAssigned">
+    <!-- Content
+================================================== -->
     <div class="container">
         <!-- Recent Jobs -->
         <div class="eleven columns">
             <div class="padding-right">
+                <!--<form action="#" method="get" class="list-search">-->
+                <!--<button><i class="fa fa-search"></i></button>-->
+                <!--<input type="text" placeholder="job title, keywords or company name" value=""/>-->
+                <!--<div class="clearfix"></div>-->
+                <!--</form>-->
                 <ul class="job-list full" id="job-list">
                     {{#each jobs}}
                         <li class=" list-group-item-warning">
@@ -30,17 +37,16 @@
                                 <div class="job-list-content">
                                     <h4> {{name}}
                                         <!--{{jobName this.cat_id}}-->
-                                            <span class="btn btn-warning">{{this.status}}
-                                            </span>
-
+                                        <span class="btn btn-warning">{{this.status}}
+                                        </span>
                                         <!--{{#if isInRole 'admin,slave'}}-->
-                                        <!--{{#if checkJobIsNotAccepted this.status}}-->
-                                            <span class="btn btn-primary">
-                                                    <a href="/job/{{catSlug this.cat_id}}/{{this._id}}/edit"
-                                                       class="edit_button_style">Chỉnh sửa</a>
-                                                </span>
-                                                <!--{{/if}}-->
-                                            <span class="btn btn-danger delete_job">Xóa</span>
+                                        <!--&lt;!&ndash;{{#if checkJobIsNotAccepted this.status}}&ndash;&gt;-->
+                                            <!--<span class="btn btn-primary">-->
+                                                    <!--<a href="/job/{{catSlug this.cat_id}}/{{this._id}}/edit"-->
+                                                       <!--class="edit_button_style">Chỉnh sửa</a>-->
+                                                <!--</span>-->
+                                                <!--&lt;!&ndash;{{/if}}&ndash;&gt;-->
+                                            <!--<span class="btn btn-danger delete_job">Xóa</span>-->
                                         <!--{{/if}}-->
 
                                     </h4>
@@ -68,7 +74,7 @@
 
 </template>
 
-<template name="titlebarJobCreated">
+<template name="titlebarJobAssigned">
     <!-- Titlebar
   ================================================== -->
     <div id="titlebar">

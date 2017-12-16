@@ -96,8 +96,12 @@ if (Meteor.isClient) {
 
     Template.jobLists.helpers({
         'jobs': function () {
+            var userInfo = Meteor.user();
+            var jobCat = JobCat.findOne({name: userInfo.profile.JobCat}, {fields : {_id : 1}});
+            var catID = jobCat && jobCat._id;
             // var currentUserId = Meteor.userId();
-            var jobs = Job.find()
+            console.log("jobcat: "+userInfo.profile.JobCat);
+            var jobs = Job.find({cat_id:catID})
                 .fetch();
             jobs.forEach(function (element) {
                 element.description = postSummary(element.description);
@@ -159,14 +163,7 @@ if (Meteor.isClient) {
         }
     });
 
-    // Template.sidebarJobList.helpers({
-    //     'listJobName': function () {
-    //         var jobTypes = JobType.find({}, {fields: {name: 1},});
-    //         // console.log(jobTypes);
-    //         return jobTypes;
-    //     },
-    // });
-    ///////////////////////////////////
+
     Template.pagination.helpers({
         prevPage: function () {
             var previousPage = currentPage() === 1 ? 1 : currentPage() - 1;
