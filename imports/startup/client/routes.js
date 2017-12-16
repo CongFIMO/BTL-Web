@@ -16,6 +16,7 @@ import "../../ui/pages/not-authorization/not-authorization.js";
 import "../../ui/pages/landing-page/landing-page.js";
 import "../../ui/pages/job-created/job-created.js";
 import "../../ui/pages/job-assigned/job-assigned.js";
+import "../../ui/pages/jobIT/jobIT.js";
 
 
 
@@ -232,6 +233,21 @@ FlowRouter.route('/job-assigned/page/:page',{
     name: 'App.job-assigned',
     action(){
         BlazeLayout.render('App_body', {main: 'job-assigned'})
+    }
+});
+
+
+FlowRouter.route('/job-IT',{
+    name: 'App.job-IT',
+    action(){
+        BlazeLayout.render('App_body', {main: 'job-IT'})
+    }
+});
+
+FlowRouter.route('/job-IT/page/:page',{
+    name: 'App.job-IT',
+    action(){
+        BlazeLayout.render('App_body', {main: 'job-IT'})
     }
 });
 
