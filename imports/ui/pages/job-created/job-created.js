@@ -9,7 +9,7 @@ import "../../layouts/titlebar/job-list/titlebar.js";
 import Images from "../../../startup/both/images.collection.js";
 
 import "./job-created.html";
-import "../common-template/pagination.html";
+// import "../common-template/pagination.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 import {splitURL} from "../../../helpers/splitURL";
@@ -18,7 +18,7 @@ import {paginationDataGeneration} from "../../../helpers/paginationDataGeneratio
 
 const RECORD_PER_PAGE = 5;
 const NUMBER_OF_VISIBLE_PAGE = 5;
-const PATH_JOB_PAGE = '/job-created/page/';
+const PATH_JOB_CREATED_PAGE = '/job-created/page/';
 
 if (Meteor.isClient) {
     var skipCount = 1;
@@ -34,7 +34,7 @@ if (Meteor.isClient) {
         var template = this;
         template.autorun(function () {
             skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
-            template.subscribe('jobPagination', skipCount);
+            template.subscribe('jobPaginationInJobCreated', skipCount);
             //
             if (currentPage() === 1) {
                 $('#prevPage').css("pointer-events", "none");
@@ -97,7 +97,8 @@ if (Meteor.isClient) {
     Template.jobCreated.helpers({
         'jobs': function () {
             // var currentUserId = Meteor.userId();
-            var jobs = Job.find({user_id: Meteor.userId()})
+            var jobs = Job.find({user_id: Meteor.userId()}, {limit: 5,
+                skip: skipCount})
                 .fetch();
             jobs.forEach(function (element) {
                 element.description = postSummary(element.description);
@@ -160,21 +161,21 @@ if (Meteor.isClient) {
     });
 
 
-    Template.pagination.helpers({
+    Template.paginationInJobCreated.helpers({
         prevPage: function () {
             var previousPage = currentPage() === 1 ? 1 : currentPage() - 1;
-            return PATH_JOB_PAGE + previousPage;
+            return PATH_JOB_CREATED_PAGE + previousPage;
         },
         nextPage: function () {
             var nextPage = hasMorePages() ? currentPage() + 1 : currentPage();
-            return PATH_JOB_PAGE + nextPage;
+            return PATH_JOB_CREATED_PAGE + nextPage;
         },
         pageNumbers: function () {
             // let jobCount = Counts.get('jobCount');
             return paginationDataGeneration(paginationMoreMode(), currentPage(), getNumberOfPage());
         },
         link: function () {
-            return PATH_JOB_PAGE;
+            return PATH_JOB_CREATED_PAGE;
         },
         paginationMoreMode: function () {
             return paginationMoreMode();

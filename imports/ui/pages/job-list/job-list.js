@@ -9,7 +9,7 @@ import "../../layouts/titlebar/job-list/titlebar.js";
 import Images from "../../../startup/both/images.collection.js";
 
 import "./job-list.html";
-import "../common-template/pagination.html";
+// import "../common-template/pagination.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 import {splitURL} from "../../../helpers/splitURL";
@@ -19,7 +19,7 @@ import {UserActivityHistory} from "../../../startup/both/userActivityHistoryColl
 
 const RECORD_PER_PAGE = 5;
 const NUMBER_OF_VISIBLE_PAGE = 5;
-const PATH_JOB_PAGE = '/job-list/page/';
+const PATH_JOB_LIST_PAGE = '/job-list/page/';
 
 if (Meteor.isClient) {
     var skipCount = 1;
@@ -32,18 +32,18 @@ if (Meteor.isClient) {
             }
         });
         // Page pagination
+        var skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
+        this.subscribe('jobPaginationInJobList', skipCount, Meteor.user().profile.JobCat);
         var template = this;
         template.autorun(function () {
-            skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
-            template.subscribe('jobPagination', skipCount);
             //
             if (currentPage() === 1) {
                 $('#prevPage').css("pointer-events", "none");
-                // console.log("currentpage=1");
+                // //console.log("currentpage=1");
             }
             if (currentPage() === getNumberOfPage()) {
                 $('#nextPage').css("pointer-events", "none");
-                // console.log("currentpage=n");
+                // //console.log("currentpage=n");
             }
         });
     });
@@ -97,29 +97,35 @@ if (Meteor.isClient) {
     Template.jobLists.helpers({
         'jobs': function () {
             var userInfo = Meteor.user();
-            var jobCat = JobCat.findOne({name: userInfo.profile.JobCat}, {fields : {_id : 1}});
+            var jobCat = JobCat.findOne({name: userInfo.profile.JobCat}, {fields: {_id: 1}});
             var catID = jobCat && jobCat._id;
             // var currentUserId = Meteor.userId();
-            console.log("jobcat: "+userInfo.profile.JobCat);
-            var jobs = Job.find({cat_id:catID})
+            //console.log("jobcat: "+userInfo.profile.JobCat);
+            // console.log("catID = "+ catID);
+            var jobs = Job.find(
+                // {cat_id: catID}, {
+                // limit: 5,
+                // skip: skipCount
+            // }
+            )
                 .fetch();
             jobs.forEach(function (element) {
                 element.description = postSummary(element.description);
             });
-            // console.log(jobs);
+            // //console.log(jobs);
             return jobs;
         },
         'jobName': function (catID) {
             var jobcat = JobCat.findOne({_id: catID}, {fields: {name: 1},});
             var name = jobcat && jobcat.name;
-            // console.log(name);
+            // //console.log(name);
             return name;
         },
         'catSlug': function (catID) {
             var jobcat = JobCat.findOne({_id: catID}, {fields: {name: 1, slug: 1},});
-            // console.log(jobcat);
+            // //console.log(jobcat);
             var cat_slug = jobcat && jobcat.slug;
-            // console.log(cat_slug);
+            // //console.log(cat_slug);
             return cat_slug;
         },
         avatar: function (userID) {
@@ -144,7 +150,7 @@ if (Meteor.isClient) {
             var jobID = Session.get("jobID");
             var job = Job.findOne({_id: jobID}, {fields: {user_id: 1,}});
             var userIDCreatedJob = job && job.user_id;
-            // console.log(userIDCreatedJob);
+            // //console.log(userIDCreatedJob);
             if (userIDCreatedJob === currentUserID) {
                 return true;
             } else {
@@ -164,21 +170,21 @@ if (Meteor.isClient) {
     });
 
 
-    Template.pagination.helpers({
+    Template.paginationInJobList.helpers({
         prevPage: function () {
             var previousPage = currentPage() === 1 ? 1 : currentPage() - 1;
-            return PATH_JOB_PAGE + previousPage;
+            return PATH_JOB_LIST_PAGE + previousPage;
         },
         nextPage: function () {
             var nextPage = hasMorePages() ? currentPage() + 1 : currentPage();
-            return PATH_JOB_PAGE + nextPage;
+            return PATH_JOB_LIST_PAGE + nextPage;
         },
         pageNumbers: function () {
             // let jobCount = Counts.get('jobCount');
             return paginationDataGeneration(paginationMoreMode(), currentPage(), getNumberOfPage());
         },
         link: function () {
-            return PATH_JOB_PAGE;
+            return PATH_JOB_LIST_PAGE;
         },
         paginationMoreMode: function () {
             return paginationMoreMode();
@@ -191,26 +197,26 @@ if (Meteor.isClient) {
         },
         newJobNumbers () {
             return Counts.get('newJobCount');
-        },inprogressJobNumbers () {
+        }, inprogressJobNumbers () {
             return Counts.get('inprogressJobCount');
-        },resolvedJobNumbers () {
+        }, resolvedJobNumbers () {
             return Counts.get('resolvedJobCount');
-        },feedbackJobNumbers () {
+        }, feedbackJobNumbers () {
             return Counts.get('feedbackJobCount');
-        },closedJobNumbers () {
+        }, closedJobNumbers () {
             return Counts.get('closedJobCount');
         },
         numberUserFindJob () {
-            // console.log( Meteor.users.find().count());
+            // //console.log( Meteor.users.find().count());
             // Meteor.call('numberUserFindJob');
-            // console.log(Session.get('numberUserFindJob'));
+            // //console.log(Session.get('numberUserFindJob'));
         }
     });
 
     var hasMorePages = function () {
         var currentPage = parseInt(FlowRouter.current().params.page) || 1;
         var jobCount = Counts.get('jobCount');
-        console.log("jobCount= " + jobCount);
+        //console.log("jobCount= " + jobCount);
         return currentPage * RECORD_PER_PAGE < jobCount;
     };
     var currentPage = function () {

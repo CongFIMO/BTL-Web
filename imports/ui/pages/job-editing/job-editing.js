@@ -144,6 +144,8 @@ if (Meteor.isClient) {
             var jobCatNameElement = event.target.jobCatName;
             var jobCatSlug = slugifyString(jobCatNameElement.options[jobCatNameElement.selectedIndex].text);
             console.log("jobCatSlug = " + jobCatSlug);
+
+            var jobCatName =jobCatNameElement.options[jobCatNameElement.selectedIndex].text;
             var jobDescription =$('#jobDescription').summernote('code');
             var jobDateStart = event.target.jobDateStart.value;
             // var jobTimeStart = event.target.jobTimeStart.value;
@@ -163,7 +165,7 @@ if (Meteor.isClient) {
             var current = FlowRouter.current();
             var jobID = current.params.id;
             Meteor.call("JobCollection.updateMultipleField",jobID, jobCatID, jobDescription, jobDateStart,
-                jobDateEnd, jobName, JOB_STATUS, jobPref, function (error, result) {
+                jobDateEnd, jobName, JOB_STATUS, jobPref,jobCatName, function (error, result) {
                 // console.log("result ="+ result);
                 if (result === "error"){
                     messageLogError("Cập nhật không thành công!");

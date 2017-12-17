@@ -25,9 +25,9 @@
         <div class="eleven columns">
             <div class="padding-right">
                 <!--<form action="#" method="get" class="list-search">-->
-                    <!--<button><i class="fa fa-search"></i></button>-->
-                    <!--<input type="text" placeholder="job title, keywords or company name" value=""/>-->
-                    <!--<div class="clearfix"></div>-->
+                <!--<button><i class="fa fa-search"></i></button>-->
+                <!--<input type="text" placeholder="job title, keywords or company name" value=""/>-->
+                <!--<div class="clearfix"></div>-->
                 <!--</form>-->
                 <ul class="job-list full" id="job-list">
                     {{#each jobs}}
@@ -37,15 +37,15 @@
                                 <div class="job-list-content">
                                     <h4> {{name}}
                                         <!--{{jobName this.cat_id}}-->
-                                            <span class="btn btn-warning">{{this.status}}
-                                            </span>
+                                        <span class="btn btn-warning">{{this.status}}
+                                        </span>
                                         {{#if isInRole 'admin,slave'}}
-                                            <!--{{#if checkJobIsNotAccepted this.status}}-->
-                                                <span class="btn btn-primary">
+                                        <!--{{#if checkJobIsNotAccepted this.status}}-->
+                                            <span class="btn btn-primary">
                                                     <a href="/job/{{catSlug this.cat_id}}/{{this._id}}/edit"
                                                        class="edit_button_style">Chỉnh sửa</a>
                                                 </span>
-                                            <!--{{/if}}-->
+                                                <!--{{/if}}-->
                                             <span class="btn btn-danger delete_job">Xóa</span>
                                         {{/if}}
 
@@ -65,7 +65,7 @@
                 <div class="clearfix"></div>
                 <!-- Pagination -->
                 {{#if jobs}}
-                    {{> pagination}}
+                    {{> paginationInJobList}}
                 {{/if}}
             </div>
         </div>
@@ -81,24 +81,19 @@
         <div class="container">
             <div class="ten columns">
                 {{numberUserFindJob}}
-                {{#if isInRole 'slave'}}
-                    <h3>Công việc của bạn</h3>
-                {{else}}
-                    <h3>Công việc của team</h3>
-                {{/if}}
-                    <p>
-                        <span>Có tất cả  <strong>{{jobNumbers}} </strong> việc.</span>
-                        Trong đó:
-                        {{#if newJobNumbers}}<span>- <strong>{{newJobNumbers}}</strong> việc mới.</span>{{/if}}
-                        {{#if inprogressJobNumbers}}
-                            <span>- <strong>{{inprogressJobNumbers}}</strong> việc đang làm.</span>{{/if}}
-                        {{#if resolvedJobNumbers}}
-                            <span>- <strong>{{resolvedJobNumbers}}</strong> việc đã được giải quyết.</span>{{/if}}
-                        {{#if feedbackJobNumbers}}
-                            <span>- <strong>{{feedbackJobNumbers}}</strong> việc đang đợi phản hồi.</span>{{/if}}
-                        {{#if closedJobNumbers}}
-                            <span>- <strong>{{closedJobNumbers}}</strong> việc đã xong.</span>{{/if}}
-                    </p>
+                <h3>Công việc của team</h3>
+                <p><span>Có tất cả  <strong>{{jobNumbers}} </strong> việc.</span>
+                    Trong đó:
+                    {{#if newJobNumbers}}<span>- <strong>{{newJobNumbers}}</strong> việc mới.</span>{{/if}}
+                    {{#if inprogressJobNumbers}}
+                        <span>- <strong>{{inprogressJobNumbers}}</strong> việc đang làm.</span>{{/if}}
+                    {{#if resolvedJobNumbers}}
+                        <span>- <strong>{{resolvedJobNumbers}}</strong> việc đã được giải quyết.</span>{{/if}}
+                    {{#if feedbackJobNumbers}}
+                        <span>- <strong>{{feedbackJobNumbers}}</strong> việc đang đợi phản hồi.</span>{{/if}}
+                    {{#if closedJobNumbers}}
+                        <span>- <strong>{{closedJobNumbers}}</strong> việc đã xong.</span>{{/if}}
+                </p>
             </div>
 
             <div class="six columns">
@@ -111,5 +106,61 @@
                 {{/unless}}
             </div>
         </div>
+    </div>
+</template>
+<template name="paginationInJobList">
+    <div class="pagination-container">
+        <nav class="pagination">
+            <ul>
+                {{#if paginationMoreMode}}
+                    <li><a href="{{link}}{{pageNumbers.first.number}}"
+                           id="pageIndicator_{{pageNumbers.first.number}}"
+                           class="goPage {{pageNumbers.first.class}}">{{pageNumbers.first.number}}</a></li>
+                    {{#if pageNumbers.hasPre}}
+                        <li class="blank">...</li>
+                    {{/if}}
+                    <li><a href="{{link}}{{pageNumbers.preCurrent.number}}"
+                           id="pageIndicator_{{pageNumbers.preCurrent.number}}"
+                           class="goPage {{pageNumbers.preCurrent.class}}">{{pageNumbers.preCurrent.number}}</a>
+                    </li>
+                    <li><a href="{{link}}{{pageNumbers.current.number}}"
+                           id="pageIndicator_{{pageNumbers.current.number}}"
+                           class="goPage {{pageNumbers.current.class}}">{{pageNumbers.current.number}}</a>
+                    </li>
+                    <li><a href="{{link}}{{pageNumbers.postCurrent.number}}"
+                           id="pageIndicator_{{pageNumbers.postCurrent.number}}"
+                           class="goPage {{pageNumbers.postCurrent.class}}">{{pageNumbers.postCurrent.number}}</a>
+                    </li>
+                    {{#if pageNumbers.hasPost}}
+                        <li class="blank">...</li>
+                    {{/if}}
+                    <li><a href="{{link}}{{pageNumbers.last.number}}"
+                           id="pageIndicator_{{pageNumbers.last.number}}"
+                           class="goPage {{pageNumbers.last.class}}">{{pageNumbers.last.number}}</a></li>
+                {{else}}
+                    {{#each pageNumbers}}
+                        <li><a href="{{link}}{{this.number}}" id="pageIndicator_{{this.number}}"
+                               class="goPage {{this.class}}">{{this.number}}</a></li>
+                    {{/each}}
+                {{/if}}
+            </ul>
+        </nav>
+
+
+        <nav class="pagination-next-prev">
+            <ul>
+                <li>
+                    <a id="prevPage" href="{{prevPage}}" class="prev goPage">
+                        <span aria-hidden="true">&larr;</span> Previous
+                    </a>
+                </li>
+                <li>
+                    <a id="nextPage" href="{{nextPage}}" class="next goPage">
+                        Next <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
     </div>
 </template>

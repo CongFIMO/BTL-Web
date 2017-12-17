@@ -206,6 +206,13 @@ FlowRouter.route('/job-list', {
     },
 });
 
+FlowRouter.route('/job-created', {
+    name: 'App.job-created',
+    action() {
+        BlazeLayout.render('App_body', {main: 'job-created'});
+    }
+});
+
 FlowRouter.route('/job-created/page/:page',{
     name: 'App.job-created',
     action(){
@@ -213,12 +220,6 @@ FlowRouter.route('/job-created/page/:page',{
     }
 });
 
-FlowRouter.route('/job-created', {
-    name: 'App.job-created',
-    action() {
-        BlazeLayout.render('App_body', {main: 'job-created'});
-    }
-});
 
 
 

@@ -74,6 +74,10 @@ if (Meteor.isClient) {
             event.preventDefault();
             var jobName = event.target.jobName.value;
             var jobCatID = event.target.jobCatName.value;
+
+            var jobCatNameElement = event.target.jobCatName;
+            var jobCatName =jobCatNameElement.options[jobCatNameElement.selectedIndex].text;
+            
             var jobDescription =$('#jobDescription').summernote('code');
             var jobDateStart = event.target.jobDateStart.value;
             var jobDateEnd = event.target.jobDateEnd.value;
@@ -96,7 +100,7 @@ if (Meteor.isClient) {
             //var newdisAddress = Prov[provinceAddress].dis[disAddress];
             Meteor.call("JobCollection.insert", jobCatID, jobStatus, currentUserID,
                 user, jobDescription, jobDateStart,jobName,
-                jobDateEnd,jobPref , function (error, result) {
+                jobDateEnd,jobPref,jobCatName , function (error, result) {
                     if (result === "error") {
                         messageLogError("Thao tác bị lỗi");
                     }
