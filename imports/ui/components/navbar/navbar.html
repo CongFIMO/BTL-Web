@@ -26,19 +26,20 @@
                                         <!--<li><a tabindex="-1" href="/job-category" class="{{isActiveRoute-->
                                                 <!--name="App.job-category"}}">Nhóm công việc</a></li>-->
                                     <!--{{/if}}-->
-                                    {{#if isInRole 'admin,owner,slave'}}
                                         <li><a href="/job-creation" class="{{isActiveRoute
                                                 name="App.job-creation"}}">Tạo công việc</a></li>
+                                        {{#if isInRole 'admin,owner'}}
+                                            <li><a href="/job-list" class="{{isActiveRoute name="App.job-list"}}">
+                                                Công việc của team
+                                                </a>
+                                            </li>
+                                        {{/if}}
+                                        <li><a href="/job-created" class="{{isActiveRoute name='App.job-created'}}">Công việc đã tạo</a></li>
+                                    <li><a href="/job-assigned" class="{{isActiveRoute name='App.job-assigned'}}">Công việc được giao</a></li>
+                                    {{#if isInRole 'admin'}}
+                                        <li><a href="/job-IT" class="{{isActiveRoute name='App.job-IT'}}">Việc của bộ phận IT</a></li>
                                     {{/if}}
                                 {{/if}}
-                                <li><a href="/job-list" class="{{isActiveRoute name="App.job-list"}}">
-                                    {{#if isInRole 'admin,owner'}}
-                                        Công việc của team
-                                    {{else}}
-                                        Công việc đã tạo
-                                    {{/if}}
-                                    </a>
-                                </li>
                             </ul>
                         </li>
                     </ul>

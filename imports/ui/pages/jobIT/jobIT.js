@@ -8,21 +8,22 @@ import "../../layouts/titlebar/job-list/titlebar.js";
 
 import Images from "../../../startup/both/images.collection.js";
 
-import "./job-created.html";
+import "./jobIT.html";
 import "../common-template/pagination.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 import {splitURL} from "../../../helpers/splitURL";
 import {postSummary} from "../../../helpers/postsummary";
 import {paginationDataGeneration} from "../../../helpers/paginationDataGeneration";
+import {UserActivityHistory} from "../../../startup/both/userActivityHistoryCollection";
 
 const RECORD_PER_PAGE = 5;
 const NUMBER_OF_VISIBLE_PAGE = 5;
-const PATH_JOB_PAGE = '/job-created/page/';
+const PATH_JOB_PAGE = '/job-IT/page/';
 
 if (Meteor.isClient) {
     var skipCount = 1;
-    Template.jobCreated.onCreated(function () {
+    Template.jobIT.onCreated(function () {
         // Check subscribe Collection
         Session.set('avatarSubscribeReady', false);
         this.subscribe("avatar", {
@@ -46,7 +47,7 @@ if (Meteor.isClient) {
             }
         });
     });
-    Template.jobCreated.onRendered(function () {
+    Template.jobIT.onRendered(function () {
         var instance = this;
         instance.autorun(function () {
             $('body').each(function () {
@@ -63,7 +64,7 @@ if (Meteor.isClient) {
         })
     });
 
-    Template.jobCreated.events({
+    Template.jobIT.events({
         "click .goPage": function () {
             BlazeLayout.reset();
         },
@@ -71,7 +72,6 @@ if (Meteor.isClient) {
             e.stopPropagation();
             e.preventDefault();
             var id = this._id;
-            console.log("ID-Job: "+id);
             new Confirmation(
                 {
                     message: "Bạn có thực sự muốn xóa công việc này?",
@@ -94,10 +94,14 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.jobCreated.helpers({
+    Template.jobIT.helpers({
         'jobs': function () {
-            // var currentUserId = Meteor.userId();
-            var jobs = Job.find({user_id: Meteor.userId()})
+            // var userInfo = Meteor.user();
+            // var jobCat = JobCat.findOne({name: userInfo.profile.JobCat}, {fields : {_id : 1}});
+            // var catID = jobCat && jobCat._id;
+            // // var currentUserId = Meteor.userId();
+            // console.log("jobcat: "+userInfo.profile.JobCat);
+            var jobs = Job.find()
                 .fetch();
             jobs.forEach(function (element) {
                 element.description = postSummary(element.description);
@@ -181,7 +185,7 @@ if (Meteor.isClient) {
         }
     })
 
-    Template.titlebarJobCreated.helpers({
+    Template.titlebarjobIT.helpers({
         jobNumbers(){
             return Counts.get("jobCount");
         },

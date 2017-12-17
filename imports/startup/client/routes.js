@@ -14,7 +14,9 @@ import "../../ui/pages/job-detail/job-detail.js";
 import "../../ui/pages/job-list/job-list.js";
 import "../../ui/pages/not-authorization/not-authorization.js";
 import "../../ui/pages/landing-page/landing-page.js";
-// import "../../ui/pages/job-created/job-created.js";
+import "../../ui/pages/job-created/job-created.js";
+import "../../ui/pages/job-assigned/job-assigned.js";
+import "../../ui/pages/jobIT/jobIT.js";
 
 
 
@@ -204,6 +206,50 @@ FlowRouter.route('/job-list', {
     },
 });
 
+FlowRouter.route('/job-created/page/:page',{
+    name: 'App.job-created',
+    action(){
+        BlazeLayout.render('App_body', {main: 'job-created'})
+    }
+});
+
+FlowRouter.route('/job-created', {
+    name: 'App.job-created',
+    action() {
+        BlazeLayout.render('App_body', {main: 'job-created'});
+    }
+});
+
+
+
+FlowRouter.route('/job-assigned', {
+    name: 'App.job-assigned',
+    action() {
+        BlazeLayout.render('App_body', {main: 'job-assigned'});
+    }
+});
+
+FlowRouter.route('/job-assigned/page/:page',{
+    name: 'App.job-assigned',
+    action(){
+        BlazeLayout.render('App_body', {main: 'job-assigned'})
+    }
+});
+
+
+FlowRouter.route('/job-IT',{
+    name: 'App.job-IT',
+    action(){
+        BlazeLayout.render('App_body', {main: 'job-IT'})
+    }
+});
+
+FlowRouter.route('/job-IT/page/:page',{
+    name: 'App.job-IT',
+    action(){
+        BlazeLayout.render('App_body', {main: 'job-IT'})
+    }
+});
 
 var loggedIn;
 loggedIn = FlowRouter.group({

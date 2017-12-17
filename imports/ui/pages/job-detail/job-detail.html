@@ -3,6 +3,7 @@
     <div id="titlebar">
         <div class="container">
             <div class="ten columns">
+                <h3>{{jobInfo.name}}</h3>
             </div>
         </div>
     </div>
@@ -20,8 +21,8 @@
                         <!--<div class="col-md-4 float-left" role="navigation">-->
                         <nav class="right-sidebar-menu" data-pjax="">
                             {{#if isInRole 'admin'}}
-                                <div class="single category " style="margin-right: 20px">
-                                    <h5 class="side-title">Danh sách nhân viên thuộc cùng bộ phận</h5>
+                                <div class="single category " style="margin-right: 50px">
+                                    <h5 class="side-title">Danh sách nhân viên</h5>
                                     {{#if listUserToChoice}}
                                         <ul class="list-group ">
                                             {{#each listUserToChoice}}
@@ -52,11 +53,7 @@
             <!--<div class="padding-right">-->
             <!-- Company Info -->
             <div class="company-info">
-                <!--<img src="{{getAvatarUrl jobInfo.user_id_created_job}}" alt="">-->
                 <div class="content">
-                    <h4>{{jobInfo.name}}
-
-                    </h4>
                     <div><a href="#"><i class="fa fa-user"></i> Tạo bởi: {{jobInfo.full_name}}</a></div>
                     <div><i class="fa fa-clock-o"></i> Ngày tạo: {{jobInfo.date_create}}</div>
                     <div><i class="fa fa-star-o"></i> Độ ưu tiên: <strong>{{jobInfo.preference}}</strong></div>
@@ -78,7 +75,7 @@
         <!-- Widgets -->
         <div class="four columns">
             <!-- Sort by -->
-            <div class="widget pull-right">
+            <div class="widget " style="margin-left: 10px">
                 <h4>Thông tin việc làm</h4>
                 <div class="job-overview">
                     <ul>
@@ -103,7 +100,7 @@
                                 <span class="glyphicon glyphicon-stats"></span>
                             </a>
                             <div>
-                                <label for="jobStatus"><strong>Trạng thái công việc</strong></label>
+                                <label for="jobStatus"><strong>Trạng thái</strong></label>
                                 <select class="form-control input-text" id="jobStatus" name="jobStatus">
                                     <option value="New" {{isCurrentStatus 'New' jobInfo.status}}>New</option>
                                     <option value="Inprogress" {{isCurrentStatus 'Inprogress' jobInfo.status}}>Inprogress</option>
@@ -122,13 +119,14 @@
         <!-- Widgets / End -->
     </div>
     <!---->
+    <div class="margin-top-50"></div>
     <div class="container">
         <div class="row list-user" id="list-user">
             <div class="col-md-12">
 
                 {{#if listUser.userRegistered}}
                     <div class="lis-user bg-success">
-                        <h4 class="title">Danh sách những người đã đăng ký nhận việc</h4>
+                        <h4 class="title">Danh sách những người được giao việc</h4>
                     </div>
                 {{else}}
                     <div class="lis-user bg-success">
@@ -141,63 +139,52 @@
                         {{#each listUser.userRegistered}}
                             <li class="registered-user">
                                 <!--<a href="#">-->
-                                <img src="{{getAvatarUrl this._id}}" alt="" class="user-avatar">
+                                <!--<img src="{{getAvatarUrl this._id}}" alt="" class="user-avatar">-->
                                 <div class="resumes-list-content">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <h4>{{this.profile.full_name }}
                                             </h4>
-                                            {{#if isUserRented this._id listUser.user_id_accepted jobInfo.jobStatus}}
-                                                <span class="btn btn-primary">Được nhận việc</span>
-                                            {{/if}}
+                                            <!--{{#if isUserRented this._id listUser.user_id_accepted jobInfo.jobStatus}}-->
+                                                <!--<span class="btn btn-primary">Được nhận việc</span>-->
+                                            <!--{{/if}}-->
                                         </div>
-                                        <div class="col-md-8">
-                                            <div class="join-date">
-                                                <i class="fa fa-sign-in"></i> <span>Ngày gia nhập: {{formatDateTime
-                                                    this.createdAt}} </span>
-                                            </div>
+                                        <div class="col-md-4">
                                             <div>
                                                 <i class="fa fa-map-marker"></i>
-                                                Đến từ: {{this.profile.home_address}},
-                                                {{this.profile.district}},
-                                                {{this.profile.province}}
+                                                Bộ phận : {{this.jobcat}},
+
                                             </div>
                                             <div class="job">
                                                 {{#with userMilestone this._id}}
                                                     <div class="job-accepted">
-                                                        <span>Số việc đã làm:  {{this.job_accepted}}</span>
-                                                    </div>
-                                                    <div class="time-worked">
-                                                        <span>Số giờ đã làm:  {{this.time_workerd}}</span>
+                                                        <!--<span>Số việc đã làm:  {{this.job_accepted}}</span>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="time-worked">-->
+                                                        <!--<span>Số giờ đã làm:  {{this.time_workerd}}</span>-->
                                                     </div>
                                                 {{/with}}
                                             </div>
-                                            <!--<div>-->
-                                            <!--<i class="fa fa-money"></i>Thu nhập trung bình: 50k/giờ-->
-                                            <!--</div>-->
+
                                         </div>
                                         <div class="clearfix"></div>
+                                        {{#if checkStatusNotAccepted}}
+                                            {{#if isInRole 'admin'}}
+                                                <div class="accept col-md-2">
+                                                    <div >
+                                                        <button  class="btn btn-danger delete-button"
+                                                                 data-id="{{this._id}}">
+                                                            Xóa
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            {{/if}}
+                                        {{/if}}
                                     </div>
                                     <div>
                                         {{this.profile.info}}
                                     </div>
-                                    <!--<div class="skills">-->
-                                    <!--<span>Trông trẻ</span>-->
-                                    <!--<span>Nấu cơm</span>-->
-                                    <!--<span>Làm vườn</span>-->
-                                    <!--</div>-->
-                                    {{#if checkStatusNotAccepted}}
-                                        {{#if checkUserCreatedJob}}
-                                            <div class="accept">
-                                                <div class="form-group">
-                                                    <button type="submit" class="btn btn-primary accept-button"
-                                                            data-id="{{this._id}}">
-                                                        Chấp nhận người này
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        {{/if}}
-                                    {{/if}}
+
                                     <div class="clearfix"></div>
                                 </div>
                                 <!--</a>-->
@@ -210,11 +197,8 @@
         </div>
     </div>
     <div class="container">
-    <!--{{#if checkUserLogin}}-->
+        <div class="margin-top-50"></div>
         {{> comment}}
-            <!--{{else}}-->
-        <!--<h3><p>Vui lòng <a href='/join'>đăng nhập</a> để viết bình luận !!</p></h3>-->
-            <!--{{/if}}-->
         <div class="margin-top-35"></div>
         {{> showcmt}}
     </div>

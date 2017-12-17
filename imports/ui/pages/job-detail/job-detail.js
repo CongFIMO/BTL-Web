@@ -324,76 +324,28 @@ if (Meteor.isClient) {
         }
     });
 
-
-    Template.cancelRegister.events({
-        'click .cancel': function (event) {
-            event.preventDefault();
-            new Confirmation(
-                {
-                    message: "Bạn đang thực hiện hủy việc một việc đã đăng ký, tiếp tục chứ",
-                    title: "Hủy việc đẵ đăng ký",
-                    cancelText: "Huỷ",
-                    okText: "Đồng ý",
-                    success: true, // whether the button should be green or red
-                    focus: "none" // which button to autofocus, "cancel" (default) or "ok", or "none"
-                }, function (ok) {
-                    // ok is true if the user clicked on "ok", false otherwise
-                    // console.log(ok);
-                    if (ok) {
-                        // var acceptCancel = Session.get("acceptCancel");
-                        var userID = Meteor.userId();
-                        var jobID = Session.get("jobID");
-                        var job = Job.findOne({_id: jobID},
-                            {fields: {status: 1, user_registered: 1,}}
-                        );
-                        var user_registered = job && job.user_registered;
-
-                        if (user_registered) {
-                            user_registered.forEach(function (user, index) {
-                                if (userID === user._id) {
-                                    user_registered.splice(index, 1); // Remove user from list Job Register when submited Cancel
-                                }
-                            });
-                            // Job.update({_id: jobID}, {$set: {user_registered: user_registered}});
-                            Meteor.call("JobCollection.updateUserRegisteredList", jobID, user_registered);
-                            Meteor.call("UAHCollection.insert", "job", doc._id, "Bạn đã hủy đăng kí công việc");
-                        }
-                    } else {
-                        Session.set("acceptCancel", 'cancel');
-                        return false;
-                    }
-                }
-            );
-        },
-    });
-
-    Template.jobRegister.events({
-        'submit form': function (event) {
-            event.preventDefault();
-            var currentUser = Meteor.user();
-
-            var jobID = Session.get("jobID");
-
-            Meteor.call("JobCollection.updateUserRegistered", jobID, currentUser);
-            Meteor.call("UAHCollection.insert", "job", jobID, "Bạn đã đăng kí việc thành công");
-            messageLogSuccess('Đăng ký việc thành công');
-            event.target.reset();
-        },
-    });
-
     Template.userRegisteredList.helpers({});
 
     Template.userRegisteredList.events({});
     Template.jobDetail.events({
-        'click .accept-button': function () {
-            var user_id_accepted = $(this)[0]._id;
+        'click .delete-button': function () {
+            var selectedUser = Meteor.users.findOne({_id: this._id});
+            var userID = selectedUser && selectedUser._id;
             var jobID = Session.get("jobID");
-            // Job.update({_id: jobID}, {$set: {user_id_accepted: user_id_accepted, status: 'ACCEPTED'}});
-            Meteor.call("JobCollection.updateAcceptedUser", jobID, user_id_accepted);
-            Meteor.call("UAHCollection.insert", "job", jobID, "Bạn đã chấp nhận người giúp việc");
+            var job = Job.findOne({_id: jobID},
+                {fields: {status: 1, user_registered: 1,}}
+            );
+            var user_registered = job && job.user_registered;
+            if (user_registered) {
+                user_registered.forEach(function (user, index) {
+                    if (userID === user._id) {
+                        user_registered.splice(index, 1); // Remove user from list Job Register when submited Cancel
+                    }
+                });
+                // Job.update({_id: jobID}, {$set: {user_registered: user_registered}});
+                Meteor.call("JobCollection.updateUserRegisteredList", jobID, user_registered);
 
-            Session.set('jobStatus', 'ACCEPTED');
-            Session.set('userAcceptedID', user_id_accepted);
+            }
         },
         'change #jobStatus': function (event) {
             event.preventDefault();
@@ -401,9 +353,23 @@ if (Meteor.isClient) {
             var current = FlowRouter.current();
             var jobID = current.params.id;
             var newStat = $(event.target).val();
-            Meteor.call("JobCollection.updateStatus", jobID, newStat)
+            Meteor.call("JobCollection.updateStatus", jobID, newStat);
             Session.set('jobStatus', newStat);
             console.log("status changed");
+        },
+        'click .item-user': function () {
+            var selectedUser = Meteor.users.findOne({_id: this._id});
+            var jobID = Session.get("jobID");
+            var job = Job.findOne({_id: jobID},
+                {fields: {status: 1, user_registered: 1,}}
+            );
+            var status = job && job.status;
+            if(status === 'New'){
+                Meteor.call("JobCollection.updateStatus", jobID, 'Inprogress');
+            }
+            Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
+            messageLogSuccess('assigned');
+
         }
     });
 

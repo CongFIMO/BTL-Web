@@ -37,10 +37,8 @@
                                 <div class="job-list-content">
                                     <h4> {{name}}
                                         <!--{{jobName this.cat_id}}-->
-                                        {{#if checkAccepted this.status}}
-                                            <span class="btn btn-warning">DONE
+                                            <span class="btn btn-warning">{{this.status}}
                                             </span>
-                                        {{/if}}
                                         {{#if isInRole 'admin,slave'}}
                                             <!--{{#if checkJobIsNotAccepted this.status}}-->
                                                 <span class="btn btn-primary">
@@ -84,6 +82,10 @@
             <div class="ten columns">
                 {{numberUserFindJob}}
                 {{#if isInRole 'slave'}}
+                    <h3>Công việc của bạn</h3>
+                {{else}}
+                    <h3>Công việc của team</h3>
+                {{/if}}
                     <p>
                         <span>Có tất cả  <strong>{{jobNumbers}} </strong> việc.</span>
                         Trong đó:
@@ -97,10 +99,6 @@
                         {{#if closedJobNumbers}}
                             <span>- <strong>{{closedJobNumbers}}</strong> việc đã xong.</span>{{/if}}
                     </p>
-                    <h2>Công việc của bạn</h2>
-                {{else}}
-                    <h2>Công việc đã tạo</h2>
-                {{/if}}
             </div>
 
             <div class="six columns">
