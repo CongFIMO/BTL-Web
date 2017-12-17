@@ -95,14 +95,14 @@ if (Meteor.isClient) {
     });
 
     Template.jobAssigned.helpers({
-        'jobs': function () {
+        'jobs': function (user) {
             // var currentUserId = Meteor.userId();
-            var jobs = Job.find()
+            var jobs = Job.find ({user_registered: {$elemMatch: {_id: Meteor.userId()}}})
                 .fetch();
             jobs.forEach(function (element) {
                 element.description = postSummary(element.description);
             });
-            // console.log(jobs);
+            console.log("ID user: "+Meteor.userId());
             return jobs;
         },
         'jobName': function (catID) {
