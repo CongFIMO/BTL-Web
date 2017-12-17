@@ -99,9 +99,7 @@ if (Meteor.isClient) {
             var userInfo = Meteor.user();
             var jobCat = JobCat.findOne({name: userInfo.profile.JobCat}, {fields: {_id: 1}});
             var catID = jobCat && jobCat._id;
-            // var currentUserId = Meteor.userId();
-            //console.log("jobcat: "+userInfo.profile.JobCat);
-            // console.log("catID = "+ catID);
+
             var jobs = Job.find(
                 // {cat_id: catID}, {
                 // limit: 5,
