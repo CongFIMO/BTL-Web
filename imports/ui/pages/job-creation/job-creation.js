@@ -103,7 +103,8 @@ if (Meteor.isClient) {
                     else {
                         var cat = JobCat.findOne({_id: jobCatID}, {fields: {slug: 1}});
                         setTimeout(function () {
-                            FlowRouter.redirect('/job/' + cat.slug + '/' + result);
+                            // FlowRouter.redirect('/job/' + cat.slug + '/' + result);
+                            window.location.replace('/job/' + cat.slug + '/' + result);
                             console.log('/job/' + cat.slug + '/' + result);
                             messageLogSuccess('Bạn đã thêm mới thành công một việc!!!');
                         }, 1000);
