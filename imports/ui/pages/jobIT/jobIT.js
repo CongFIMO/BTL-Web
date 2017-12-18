@@ -9,7 +9,7 @@ import "../../layouts/titlebar/job-list/titlebar.js";
 import Images from "../../../startup/both/images.collection.js";
 
 import "./jobIT.html";
-import "../common-template/pagination.html";
+// import "../common-template/pagination.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 import {splitURL} from "../../../helpers/splitURL";
@@ -19,7 +19,7 @@ import {UserActivityHistory} from "../../../startup/both/userActivityHistoryColl
 
 const RECORD_PER_PAGE = 5;
 const NUMBER_OF_VISIBLE_PAGE = 5;
-const PATH_JOB_PAGE = '/job-IT/page/';
+const PATH_JOB_IT_PAGE = '/job-IT/page/';
 
 if (Meteor.isClient) {
     var skipCount = 1;
@@ -35,7 +35,7 @@ if (Meteor.isClient) {
         var template = this;
         template.autorun(function () {
             skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
-            template.subscribe('jobPagination', skipCount);
+            template.subscribe('jobPaginationInJobIT', skipCount);
             //
             if (currentPage() === 1) {
                 $('#prevPage').css("pointer-events", "none");
@@ -164,21 +164,21 @@ if (Meteor.isClient) {
     });
 
 
-    Template.pagination.helpers({
+    Template.paginationInJobIT.helpers({
         prevPage: function () {
             var previousPage = currentPage() === 1 ? 1 : currentPage() - 1;
-            return PATH_JOB_PAGE + previousPage;
+            return PATH_JOB_IT_PAGE + previousPage;
         },
         nextPage: function () {
             var nextPage = hasMorePages() ? currentPage() + 1 : currentPage();
-            return PATH_JOB_PAGE + nextPage;
+            return PATH_JOB_IT_PAGE + nextPage;
         },
         pageNumbers: function () {
             // let jobCount = Counts.get('jobCount');
             return paginationDataGeneration(paginationMoreMode(), currentPage(), getNumberOfPage());
         },
         link: function () {
-            return PATH_JOB_PAGE;
+            return PATH_JOB_IT_PAGE;
         },
         paginationMoreMode: function () {
             return paginationMoreMode();
@@ -225,6 +225,7 @@ if (Meteor.isClient) {
         let jobCount = Counts.get('jobCount');
         let numberOfPage = (jobCount / RECORD_PER_PAGE) > Math.floor(jobCount / RECORD_PER_PAGE)
             ? (Math.floor(jobCount / RECORD_PER_PAGE) + 1) : Math.floor(jobCount / RECORD_PER_PAGE);
+        console.log("numberOfPage = "+ numberOfPage);
         return numberOfPage;
     }
 }

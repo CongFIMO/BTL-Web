@@ -1,0 +1,166 @@
+<template name="job-related">
+    {{> sAlert}}
+    {{> titlebarJobRelated}}
+    {{> jobRelated}}
+</template>
+
+<template name="sidebarJobRelated">
+    <nav class="right-sidebar-menu" data-pjax="">
+        <div class="single category">
+            <h3 class="side-title">Loại công việc</h3>
+            <ul class="list-unstyled">
+                {{#each listJobName}}
+                    <li><a href="" title="">{{name}}</a></li>
+                {{/each}}
+            </ul>
+        </div>
+    </nav>
+</template>
+
+<template name="jobRelated">
+    <!-- Content
+================================================== -->
+    <div class="container">
+        <!-- Recent Jobs -->
+        <div class="eleven columns">
+            <div class="padding-right">
+                <!--<form action="#" method="get" class="list-search">-->
+                <!--<button><i class="fa fa-search"></i></button>-->
+                <!--<input type="text" placeholder="job title, keywords or company name" value=""/>-->
+                <!--<div class="clearfix"></div>-->
+                <!--</form>-->
+                <ul class="job-list full" id="job-list">
+                    {{#each jobs}}
+                        <li class=" list-group-item-warning">
+                            <a href="/job/{{catSlug this.cat_id}}/{{this._id}}">
+                                <img src="{{avatar this.user_id}}" alt="" class="avatar">
+                                <div class="job-list-content">
+                                    <h4> {{name}}
+                                        <!--{{jobName this.cat_id}}-->
+                                        <span class="btn btn-warning">{{this.status}}
+                                        </span>
+                                        <!--{{#if isInRole 'admin,slave'}}-->
+                                        <!--&lt;!&ndash;{{#if checkJobIsNotAccepted this.status}}&ndash;&gt;-->
+                                            <!--<span class="btn btn-primary">-->
+                                                    <!--<a href="/job/{{catSlug this.cat_id}}/{{this._id}}/edit"-->
+                                                       <!--class="edit_button_style">Chỉnh sửa</a>-->
+                                                <!--</span>-->
+                                                <!--&lt;!&ndash;{{/if}}&ndash;&gt;-->
+                                            <!--<span class="btn btn-danger delete_job">Xóa</span>-->
+                                        <!--{{/if}}-->
+
+                                    </h4>
+                                    <div class="job-icons">
+                                        <div><i class="fa fa-user"></i> {{this.user.profile.full_name}} </div>
+                                        <div><i class="fa fa-map-marker"></i> {{jobName this.cat_id}}</div>
+                                        <!--<div><i class="fa fa-money"></i> $100 / hour</div>-->
+                                    </div>
+                                    <p>{{this.description}}</p>
+                                </div>
+                            </a>
+                            <div class="clearfix"></div>
+                        </li>
+                    {{/each}}
+                </ul>
+                <div class="clearfix"></div>
+                <!-- Pagination -->
+                {{#if jobs}}
+                    {{> paginationInJobList}}
+                {{/if}}
+            </div>
+        </div>
+
+    </div>
+
+</template>
+
+<template name="titlebarJobRelated">
+    <!-- Titlebar
+  ================================================== -->
+    <div id="titlebar">
+        <div class="container">
+            <div class="ten columns">
+                {{numberUserFindJob}}
+                <h3>Công việc có liên quan</h3>
+                <p><span>Có tất cả  <strong>{{jobNumbers}} </strong> việc.</span>
+                    Trong đó:
+                    {{#if newJobNumbers}}<span>- <strong>{{newJobNumbers}}</strong> việc mới.</span>{{/if}}
+                    {{#if inprogressJobNumbers}}
+                        <span>- <strong>{{inprogressJobNumbers}}</strong> việc đang làm.</span>{{/if}}
+                    {{#if resolvedJobNumbers}}
+                        <span>- <strong>{{resolvedJobNumbers}}</strong> việc đã được giải quyết.</span>{{/if}}
+                    {{#if feedbackJobNumbers}}
+                        <span>- <strong>{{feedbackJobNumbers}}</strong> việc đang đợi phản hồi.</span>{{/if}}
+                    {{#if closedJobNumbers}}
+                        <span>- <strong>{{closedJobNumbers}}</strong> việc đã xong.</span>{{/if}}
+                </p>
+            </div>
+
+            <div class="six columns">
+                {{#unless currentUser}}
+                    <a href="/jon" class="button">Gia nhập thôi</a>
+                {{else}}
+                    {{#if isInRole 'admin,owner,slave'}}
+                        <a href="/job-creation" class="button">Thêm mới một việc</a>
+                    {{/if}}
+                {{/unless}}
+            </div>
+        </div>
+    </div>
+</template>
+<!--<template name="paginationInJobList">-->
+    <!--<div class="pagination-container">-->
+        <!--<nav class="pagination">-->
+            <!--<ul>-->
+                <!--{{#if paginationMoreMode}}-->
+                    <!--<li><a href="{{link}}{{pageNumbers.first.number}}"-->
+                           <!--id="pageIndicator_{{pageNumbers.first.number}}"-->
+                           <!--class="goPage {{pageNumbers.first.class}}">{{pageNumbers.first.number}}</a></li>-->
+                    <!--{{#if pageNumbers.hasPre}}-->
+                        <!--<li class="blank">...</li>-->
+                    <!--{{/if}}-->
+                    <!--<li><a href="{{link}}{{pageNumbers.preCurrent.number}}"-->
+                           <!--id="pageIndicator_{{pageNumbers.preCurrent.number}}"-->
+                           <!--class="goPage {{pageNumbers.preCurrent.class}}">{{pageNumbers.preCurrent.number}}</a>-->
+                    <!--</li>-->
+                    <!--<li><a href="{{link}}{{pageNumbers.current.number}}"-->
+                           <!--id="pageIndicator_{{pageNumbers.current.number}}"-->
+                           <!--class="goPage {{pageNumbers.current.class}}">{{pageNumbers.current.number}}</a>-->
+                    <!--</li>-->
+                    <!--<li><a href="{{link}}{{pageNumbers.postCurrent.number}}"-->
+                           <!--id="pageIndicator_{{pageNumbers.postCurrent.number}}"-->
+                           <!--class="goPage {{pageNumbers.postCurrent.class}}">{{pageNumbers.postCurrent.number}}</a>-->
+                    <!--</li>-->
+                    <!--{{#if pageNumbers.hasPost}}-->
+                        <!--<li class="blank">...</li>-->
+                    <!--{{/if}}-->
+                    <!--<li><a href="{{link}}{{pageNumbers.last.number}}"-->
+                           <!--id="pageIndicator_{{pageNumbers.last.number}}"-->
+                           <!--class="goPage {{pageNumbers.last.class}}">{{pageNumbers.last.number}}</a></li>-->
+                <!--{{else}}-->
+                    <!--{{#each pageNumbers}}-->
+                        <!--<li><a href="{{link}}{{this.number}}" id="pageIndicator_{{this.number}}"-->
+                               <!--class="goPage {{this.class}}">{{this.number}}</a></li>-->
+                    <!--{{/each}}-->
+                <!--{{/if}}-->
+            <!--</ul>-->
+        <!--</nav>-->
+
+
+        <!--<nav class="pagination-next-prev">-->
+            <!--<ul>-->
+                <!--<li>-->
+                    <!--<a id="prevPage" href="{{prevPage}}" class="prev goPage">-->
+                        <!--<span aria-hidden="true">&larr;</span> Previous-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a id="nextPage" href="{{nextPage}}" class="next goPage">-->
+                        <!--Next <span aria-hidden="true">&rarr;</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</nav>-->
+
+    <!--</div>-->
+<!--</template>-->

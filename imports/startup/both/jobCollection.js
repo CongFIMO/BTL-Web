@@ -10,18 +10,31 @@ Meteor.methods({
         {
             return Job.update({_id: jobID}, {$set: {user_registered: user_registered}});
         },
+
         "JobCollection.updateUserRegistered"(jobID, currentUser){
             return Job.update({_id: jobID}, {$push: {user_registered: currentUser}});
         },
+
+        "JobCollection.updateUserRelated"(jobID, user){
+            return Job.update({_id: jobID},{$push: {user_related: user}});
+        },
+
+        "JobCollection.updateUserRelatedList"(jobID, user)
+        {
+            return Job.update({_id: jobID}, {$set: {user_related: user}});
+        },
+
         "JobCollection.updateAcceptedUser"(jobID, user_id_accepted){
             return Job.update({_id: jobID}, {$set: {user_id_accepted: user_id_accepted, status: 'ACCEPTED'}});
         },
+
         "JobCollection.updateStatus"(jobID, jobStatus){
-            return Job.update({_id:jobID}, {$set: {status: jobStatus}});
+            return Job.update({_id: jobID}, {$set: {status: jobStatus}});
         },
+
         "JobCollection.updateMultipleField"(jobID, jobCatID, jobDescription,
                                             jobDateStart,
-                                            jobDateEnd, jobName,jobStatus, jobPref )
+                                            jobDateEnd, jobName, jobStatus, jobPref,  jobCatName)
         {
             return Job.update({_id: jobID},
                 {
@@ -29,6 +42,7 @@ Meteor.methods({
                         name: jobName,
                         //job_group: jobChecked,
                         cat_id: jobCatID,
+                        cat_name: jobCatName,
                         date_modified: new Date(),
                         description: jobDescription,
                         date_start: jobDateStart,
@@ -65,12 +79,13 @@ Meteor.methods({
         },
         "JobCollection.insert"(jobCatID, jobStatus, currentUserID,
                                user, jobDescription, jobDateStart, jobName,
-                               jobDateEnd, jobPref)
+                               jobDateEnd, jobPref, jobCatName)
         {
             return Job.insert(
                 {
                     //job_group: jobChecked,
                     cat_id: jobCatID,
+                    cat_name: jobCatName,
                     name: jobName,
                     status: jobStatus,
                     user_id: currentUserID,
@@ -101,18 +116,18 @@ Meteor.methods({
 
 if (Meteor.isServer) {
     Meteor.publish('jobs', function () {
-        if (Meteor.user() ){
+        if (Meteor.user()) {
             return Job.find();
         }
         // console.log("get all job");
     });
-        Meteor.publish('jobPagination', function (skipCount) {
-        if ( Roles.userIsInRole(Meteor.userId(), ['slave'])) {
+    Meteor.publish('jobPagination', function (skipCount) {
+        if (Roles.userIsInRole(Meteor.userId(), ['slave'])) {
             Counts.publish(this, 'jobCount', Job.find({user_id: Meteor.userId()}), {
                 noReady: true
             });
 
-            Counts.publish(this, 'newJobCount', Job.find({status: 'New',user_id: Meteor.userId()}), {
+            Counts.publish(this, 'newJobCount', Job.find({status: 'New', user_id: Meteor.userId()}), {
                 noReady: true
             });
             Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress', user_id: Meteor.userId()}), {
@@ -128,8 +143,8 @@ if (Meteor.isServer) {
                 noReady: true
             });
 
-            console.log("get job for owner")
-            return Job.find({},{
+            // console.log("get job for owner")
+            return Job.find({user_id: Meteor.userId()}, {
                 sort: {
                     date_create: -1,
                     cat_id: 1
@@ -166,12 +181,109 @@ if (Meteor.isServer) {
                 skip: skipCount
             });
         }
+
+    });
+    Meteor.publish('jobPaginationInJobIT', function (skipCount) {
+        Counts.publish(this, 'jobCount', Job.find({}), {
+            noReady: true
+        });
+
+        Counts.publish(this, 'newJobCount', Job.find({status: 'New'}), {
+            noReady: true
+        });
+        Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress'}), {
+            noReady: true
+        });
+        Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved'}), {
+            noReady: true
+        });
+        Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback'}), {
+            noReady: true
+        });
+        Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed'}), {
+            noReady: true
+        });
+        console.log("get job for owner")
+        return Job.find({}, {
+            sort: {
+                date_create: -1,
+                cat_id: 1
+            },
+            limit: 5,
+            skip: skipCount
+        });
+
+    });
+
+    Meteor.publish('jobPaginationInJobList', function (skipCount, catName) {
+        // console.log("server cat id= "+ cat_id);
+        Counts.publish(this, 'jobCount', Job.find({cat_name: catName}), {
+            noReady: true
+        });
+
+        Counts.publish(this, 'newJobCount', Job.find({status: 'New', cat_name: catName}), {
+            noReady: true
+        });
+        Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress',cat_name: catName}), {
+            noReady: true
+        });
+        Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved',cat_name: catName}), {
+            noReady: true
+        });
+        Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback',cat_name: catName}), {
+            noReady: true
+        });
+        Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed',cat_name: catName}), {
+            noReady: true
+        });
+
+        // console.log("get job for owner")
+        return Job.find({cat_name: catName}, {
+            sort: {
+                date_create: -1,
+                cat_id: 1
+            },
+            limit: 5,
+            skip: skipCount
+        });
+    });
+    Meteor.publish('jobPaginationInJobCreated', function (skipCount) {
+            Counts.publish(this, 'jobCount', Job.find({user_id: Meteor.userId()}), {
+                noReady: true
+            });
+
+            Counts.publish(this, 'newJobCount', Job.find({status: 'New', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+            Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+            Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+            Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+            Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed', user_id: Meteor.userId()}), {
+                noReady: true
+            });
+
+            // console.log("get job for owner")
+            return Job.find({user_id: Meteor.userId()}, {
+                sort: {
+                    date_create: -1,
+                    cat_id: 1
+                },
+                limit: 5,
+                skip: skipCount
+            });
+
     });
 } else {
     Tracker.autorun(function () {
         var routeName = FlowRouter.getRouteName();
         console.log("routeName= " + routeName);
-        if (routeName && routeName === "App.job-list") {
+        if (routeName && (routeName === "App.job-list" || routeName === "App.job-IT")) {
             console.log("routeName && routeName===App.job-list");
         }
         //normal sub mode

@@ -17,6 +17,8 @@ import "../../ui/pages/landing-page/landing-page.js";
 import "../../ui/pages/job-created/job-created.js";
 import "../../ui/pages/job-assigned/job-assigned.js";
 import "../../ui/pages/jobIT/jobIT.js";
+import "../../ui/pages/job-related/job-related.js";
+
 
 
 
@@ -206,6 +208,13 @@ FlowRouter.route('/job-list', {
     },
 });
 
+FlowRouter.route('/job-created', {
+    name: 'App.job-created',
+    action() {
+        BlazeLayout.render('App_body', {main: 'job-created'});
+    }
+});
+
 FlowRouter.route('/job-created/page/:page',{
     name: 'App.job-created',
     action(){
@@ -213,12 +222,6 @@ FlowRouter.route('/job-created/page/:page',{
     }
 });
 
-FlowRouter.route('/job-created', {
-    name: 'App.job-created',
-    action() {
-        BlazeLayout.render('App_body', {main: 'job-created'});
-    }
-});
 
 
 
@@ -248,6 +251,20 @@ FlowRouter.route('/job-IT/page/:page',{
     name: 'App.job-IT',
     action(){
         BlazeLayout.render('App_body', {main: 'job-IT'})
+    }
+});
+
+FlowRouter.route('/job-related',{
+    name: 'App.job-related',
+    action(){
+        BlazeLayout.render('App_body', {main: 'job-related'})
+    }
+});
+
+FlowRouter.route('/job-related/page/:page',{
+    name: 'App.job-related',
+    action(){
+        BlazeLayout.render('App_body', {main: 'job-related'})
     }
 });
 

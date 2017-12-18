@@ -88,6 +88,16 @@ if (Meteor.isClient) {
                 return false;
             }
         },
+        'checkIsAdmin': function () {
+            var user = Meteor.user();
+            var user_type = user && user.profile.user_type;
+            if (user_type == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
         'jobInfoID': function () {
             // var jobID = FlowRouter.current().route;
             var current = FlowRouter.current();
@@ -189,13 +199,15 @@ if (Meteor.isClient) {
             var jobID = Session.get("jobID");
             // console.log(jobID);
             var job = Job.findOne({_id: jobID},
-                {fields: {status: 1, user_registered: 1, user_id_accepted: 1,}});
+                {fields: {status: 1, user_registered: 1, user_id_accepted: 1, user_related: 1,}});
             var userRegistered = job && job.user_registered;
             var user_id_accepted = job && job.status === 'ACCEPTED' && job.user_id_accepted;
+            var userRelated = job && job.user_related;
             // var user_id_accepted = job && job.user_id_accepted;
             return {
                 userRegistered,
-                user_id_accepted
+                user_id_accepted,
+                userRelated
             }
 
         },
@@ -325,8 +337,11 @@ if (Meteor.isClient) {
     });
 
     Template.userRegisteredList.helpers({});
-
     Template.userRegisteredList.events({});
+
+    Template.userRelatedList.helpers({});
+    Template.userRelatedList.events({});
+
     Template.jobDetail.events({
         'click .delete-button': function () {
             var selectedUser = Meteor.users.findOne({_id: this._id});
@@ -347,6 +362,26 @@ if (Meteor.isClient) {
 
             }
         },
+
+        'click.delete-relation': function () {
+            var selectedUser = Meteor.users.findOne({_id: this._id});
+            var userID = selectedUser && selectedUser._id;
+            var jobID = Session.get("jobID");
+            var job = Job.findOne({_id: jobID},
+                {fields: {status: 1, user_related: 1,}}
+            );
+            var user_related = job && job.user_related;
+            if (user_related) {
+                user_related.forEach(function (user, index) {
+                    if (userID === user._id) {
+                        user_related.splice(index, 1); // Remove user from list Job Register when submited Cancel
+                    }
+                });
+                // Job.update({_id: jobID}, {$set: {user_registered: user_registered}});
+                Meteor.call("JobCollection.updateUserRelatedList", jobID, user_related);
+            }
+        },
+
         'change #jobStatus': function (event) {
             event.preventDefault();
             // var jobID = Session.get("jobID");
@@ -358,17 +393,31 @@ if (Meteor.isClient) {
             console.log("status changed");
         },
         'click .item-user': function () {
-            var selectedUser = Meteor.users.findOne({_id: this._id});
-            var jobID = Session.get("jobID");
-            var job = Job.findOne({_id: jobID},
-                {fields: {status: 1, user_registered: 1,}}
-            );
-            var status = job && job.status;
-            if(status === 'New'){
-                Meteor.call("JobCollection.updateStatus", jobID, 'Inprogress');
+                var selectedUser = Meteor.users.findOne({_id: this._id});
+                var jobID = Session.get("jobID");
+                var job = Job.findOne({_id: jobID},
+                    {fields: {status: 1, user_registered: 1, user_related : 1, user_id: 1,}}
+                );
+                //var status = job && job.status;
+            var curentUser = Meteor.user();
+            var user_type = curentUser && curentUser.profile.user_type;
+            var currentUserID = Meteor.userId();
+            var currentIdCreateJob = job && job.user_id;
+            if(currentUserID === currentIdCreateJob){
+                if(user_type == 0){
+                    Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
+                    Meteor.call("JobCollection.updateUserRelated", jobID, selectedUser);
+                }
+                else {
+                    Meteor.call("JobCollection.updateUserRelated", jobID, selectedUser);
+                }
             }
-            Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
-            messageLogSuccess('assigned');
+            else if(user_type == 0){
+                Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
+            }
+            else{}
+                // Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
+                // messageLogSuccess('assigned');
 
         }
     });
