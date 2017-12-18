@@ -65,7 +65,7 @@
                 <div class="clearfix"></div>
                 <!-- Pagination -->
                 {{#if jobs}}
-                    {{> paginationInJobList}}
+                    {{> paginationInJobRelated}}
                 {{/if}}
             </div>
         </div>
@@ -108,59 +108,59 @@
         </div>
     </div>
 </template>
-<!--<template name="paginationInJobList">-->
-    <!--<div class="pagination-container">-->
-        <!--<nav class="pagination">-->
-            <!--<ul>-->
-                <!--{{#if paginationMoreMode}}-->
-                    <!--<li><a href="{{link}}{{pageNumbers.first.number}}"-->
-                           <!--id="pageIndicator_{{pageNumbers.first.number}}"-->
-                           <!--class="goPage {{pageNumbers.first.class}}">{{pageNumbers.first.number}}</a></li>-->
-                    <!--{{#if pageNumbers.hasPre}}-->
-                        <!--<li class="blank">...</li>-->
-                    <!--{{/if}}-->
-                    <!--<li><a href="{{link}}{{pageNumbers.preCurrent.number}}"-->
-                           <!--id="pageIndicator_{{pageNumbers.preCurrent.number}}"-->
-                           <!--class="goPage {{pageNumbers.preCurrent.class}}">{{pageNumbers.preCurrent.number}}</a>-->
-                    <!--</li>-->
-                    <!--<li><a href="{{link}}{{pageNumbers.current.number}}"-->
-                           <!--id="pageIndicator_{{pageNumbers.current.number}}"-->
-                           <!--class="goPage {{pageNumbers.current.class}}">{{pageNumbers.current.number}}</a>-->
-                    <!--</li>-->
-                    <!--<li><a href="{{link}}{{pageNumbers.postCurrent.number}}"-->
-                           <!--id="pageIndicator_{{pageNumbers.postCurrent.number}}"-->
-                           <!--class="goPage {{pageNumbers.postCurrent.class}}">{{pageNumbers.postCurrent.number}}</a>-->
-                    <!--</li>-->
-                    <!--{{#if pageNumbers.hasPost}}-->
-                        <!--<li class="blank">...</li>-->
-                    <!--{{/if}}-->
-                    <!--<li><a href="{{link}}{{pageNumbers.last.number}}"-->
-                           <!--id="pageIndicator_{{pageNumbers.last.number}}"-->
-                           <!--class="goPage {{pageNumbers.last.class}}">{{pageNumbers.last.number}}</a></li>-->
-                <!--{{else}}-->
-                    <!--{{#each pageNumbers}}-->
-                        <!--<li><a href="{{link}}{{this.number}}" id="pageIndicator_{{this.number}}"-->
-                               <!--class="goPage {{this.class}}">{{this.number}}</a></li>-->
-                    <!--{{/each}}-->
-                <!--{{/if}}-->
-            <!--</ul>-->
-        <!--</nav>-->
+<template name="paginationInJobRelated">
+    <div class="pagination-container">
+        <nav class="pagination">
+            <ul>
+                {{#if paginationMoreMode}}
+                    <li><a href="{{link}}{{pageNumbers.first.number}}"
+                           id="pageIndicator_{{pageNumbers.first.number}}"
+                           class="goPage {{pageNumbers.first.class}}">{{pageNumbers.first.number}}</a></li>
+                    {{#if pageNumbers.hasPre}}
+                        <li class="blank">...</li>
+                    {{/if}}
+                    <li><a href="{{link}}{{pageNumbers.preCurrent.number}}"
+                           id="pageIndicator_{{pageNumbers.preCurrent.number}}"
+                           class="goPage {{pageNumbers.preCurrent.class}}">{{pageNumbers.preCurrent.number}}</a>
+                    </li>
+                    <li><a href="{{link}}{{pageNumbers.current.number}}"
+                           id="pageIndicator_{{pageNumbers.current.number}}"
+                           class="goPage {{pageNumbers.current.class}}">{{pageNumbers.current.number}}</a>
+                    </li>
+                    <li><a href="{{link}}{{pageNumbers.postCurrent.number}}"
+                           id="pageIndicator_{{pageNumbers.postCurrent.number}}"
+                           class="goPage {{pageNumbers.postCurrent.class}}">{{pageNumbers.postCurrent.number}}</a>
+                    </li>
+                    {{#if pageNumbers.hasPost}}
+                        <li class="blank">...</li>
+                    {{/if}}
+                    <li><a href="{{link}}{{pageNumbers.last.number}}"
+                           id="pageIndicator_{{pageNumbers.last.number}}"
+                           class="goPage {{pageNumbers.last.class}}">{{pageNumbers.last.number}}</a></li>
+                {{else}}
+                    {{#each pageNumbers}}
+                        <li><a href="{{link}}{{this.number}}" id="pageIndicator_{{this.number}}"
+                               class="goPage {{this.class}}">{{this.number}}</a></li>
+                    {{/each}}
+                {{/if}}
+            </ul>
+        </nav>
 
 
-        <!--<nav class="pagination-next-prev">-->
-            <!--<ul>-->
-                <!--<li>-->
-                    <!--<a id="prevPage" href="{{prevPage}}" class="prev goPage">-->
-                        <!--<span aria-hidden="true">&larr;</span> Previous-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a id="nextPage" href="{{nextPage}}" class="next goPage">-->
-                        <!--Next <span aria-hidden="true">&rarr;</span>-->
-                    <!--</a>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</nav>-->
+        <nav class="pagination-next-prev">
+            <ul>
+                <li>
+                    <a id="prevPage" href="{{prevPage}}" class="prev goPage">
+                        <span aria-hidden="true">&larr;</span> Previous
+                    </a>
+                </li>
+                <li>
+                    <a id="nextPage" href="{{nextPage}}" class="next goPage">
+                        Next <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-    <!--</div>-->
-<!--</template>-->
+    </div>
+</template>

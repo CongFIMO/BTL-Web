@@ -20,28 +20,28 @@
                     <div class="row">
                         <!--<div class="col-md-4 float-left" role="navigation">-->
                         <nav class="right-sidebar-menu" data-pjax="">
-                            <!--{{#if isInRole 'admin' }}-->
-                                <div class="single category " style="margin-right: 50px">
-                                    <h5 class="side-title">Danh sách nhân viên</h5>
+                        <!--{{#if isInRole 'admin' }}-->
+                            <div class="single category " style="margin-right: 50px">
+                                <h5 class="side-title">Danh sách nhân viên</h5>
+                                {{#if listUserToChoice}}
+                                    <ul class="list-group ">
+                                        {{#each listUserToChoice}}
+                                            <li style="cursor:pointer" class="list-group-item item-user {{#if
+                                                    isCurrentUserthis._id}}active{{/if}}">
+                                                {{this.emails.[0].address}}
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                    <!-- Pagination -->
                                     {{#if listUserToChoice}}
-                                        <ul class="list-group ">
-                                            {{#each listUserToChoice}}
-                                                <li style="cursor:pointer" class="list-group-item item-user {{#if
-                                                        isCurrentUserthis._id}}active{{/if}}">
-                                                    {{this.emails.[0].address}}
-                                                </li>
-                                            {{/each}}
-                                        </ul>
-                                        <div class="clearfix"></div>
-                                        <!-- Pagination -->
-                                        {{#if listUserToChoice}}
-                                            {{> paginationInUserManagement}}
-                                        {{/if}}
-                                    {{else}}
-                                        Không có nhân viên thuộc bộ phận này
+                                        {{> paginationInUserManagement}}
                                     {{/if}}
-                                </div>
-                            <!--{{/if}}-->
+                                {{else}}
+                                    Không có nhân viên thuộc bộ phận này
+                                {{/if}}
+                            </div>
+                                <!--{{/if}}-->
                         </nav>
                         <!--</div>-->
                         <!--{{>userProfileInUserManagement}}-->
@@ -52,25 +52,47 @@
         <div class="eight columns">
             <!--<div class="padding-right">-->
             <!-- Company Info -->
-            <div class="company-info">
-                <div class="content">
-                    <div><a href="#"><i class="fa fa-user"></i> Tạo bởi: {{jobInfo.full_name}}</a></div>
-                    <div><i class="fa fa-clock-o"></i> Ngày tạo: {{jobInfo.date_create}}</div>
-                    <div><i class="fa fa-star-o"></i> Độ ưu tiên: <strong>{{jobInfo.preference}}</strong></div>
-                    <div><i class="fa fa-map-marker"></i> Bộ phận : {{getJobCatName}}</div>
+            <div class="row">
+                <div class="four columns">
+                    <div class="row">
+                        <div class="content">
+                            <div><a href="#"><i class="fa fa-user"></i> Tạo bởi: {{jobInfo.full_name}}</a></div>
+                            <div><i class="fa fa-clock-o"></i> Ngày tạo: {{jobInfo.date_create}}</div>
+                            <div><i class="fa fa-star-o"></i> Độ ưu tiên: <strong>{{jobInfo.preference}}</strong></div>
+                        </div>
+
+                    </div>
                 </div>
-                <div class="clearfix"></div>
+                <div class="four columns">
+                    <div class="row">
+                        <div class="content">
+                            <div><i class="fa fa-map-marker"></i> Bộ phận: {{getJobCatName}}</div>
+                            {{#if isRated jobInfo.rating}}
+                                <div><i class="fa fa-star"></i>Đánh giá:
+                                    {{> starsRating rating= jobInfo.rating size='sm'}}
+                                </div>
+                            {{else}}
+                                {{#if isCurrentStatus 'Closed' jobInfo.status}}
+                                    {{#if isCurrentUserPostedJob jobInfo.user_id_created_job}}
+                                        <div><i class="fa fa-star"></i>Đánh giá: {{> starsRating id='rating' mutable=true}}
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
+                            {{/if}}
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--<div class="clearfix"></div>-->
             </div>
             <p class="margin-reset description">
             <div id="description"></div>
             <!-- Google Maps -->
-            <section class="google-map-container">
-                <div id="homeAddress" class="google-map"></div>
-            </section>
+
             <!-- Google Maps / End -->
             </p>
 
-            <!--</div>-->
         </div>
         <!-- Widgets -->
         <div class="four columns">
@@ -102,11 +124,18 @@
                             <div>
                                 <label for="jobStatus"><strong>Trạng thái</strong></label>
                                 <select class="form-control input-text" id="jobStatus" name="jobStatus">
-                                    <option value="New" {{isCurrentStatus 'New' jobInfo.status}}>New</option>
-                                    <option value="Inprogress" {{isCurrentStatus 'Inprogress' jobInfo.status}}>Inprogress</option>
-                                    <option value="Resolved" {{isCurrentStatus 'Resolved' jobInfo.status}}>Resolved</option>
-                                    <option value="Feedback" {{isCurrentStatus 'Feedback' jobInfo.status}}>Feedback</option>
-                                    <option value="Closed" {{isCurrentStatus 'Closed' jobInfo.status}}>Closed</option>
+                                    {{#each listState jobInfo.user_id_created_job jobInfo.status}}
+                                        <option value="{{this}}" {{isCurrentStatus this jobInfo.status}}>{{this}}</option>
+                                    {{/each}}
+                                    <!--<option value="New" {{isCurrentStatus 'New' jobInfo.status}}>New</option>-->
+                                    <!--<option value="Inprogress" {{isCurrentStatus 'Inprogress' jobInfo.status}}>-->
+                                        <!--Inprogress-->
+                                    <!--</option>-->
+                                    <!--<option value="Resolved" {{isCurrentStatus 'Resolved' jobInfo.status}}>Resolved-->
+                                    <!--</option>-->
+                                    <!--<option value="Feedback" {{isCurrentStatus 'Feedback' jobInfo.status}}>Feedback-->
+                                    <!--</option>-->
+                                    <!--<option value="Closed" {{isCurrentStatus 'Closed' jobInfo.status}}>Closed</option>-->
                                 </select>
                             </div>
                         </li>
@@ -162,9 +191,9 @@
                                         {{#if checkStatusNotAccepted}}
                                             {{#if isInRole 'admin'}}
                                                 <div class="accept col-md-2">
-                                                    <div >
-                                                        <button  class="btn btn-danger delete-button"
-                                                                 data-id="{{this._id}}">
+                                                    <div>
+                                                        <button class="btn btn-danger delete-button"
+                                                                data-id="{{this._id}}">
                                                             Xóa
                                                         </button>
                                                     </div>
@@ -224,24 +253,24 @@
                                         </div>
                                         <div class="clearfix"></div>
                                         {{#if checkUserCreatedJob}}
+                                            <div class="accept col-md-2">
+                                                <div>
+                                                    <button class="btn btn-danger delete-relation"
+                                                            data-id="{{this._id}}">
+                                                        Xóa
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        {{else}}
+                                            {{#if isInRole 'admin'}}
                                                 <div class="accept col-md-2">
-                                                    <div >
-                                                        <button  class="btn btn-danger delete-relation"
-                                                                 data-id="{{this._id}}">
+                                                    <div>
+                                                        <button class="btn btn-danger delete-relation"
+                                                                data-id="{{this._id}}">
                                                             Xóa
                                                         </button>
                                                     </div>
                                                 </div>
-                                        {{else}}
-                                            {{#if isInRole 'admin'}}
-                                                    <div class="accept col-md-2">
-                                                        <div >
-                                                            <button  class="btn btn-danger delete-relation"
-                                                                     data-id="{{this._id}}">
-                                                                Xóa
-                                                            </button>
-                                                        </div>
-                                                    </div>
                                             {{/if}}
                                         {{/if}}
 

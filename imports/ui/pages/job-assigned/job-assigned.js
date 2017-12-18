@@ -9,7 +9,7 @@ import "../../layouts/titlebar/job-list/titlebar.js";
 import Images from "../../../startup/both/images.collection.js";
 
 import "./job-assigned.html";
-import "../common-template/pagination.html";
+// import "../common-template/pagination.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 import {splitURL} from "../../../helpers/splitURL";
@@ -35,7 +35,7 @@ if (Meteor.isClient) {
         var template = this;
         template.autorun(function () {
             skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
-            template.subscribe('jobPagination', skipCount);
+            template.subscribe('jobPaginationInJobAssigned', skipCount);
             //
             if (currentPage() === 1) {
                 $('#prevPage').css("pointer-events", "none");
@@ -160,7 +160,7 @@ if (Meteor.isClient) {
     });
 
 
-    Template.pagination.helpers({
+    Template.paginationInJobAssigned.helpers({
         prevPage: function () {
             var previousPage = currentPage() === 1 ? 1 : currentPage() - 1;
             return PATH_JOB_PAGE + previousPage;

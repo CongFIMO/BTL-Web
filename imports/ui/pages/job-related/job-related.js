@@ -33,7 +33,7 @@ if (Meteor.isClient) {
         });
         // Page pagination
         var skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
-        this.subscribe('jobPaginationInJobList', skipCount, Meteor.user().profile.JobCat);
+        this.subscribe('jobPaginationInJobRelated', skipCount);
         var template = this;
         template.autorun(function () {
             //
@@ -163,26 +163,26 @@ if (Meteor.isClient) {
     });
 
 
-    // Template.paginationInJobList.helpers({
-    //     prevPage: function () {
-    //         var previousPage = currentPage() === 1 ? 1 : currentPage() - 1;
-    //         return PATH_JOB_LIST_PAGE + previousPage;
-    //     },
-    //     nextPage: function () {
-    //         var nextPage = hasMorePages() ? currentPage() + 1 : currentPage();
-    //         return PATH_JOB_LIST_PAGE + nextPage;
-    //     },
-    //     pageNumbers: function () {
-    //         // let jobCount = Counts.get('jobCount');
-    //         return paginationDataGeneration(paginationMoreMode(), currentPage(), getNumberOfPage());
-    //     },
-    //     link: function () {
-    //         return PATH_JOB_LIST_PAGE;
-    //     },
-    //     paginationMoreMode: function () {
-    //         return paginationMoreMode();
-    //     }
-    // })
+    Template.paginationInJobRelated.helpers({
+        prevPage: function () {
+            var previousPage = currentPage() === 1 ? 1 : currentPage() - 1;
+            return PATH_JOB_LIST_PAGE + previousPage;
+        },
+        nextPage: function () {
+            var nextPage = hasMorePages() ? currentPage() + 1 : currentPage();
+            return PATH_JOB_LIST_PAGE + nextPage;
+        },
+        pageNumbers: function () {
+            // let jobCount = Counts.get('jobCount');
+            return paginationDataGeneration(paginationMoreMode(), currentPage(), getNumberOfPage());
+        },
+        link: function () {
+            return PATH_JOB_LIST_PAGE;
+        },
+        paginationMoreMode: function () {
+            return paginationMoreMode();
+        }
+    })
 
     Template.titlebarJobRelated.helpers({
         jobNumbers(){

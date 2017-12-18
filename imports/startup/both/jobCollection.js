@@ -12,11 +12,11 @@ Meteor.methods({
         },
 
         "JobCollection.updateUserRegistered"(jobID, currentUser){
-            return Job.update({_id: jobID}, {$push: {user_registered: currentUser}});
+            return Job.update({_id: jobID}, {$addToSet: {user_registered: currentUser}});
         },
 
         "JobCollection.updateUserRelated"(jobID, user){
-            return Job.update({_id: jobID},{$push: {user_related: user}});
+            return Job.update({_id: jobID}, {$addToSet: {user_related: user}});
         },
 
         "JobCollection.updateUserRelatedList"(jobID, user)
@@ -31,10 +31,12 @@ Meteor.methods({
         "JobCollection.updateStatus"(jobID, jobStatus){
             return Job.update({_id: jobID}, {$set: {status: jobStatus}});
         },
-
+        "JobCollection.updateRating"(jobID, jobRating){
+            return Job.update({_id: jobID}, {$set: {rating: jobRating}});
+        },
         "JobCollection.updateMultipleField"(jobID, jobCatID, jobDescription,
                                             jobDateStart,
-                                            jobDateEnd, jobName, jobStatus, jobPref,  jobCatName)
+                                            jobDateEnd, jobName, jobStatus, jobPref, jobCatName)
         {
             return Job.update({_id: jobID},
                 {
@@ -224,16 +226,16 @@ if (Meteor.isServer) {
         Counts.publish(this, 'newJobCount', Job.find({status: 'New', cat_name: catName}), {
             noReady: true
         });
-        Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress',cat_name: catName}), {
+        Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress', cat_name: catName}), {
             noReady: true
         });
-        Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved',cat_name: catName}), {
+        Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved', cat_name: catName}), {
             noReady: true
         });
-        Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback',cat_name: catName}), {
+        Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback', cat_name: catName}), {
             noReady: true
         });
-        Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed',cat_name: catName}), {
+        Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed', cat_name: catName}), {
             noReady: true
         });
 
@@ -248,36 +250,96 @@ if (Meteor.isServer) {
         });
     });
     Meteor.publish('jobPaginationInJobCreated', function (skipCount) {
-            Counts.publish(this, 'jobCount', Job.find({user_id: Meteor.userId()}), {
-                noReady: true
-            });
+        Counts.publish(this, 'jobCount', Job.find({user_id: Meteor.userId()}), {
+            noReady: true
+        });
 
-            Counts.publish(this, 'newJobCount', Job.find({status: 'New', user_id: Meteor.userId()}), {
-                noReady: true
-            });
-            Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress', user_id: Meteor.userId()}), {
-                noReady: true
-            });
-            Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved', user_id: Meteor.userId()}), {
-                noReady: true
-            });
-            Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback', user_id: Meteor.userId()}), {
-                noReady: true
-            });
-            Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed', user_id: Meteor.userId()}), {
-                noReady: true
-            });
+        Counts.publish(this, 'newJobCount', Job.find({status: 'New', user_id: Meteor.userId()}), {
+            noReady: true
+        });
+        Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress', user_id: Meteor.userId()}), {
+            noReady: true
+        });
+        Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved', user_id: Meteor.userId()}), {
+            noReady: true
+        });
+        Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback', user_id: Meteor.userId()}), {
+            noReady: true
+        });
+        Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed', user_id: Meteor.userId()}), {
+            noReady: true
+        });
 
-            // console.log("get job for owner")
-            return Job.find({user_id: Meteor.userId()}, {
-                sort: {
-                    date_create: -1,
-                    cat_id: 1
-                },
-                limit: 5,
-                skip: skipCount
-            });
+        // console.log("get job for owner")
+        return Job.find({user_id: Meteor.userId()}, {
+            sort: {
+                date_create: -1,
+                cat_id: 1
+            },
+            limit: 5,
+            skip: skipCount
+        });
 
+    });
+    Meteor.publish('jobPaginationInJobAssigned', function (skipCount) {
+        Counts.publish(this, 'jobCount', Job.find({user_registered: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+
+        Counts.publish(this, 'newJobCount', Job.find({status: 'New',user_registered: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+        Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress', user_registered: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+        Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved', user_registered: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+        Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback', user_registered: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+        Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed', user_registered: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+
+        // console.log("get job for owner")
+        return Job.find({user_registered: {$elemMatch: {_id: Meteor.userId()}}},
+                {
+                    limit: 5,
+                    skip: skipCount
+                });
+    });
+    Meteor.publish('jobPaginationInJobRelated', function (skipCount) {
+        Counts.publish(this, 'jobCount', Job.find({user_related: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+
+        Counts.publish(this, 'newJobCount', Job.find({status: 'New',
+            user_related: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+        Counts.publish(this, 'inprogressJobCount', Job.find({status: 'Inprogress',
+            user_related: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+        Counts.publish(this, 'resolvedJobCount', Job.find({status: 'Resolved',
+            user_related: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+        Counts.publish(this, 'feedbackJobCount', Job.find({status: 'Feedback',
+            user_related: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+        Counts.publish(this, 'closedJobCount', Job.find({status: 'Closed',
+            user_related: {$elemMatch: {_id: Meteor.userId()}}}), {
+            noReady: true
+        });
+
+        // console.log("get job for owner")
+        return    Job.find({user_related: {$elemMatch: {_id: Meteor.userId()}}},{
+            limit: 5,
+            skip: skipCount
+        });
     });
 } else {
     Tracker.autorun(function () {

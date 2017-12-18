@@ -127,6 +127,7 @@ if (Meteor.isClient) {
                         preference: 1,
                         // user_registered: 1,
                         home: 1,
+                        rating: 1,
                         'user.emails': 1,
                         'user.profile.full_name': 1,
                         'user.profile.avatar': 1,
@@ -158,6 +159,7 @@ if (Meteor.isClient) {
             var jobStatus = job && job.status;
 
             var status = job && job.status;
+            var rating = job && job.rating;
             //stackoverflow.com/questions/29745873/hour-difference-between-two-timeshhmmss-ain-momentjs
 
             // description = postSummary(description);
@@ -186,7 +188,7 @@ if (Meteor.isClient) {
                 info,
                 jobStatus,
                 preference,
-                status
+                status, rating
             }
         },
         'jobName': function () {
@@ -333,6 +335,113 @@ if (Meteor.isClient) {
             console.log("isCurrentStatus: " + status + "--" + current);
             var jobStat = (status == current) ? 'selected' : "";
             return jobStat;
+        },
+        isRated: function (rate) {
+            var r = (rate !== undefined);
+            if (r) {
+                console.log("rate!== undefined;");
+            }
+            return r;
+        }
+        , isCurrentUserPostedJob: function (user_id) {
+            console.log("user_id= " + user_id + "// current= " + Meteor.userId());
+            return user_id === Meteor.userId();
+        },
+        listState: function (user_id, currentState) {
+            var jobID = Session.get("jobID");
+            var opt= [];
+            //nguoi tao
+            if (user_id === Meteor.userId()) {
+                console.log('nguoi tao');
+                if (currentState === 'New') {
+                    if (opt.indexOf('New')===-1)
+                        opt.push('New');
+                } else if (currentState === 'Inprogress') {
+                    if (opt.indexOf('Inprogress')===-1)
+                        opt.push('Inprogress');
+                } else if (currentState === 'Resolved') {
+                    if (opt.indexOf('Resolved')===-1)
+                        opt.push('Resolved');
+                    if (opt.indexOf('Feedback')===-1)
+                        opt.push('Feedback');
+                    if (opt.indexOf('Closed')===-1)
+                        opt.push('Closed');
+                }
+                else if (currentState === 'Feedback') {
+                    if (opt.indexOf('Feedback')===-1)
+                        opt.push('Feedback');
+                    if (opt.indexOf('Inprogress')===-1)
+                        opt.push('Inprogress');
+                    // return ['Feedback', 'Inprogress'];
+                } else
+                {
+                    if (opt.indexOf(currentState)===-1)
+                        opt.push(currentState);
+                }
+            }
+            //nguoi duoc assign
+            var job = Job.findOne({_id: jobID, user_registered: {$elemMatch: {_id: Meteor.userId()}}});
+            if (job) {
+                console.log("nguoi duoc assign");
+                if (currentState==='New'){
+                    if (opt.indexOf('New')===-1)
+                        opt.push('New');
+                    if (opt.indexOf('Inprogress')===-1)
+                        opt.push('Inprogress');
+                    // return ['New','Inprogress'];
+                }else if (currentState ==='Inprogress'){
+                    if (opt.indexOf('Inprogress')===-1)
+                        opt.push('Inprogress');
+                    if (opt.indexOf('Resolved')===-1)
+                        opt.push('Resolved');
+                    // return ['Inprogress', 'Resolved'];
+                }else if (currentState ==='Feedback'){
+                    if (opt.indexOf('Feedback')===-1)
+                        opt.push('Feedback');
+                    if (opt.indexOf('Inprogress')===-1)
+                        opt.push('Inprogress');
+                    // return ['Feedback', 'Inprogress'];
+                }else if (currentState ==='Resolved'){
+                    // return ['Resolved'];
+                    if (opt.indexOf('Resolved')===-1)
+                        opt.push('Resolved');
+                }
+
+            }
+            //nguoi co quyen cong ty
+            if (Roles.userIsInRole(Meteor.userId(), ['admin'])){
+                console.log('nguoi co quyen cong ty');
+                if (currentState ==='New'){
+                    if (opt.indexOf('New')===-1)
+                        opt.push('New');
+                    if (opt.indexOf('Inprogress')===-1)
+                        opt.push('Inprogress');
+                }
+                if (currentState ==='Inprogress'){
+                    if (opt.indexOf('Inprogress')===-1)
+                        opt.push('Inprogress');
+                    if (opt.indexOf('Resolved')===-1)
+                        opt.push('Resolved');
+                }
+                if (currentState ==='Resolved'){
+                    if (opt.indexOf('Resolved')===-1)
+                        opt.push('Resolved');
+                    if (opt.indexOf('Feedback')===-1)
+                        opt.push('Feedback');
+                    if (opt.indexOf('Closed')===-1)
+                        opt.push('Closed');
+                }
+                if (currentState ==='Feedback'){
+                    if (opt.indexOf('Feedback')===-1)
+                        opt.push('Feedback');
+                    if (opt.indexOf('Inprogress')===-1)
+                        opt.push('Inprogress');
+                    if (opt.indexOf('Closed')===-1)
+                        opt.push('Closed');
+                }
+
+            }
+            return opt;
         }
     });
 
@@ -343,7 +452,8 @@ if (Meteor.isClient) {
     Template.userRelatedList.events({});
 
     Template.jobDetail.events({
-        'click .delete-button': function () {
+        'click .delete-button': function (e) {
+            e.preventDefault();
             var selectedUser = Meteor.users.findOne({_id: this._id});
             var userID = selectedUser && selectedUser._id;
             var jobID = Session.get("jobID");
@@ -363,7 +473,9 @@ if (Meteor.isClient) {
             }
         },
 
-        'click.delete-relation': function () {
+        'click .delete-relation': function (e) {
+            e.preventDefault();
+            console.log("delete-relation");
             var selectedUser = Meteor.users.findOne({_id: this._id});
             var userID = selectedUser && selectedUser._id;
             var jobID = Session.get("jobID");
@@ -393,18 +505,18 @@ if (Meteor.isClient) {
             console.log("status changed");
         },
         'click .item-user': function () {
-                var selectedUser = Meteor.users.findOne({_id: this._id});
-                var jobID = Session.get("jobID");
-                var job = Job.findOne({_id: jobID},
-                    {fields: {status: 1, user_registered: 1, user_related : 1, user_id: 1,}}
-                );
-                //var status = job && job.status;
+            var selectedUser = Meteor.users.findOne({_id: this._id});
+            var jobID = Session.get("jobID");
+            var job = Job.findOne({_id: jobID},
+                {fields: {status: 1, user_registered: 1, user_related: 1, user_id: 1,}}
+            );
+            //var status = job && job.status;
             var curentUser = Meteor.user();
             var user_type = curentUser && curentUser.profile.user_type;
             var currentUserID = Meteor.userId();
             var currentIdCreateJob = job && job.user_id;
-            if(currentUserID === currentIdCreateJob){
-                if(user_type == 0){
+            if (currentUserID === currentIdCreateJob) {
+                if (user_type == 0) {
                     Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
                     Meteor.call("JobCollection.updateUserRelated", jobID, selectedUser);
                 }
@@ -412,13 +524,19 @@ if (Meteor.isClient) {
                     Meteor.call("JobCollection.updateUserRelated", jobID, selectedUser);
                 }
             }
-            else if(user_type == 0){
+            else if (user_type == 0) {
                 Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
             }
-            else{}
-                // Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
-                // messageLogSuccess('assigned');
+            else {
+            }
+            // Meteor.call("JobCollection.updateUserRegistered", jobID, selectedUser);
+            // messageLogSuccess('assigned');
 
+        }, 'change #rating': function () {
+            var jobID = Session.get("jobID");
+            var rating = $('#rating').data('userrating');
+            console.log('rating= ' + rating);
+            Meteor.call("JobCollection.updateRating", jobID, rating);
         }
     });
 
@@ -547,4 +665,5 @@ if (Meteor.isClient) {
             ? (Math.floor(userCount / RECORD_PER_PAGE) + 1) : Math.floor(userCount / RECORD_PER_PAGE);
         return numberOfPage;
     }
+
 }
