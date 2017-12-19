@@ -350,33 +350,34 @@ if (Meteor.isClient) {
         listState: function (user_id, currentState) {
             var jobID = Session.get("jobID");
             var opt= [];
+            opt.push(currentState);
             //nguoi tao
             if (user_id === Meteor.userId()) {
                 console.log('nguoi tao');
                 if (currentState === 'New') {
-                    if (opt.indexOf('New')===-1)
-                        opt.push('New');
+                    // ;  if (opt.indexOf('New')===-1)
+                    //     opt.push('New')
                 } else if (currentState === 'Inprogress') {
-                    if (opt.indexOf('Inprogress')===-1)
-                        opt.push('Inprogress');
+                    // if (opt.indexOf('Inprogress')===-1)
+                    //     opt.push('Inprogress');
                 } else if (currentState === 'Resolved') {
-                    if (opt.indexOf('Resolved')===-1)
-                        opt.push('Resolved');
+                    // if (opt.indexOf('Resolved')===-1)
+                    //     opt.push('Resolved');
                     if (opt.indexOf('Feedback')===-1)
                         opt.push('Feedback');
                     if (opt.indexOf('Closed')===-1)
                         opt.push('Closed');
                 }
                 else if (currentState === 'Feedback') {
-                    if (opt.indexOf('Feedback')===-1)
-                        opt.push('Feedback');
+                    // if (opt.indexOf('Feedback')===-1)
+                    //     opt.push('Feedback');
                     if (opt.indexOf('Inprogress')===-1)
                         opt.push('Inprogress');
                     // return ['Feedback', 'Inprogress'];
                 } else
                 {
-                    if (opt.indexOf(currentState)===-1)
-                        opt.push(currentState);
+                    // if (opt.indexOf(currentState)===-1)
+                    //     opt.push(currentState);
                 }
             }
             //nguoi duoc assign
@@ -384,27 +385,27 @@ if (Meteor.isClient) {
             if (job) {
                 console.log("nguoi duoc assign");
                 if (currentState==='New'){
-                    if (opt.indexOf('New')===-1)
-                        opt.push('New');
+                    // if (opt.indexOf('New')===-1)
+                    //     opt.push('New');
                     if (opt.indexOf('Inprogress')===-1)
                         opt.push('Inprogress');
                     // return ['New','Inprogress'];
                 }else if (currentState ==='Inprogress'){
-                    if (opt.indexOf('Inprogress')===-1)
-                        opt.push('Inprogress');
+                    // if (opt.indexOf('Inprogress')===-1)
+                    //     opt.push('Inprogress');
                     if (opt.indexOf('Resolved')===-1)
                         opt.push('Resolved');
                     // return ['Inprogress', 'Resolved'];
                 }else if (currentState ==='Feedback'){
-                    if (opt.indexOf('Feedback')===-1)
-                        opt.push('Feedback');
+                    // if (opt.indexOf('Feedback')===-1)
+                    //     opt.push('Feedback');
                     if (opt.indexOf('Inprogress')===-1)
                         opt.push('Inprogress');
                     // return ['Feedback', 'Inprogress'];
                 }else if (currentState ==='Resolved'){
                     // return ['Resolved'];
-                    if (opt.indexOf('Resolved')===-1)
-                        opt.push('Resolved');
+                    // if (opt.indexOf('Resolved')===-1)
+                    //     opt.push('Resolved');
                 }
 
             }
@@ -412,28 +413,28 @@ if (Meteor.isClient) {
             if (Roles.userIsInRole(Meteor.userId(), ['admin'])){
                 console.log('nguoi co quyen cong ty');
                 if (currentState ==='New'){
-                    if (opt.indexOf('New')===-1)
-                        opt.push('New');
+                    // if (opt.indexOf('New')===-1)
+                    //     opt.push('New');
                     if (opt.indexOf('Inprogress')===-1)
                         opt.push('Inprogress');
                 }
                 if (currentState ==='Inprogress'){
-                    if (opt.indexOf('Inprogress')===-1)
-                        opt.push('Inprogress');
+                    // if (opt.indexOf('Inprogress')===-1)
+                    //     opt.push('Inprogress');
                     if (opt.indexOf('Resolved')===-1)
                         opt.push('Resolved');
                 }
                 if (currentState ==='Resolved'){
-                    if (opt.indexOf('Resolved')===-1)
-                        opt.push('Resolved');
+                    // if (opt.indexOf('Resolved')===-1)
+                    //     opt.push('Resolved');
                     if (opt.indexOf('Feedback')===-1)
                         opt.push('Feedback');
                     if (opt.indexOf('Closed')===-1)
                         opt.push('Closed');
                 }
                 if (currentState ==='Feedback'){
-                    if (opt.indexOf('Feedback')===-1)
-                        opt.push('Feedback');
+                    // if (opt.indexOf('Feedback')===-1)
+                    //     opt.push('Feedback');
                     if (opt.indexOf('Inprogress')===-1)
                         opt.push('Inprogress');
                     if (opt.indexOf('Closed')===-1)
