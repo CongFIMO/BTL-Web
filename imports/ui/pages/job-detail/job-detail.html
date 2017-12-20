@@ -59,14 +59,14 @@
                             <div><a href="#"><i class="fa fa-user"></i> Tạo bởi: {{jobInfo.full_name}}</a></div>
                             <div><i class="fa fa-clock-o"></i> Ngày tạo: {{jobInfo.date_create}}</div>
                             <div><i class="fa fa-star-o"></i> Độ ưu tiên: <strong>{{jobInfo.preference}}</strong></div>
+                            <div><i class="fa fa-map-marker"></i> Bộ phận: {{getJobCatName}}</div>
                         </div>
 
                     </div>
                 </div>
                 <div class="four columns">
                     <div class="row">
-                        <div class="content">
-                            <div><i class="fa fa-map-marker"></i> Bộ phận: {{getJobCatName}}</div>
+                        <div class="content pull-right">
                             {{#if isRated jobInfo.rating}}
                                 <div><i class="fa fa-star"></i>Đánh giá:
                                     {{> starsRating rating= jobInfo.rating size='sm'}}
