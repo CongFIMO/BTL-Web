@@ -16,6 +16,8 @@ import {splitURL} from "../../../helpers/splitURL";
 import {postSummary} from "../../../helpers/postsummary";
 import {paginationDataGeneration} from "../../../helpers/paginationDataGeneration";
 import {UserActivityHistory} from "../../../startup/both/userActivityHistoryCollection";
+import {SeenJob} from "../../../startup/both/seenJobCollection";
+import  "../../../startup/both/seenJobCollection";
 
 const RECORD_PER_PAGE = 5;
 const NUMBER_OF_VISIBLE_PAGE = 5;
@@ -34,6 +36,7 @@ if (Meteor.isClient) {
         // Page pagination
         var skipCount = (currentPage() - 1) * RECORD_PER_PAGE;
         this.subscribe('jobPaginationInJobList', skipCount, Meteor.user().profile.JobCat);
+        this.subscribe('SeenJob');
         var template = this;
         template.autorun(function () {
             //
@@ -67,6 +70,9 @@ if (Meteor.isClient) {
     Template.jobLists.events({
         "click .goPage": function () {
             BlazeLayout.reset();
+        }, "click .job-list-item": function () {
+            BlazeLayout.reset();
+            console.log("click job-list-item");
         },
         "click .delete_job": function (e) {
             e.stopPropagation();
@@ -91,7 +97,50 @@ if (Meteor.isClient) {
                     }
                 }
             );
-        }
+        },
+        // 'change .seenCheckClass input'(e) {
+        //     e.stopPropagation();
+        //     e.preventDefault();
+        //     console.log('checkbox checking ='+ e.target.checked);
+        // },
+        'click .seenCheck'(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var jobId = e.target.value;
+            var checked = $('#seenCheck_' + jobId).is(":checked");
+
+            var checked = !checked;
+            console.log('checkbox checking =' + checked);
+            console.log('checkbox val =' + jobId);
+            if (!checked) {
+                $('#seenCheck_' + jobId).attr("checked", "checked");
+                Meteor.call("SeenJobCollection.markRead", jobId, Meteor.userId());
+                console.log('if(!checked)');
+            } else {
+                $('#seenCheck_' + jobId).removeAttr('checked');
+                Meteor.call("SeenJobCollection.markNormal",  Meteor.userId(), 'job-list');
+                Meteor.call("SeenJobCollection.markUnread", jobId, Meteor.userId());
+                console.log('if(checked)');
+            }
+        },
+        'click #checkboxAll'(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var checked = $('#checkboxAll').is(":checked");
+            var checked = !checked;
+            if (!checked) {
+                $('#checkboxAll' ).attr("checked", "checked");
+                Meteor.call("SeenJobCollection.markAllRead", Meteor.userId(),'job-list');
+                console.log('if(!checked)');
+            } else {
+                Meteor.call("SeenJobCollection.markAllUnread", Meteor.userId(), 'job-list');
+                Meteor.call("SeenJobCollection.removeAll", Meteor.userId());
+                $('#checkboxAll' ).removeAttr('checked');
+                console.log('if(checked)');
+            }
+        },
     });
 
     Template.jobLists.helpers({
@@ -104,12 +153,48 @@ if (Meteor.isClient) {
                 // {cat_id: catID}, {
                 // limit: 5,
                 // skip: skipCount
-            // }
+                // }
             )
                 .fetch();
+            // console.log('jobs= '+JSON.stringify(jobs));
+            var listJobId = [];
             jobs.forEach(function (element) {
+                listJobId.push(element._id);
                 element.description = postSummary(element.description);
             });
+            console.log('listJobId: ' + listJobId);
+            console.log('Meteor.userId(): ' + Meteor.userId());
+            //check all read
+            var seenAllJob = SeenJob.findOne({
+                userID:  Meteor.userId(),
+                read: 'allRead',
+                listType: 'job-list'
+            })
+            if (seenAllJob){
+                jobs.forEach(function (jobE) {
+                    jobE.seen = true;
+                })
+            }else{
+                var seenJob = SeenJob.find(
+                    {
+                        jobId: {
+                            $in: listJobId
+                        },
+                        userId: Meteor.userId()
+                    }
+                ).fetch();
+                // console.log('seenJob'+JSON.stringify(seenJob));
+
+                jobs.forEach(function (jobE) {
+                    seenJob.forEach(function (seenJobE) {
+                            if (seenJobE.jobId === jobE._id) {
+                                jobE.seen = true;
+                            }
+                        }
+                    )
+                })
+            }
+
             // //console.log(jobs);
             return jobs;
         },
@@ -164,6 +249,21 @@ if (Meteor.isClient) {
         },
         checkJobIsNotAccepted: function (isAccepted) {
             return isAccepted !== 'ACCEPTED';
+        },
+        isSeenAll: function () {
+            var isSeenAll = SeenJob.findOne({
+                userID:  Meteor.userId(),
+                read: 'allRead',
+                listType: 'job-list'
+            })
+            var jobCount = Counts.get("jobCount");
+
+            var seenJobCount = SeenJob.find(
+                {
+                    userId: Meteor.userId()
+                }
+            ).count();
+            return isSeenAll !== undefined || jobCount===seenJobCount;
         }
     });
 
