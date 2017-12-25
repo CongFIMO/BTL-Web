@@ -201,9 +201,7 @@ if (Meteor.isClient) {
             return Counts.get('closedJobCount');
         },
         numberUserFindJob () {
-            // console.log( Meteor.users.find().count());
-            // Meteor.call('numberUserFindJob');
-            // console.log(Session.get('numberUserFindJob'));
+
         }
     });
 

@@ -242,8 +242,8 @@ if (Meteor.isServer) {
         // console.log("get job for owner")
         return Job.find({cat_name: catName}, {
             sort: {
-                date_create: -1,
-                cat_id: 1
+                date_create: -1
+                // cat_id: 1
             },
             limit: 5,
             skip: skipCount
