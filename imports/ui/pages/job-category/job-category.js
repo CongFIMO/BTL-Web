@@ -65,7 +65,10 @@ if (Meteor.isClient) {
             // });
             Meteor.call("JobCatCollection.insert",jobCatName, slugifyString(jobCatName));
             event.target.jobCategory.value = "";
-        }
+        },"click .job-list-item": function () {
+            BlazeLayout.reset();
+            console.log("click job-list-item");
+        },
     });
 
     Template.showJobCat.events({

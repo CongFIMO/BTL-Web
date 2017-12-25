@@ -13,6 +13,7 @@ import {formatDate} from "../../../helpers/formatdate";
 import {Cmt} from "../../../../imports/startup/both/comment";
 import {paginationDataGeneration} from "../../../helpers/paginationDataGeneration";
 const crypto = require("crypto");
+import "../../../../imports/startup/both/seenJobCollection";
 
 if (Meteor.isClient) {
     const RECORD_PER_PAGE = 10;
@@ -77,6 +78,9 @@ if (Meteor.isClient) {
                 $('#nextPage').css("pointer-events", "none");
             }
         })
+        var current = FlowRouter.current();
+        var currentID = current.params.id;
+        Meteor.call('SeenJobCollection.markRead', currentID, Meteor.userId());
     });
     Template.jobDetail.helpers({
         'checkUserSlave': function () {
@@ -538,8 +542,11 @@ if (Meteor.isClient) {
             var rating = $('#rating').data('userrating');
             console.log('rating= ' + rating);
             Meteor.call("JobCollection.updateRating", jobID, rating);
-        }
-    });
+        },
+        "click .job-list-item": function () {
+            BlazeLayout.reset();
+            console.log("click job-list-item");
+        },});
 
     Template.showcmt.helpers({
         'comments': function () {

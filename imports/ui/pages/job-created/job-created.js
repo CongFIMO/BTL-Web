@@ -67,11 +67,15 @@ if (Meteor.isClient) {
         "click .goPage": function () {
             BlazeLayout.reset();
         },
+        "click .job-list-item": function () {
+            BlazeLayout.reset();
+            console.log("click job-list-item");
+        },
         "click .delete_job": function (e) {
             e.stopPropagation();
             e.preventDefault();
             var id = this._id;
-            console.log("ID-Job: "+id);
+            // console.log("ID-Job: "+id);
             new Confirmation(
                 {
                     message: "Bạn có thực sự muốn xóa công việc này?",

@@ -12,6 +12,8 @@ import "/imports/startup/both/images.collection";
 
 import "/imports/startup/both/comment";
 import "/imports/startup/both/featureImageCollection";
+import "/imports/startup/both/seenJobCollection";
+
 import "/imports/helpers/formatdate";
 import "/lib/collections/job-cat";
 
