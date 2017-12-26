@@ -84,6 +84,9 @@ if (Meteor.isClient) {
             var jobPref = event.target.jobPref.value;
             var currentUserID = Meteor.userId();
             var user = Meteor.user();
+            var leader = Meteor.users.findOne({'profile.JobCat': jobCatName , 'roles.0': 'admin'});
+            console.log("leader:" +leader);
+
             // console.log(currentUserID);
 
             //check condition between datetime start and datetime end
@@ -100,7 +103,7 @@ if (Meteor.isClient) {
             //var newdisAddress = Prov[provinceAddress].dis[disAddress];
             Meteor.call("JobCollection.insert", jobCatID, jobStatus, currentUserID,
                 user, jobDescription, jobDateStart,jobName,
-                jobDateEnd,jobPref,jobCatName , function (error, result) {
+                jobDateEnd,jobPref,jobCatName , leader, function (error, result) {
                     if (result === "error") {
                         messageLogError("Thao tác bị lỗi");
                     }

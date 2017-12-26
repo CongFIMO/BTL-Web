@@ -92,8 +92,8 @@ if (Meteor.isClient) {
                     }
                 }
             );
-        }, 'click .job-list-item': function (e) {
-            e.preventDefault();
+        }, 'click .job-list-item': function () {
+            // e.preventDefault();
             BlazeLayout.reset();
         },
         'click .seenCheck'(e) {

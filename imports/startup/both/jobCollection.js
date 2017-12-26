@@ -81,7 +81,7 @@ Meteor.methods({
         },
         "JobCollection.insert"(jobCatID, jobStatus, currentUserID,
                                user, jobDescription, jobDateStart, jobName,
-                               jobDateEnd, jobPref, jobCatName)
+                               jobDateEnd, jobPref, jobCatName, assignedUsre)
         {
             return Job.insert(
                 {
@@ -98,7 +98,8 @@ Meteor.methods({
                     date_start: jobDateStart,
                     //time_start: jobTimeStart,
                     date_end: jobDateEnd,
-                    preference: jobPref
+                    preference: jobPref,
+                    user_registered: [assignedUsre]
 
                 }, function (error, id) {
                     if (error) {
@@ -149,7 +150,7 @@ if (Meteor.isServer) {
             return Job.find({user_id: Meteor.userId()}, {
                 sort: {
                     date_create: -1,
-                    cat_id: 1
+                    // cat_id: 1
                 },
                 limit: 5,
                 skip: skipCount
@@ -177,7 +178,7 @@ if (Meteor.isServer) {
             return Job.find({}, {
                 sort: {
                     date_create: -1,
-                    cat_id: 1
+                    // cat_id: 1
                 },
                 limit: 5,
                 skip: skipCount
@@ -208,8 +209,8 @@ if (Meteor.isServer) {
         console.log("get job for owner")
         return Job.find({}, {
             sort: {
-                date_create: -1,
-                cat_id: 1
+                date_create: -1
+                // cat_id: 1
             },
             limit: 5,
             skip: skipCount
@@ -274,7 +275,7 @@ if (Meteor.isServer) {
         return Job.find({user_id: Meteor.userId()}, {
             sort: {
                 date_create: -1,
-                cat_id: 1
+                // cat_id: 1
             },
             limit: 5,
             skip: skipCount
