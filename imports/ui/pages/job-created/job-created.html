@@ -22,6 +22,18 @@
         <!-- Recent Jobs -->
         <div class="eleven columns">
             <div class="padding-right">
+
+                <div class="row">
+                    {{#if isSeenAll}}
+                        <div class="checkbox">
+                            <label><input class="checkboxAll" type="checkbox" value=""
+                                          id="checkboxAll" checked>Đánh dấu đã xem</label>
+                        </div>
+                    {{else}}
+                        <label class="seenCheckClass"><input class="checkboxAll" type="checkbox" value=""
+                                                             id="checkboxAll">Đánh dấu đã xem</label>
+                    {{/if}}
+                </div>
                 <ul class="job-list full" id="job-list">
                     {{#each jobs}}
                         <li class=" list-group-item-warning job-list-item">
@@ -43,6 +55,23 @@
                                             <span class="btn btn-danger delete_job">Xóa</span>
                                         <!--{{/if}}-->
 
+                                        {{#if this.seen}}
+                                            <div class="checkbox">
+                                                <label class="seenCheckClass"><input class="seenCheck"
+                                                                                     type="checkbox"
+                                                                                     value="{{this._id}}" checked
+                                                                                     id="seenCheck_{{this._id}}">Đã
+                                                    xem</label>
+                                            </div>
+                                        {{else}}
+                                            <div class="checkbox">
+                                                <label class="seenCheckClass"><input class="seenCheck"
+                                                                                     type="checkbox"
+                                                                                     value="{{this._id}}"
+                                                                                     id="seenCheck_{{this._id}}">Chưa
+                                                    xem</label>
+                                            </div>
+                                        {{/if}}
                                     </h4>
                                     <div class="job-icons">
                                         <div><i class="fa fa-user"></i> {{this.user.profile.full_name}} </div>
