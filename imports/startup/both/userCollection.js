@@ -13,6 +13,9 @@ if (Meteor.isServer) {
             skip: skipCount
         });
     });
+    Meteor.publish('allUser', function () {
+        return Meteor.users.find({});
+    });
 
 } else {
     Tracker.autorun(function () {

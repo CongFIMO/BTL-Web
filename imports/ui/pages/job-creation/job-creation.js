@@ -9,8 +9,16 @@ import "./job-creation.html";
 import {messageLogSuccess} from "../../../partials/messages-success";
 import {messageLogError} from "../../../partials/messages-error";
 import '../../../helpers/convertStringToDate'
+import '../../../startup/both/userCollection'
 if (Meteor.isClient) {
     const jobStatus = "New";
+    Template.jobForm.onCreated(function () {
+        this.subscribe('allUser', function () {
+            var adminList = Meteor.users.find( {'roles.0': 'admin'}).fetch();
+            console.log('adminList= '+JSON.stringify(adminList));
+            Session.set('adminList', adminList);
+        });
+    })
     Template.jobForm.onRendered(function () {
         Meteor.setTimeout(function () {
             this.$('#date-picker-start').datetimepicker({
@@ -84,7 +92,16 @@ if (Meteor.isClient) {
             var jobPref = event.target.jobPref.value;
             var currentUserID = Meteor.userId();
             var user = Meteor.user();
-            var leader = Meteor.users.findOne({'profile.JobCat': jobCatName , 'roles.0': 'admin'});
+            var adminList = Session.get('adminList');
+            var leader='';
+            if (adminList){
+                adminList.forEach(function (e) {
+                    if (e.profile.JobCat ===jobCatName){
+                        leader = e;
+                    }
+                })
+            }
+
             console.log("leader:" +leader);
 
             // console.log(currentUserID);
