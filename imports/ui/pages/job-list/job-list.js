@@ -241,8 +241,8 @@ if (Meteor.isClient) {
             }
         },
 
-        checkAccepted: function (isAccepted) {
-            return isAccepted === 'ACCEPTED';
+        checkClosed: function (isClosed) {
+            return isClosed === 'Closed';
         },
         isAdmin: function () {
             return Roles.userIsInRole(Meteor.userId(), ["admin"]);

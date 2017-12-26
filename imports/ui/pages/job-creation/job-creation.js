@@ -136,9 +136,9 @@ if (Meteor.isClient) {
                 });
             Meteor.call(
                 'sendEmail',
-                'congdt@fimo.edu.vn',
+                'congtt97@gmail.com',
                 'Công việc IT',
-                'Bạn có một công việc mới từ '+Meteor.user().profile.full_name+'\n'
+                'Bạn có một Công việc mới đến từ '+Meteor.user().profile.full_name+'\n'
             );
         },
     });

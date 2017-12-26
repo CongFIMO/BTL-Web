@@ -45,13 +45,14 @@
                                         <!--{{jobName this.cat_id}}-->
                                         <span class="btn btn-warning">{{this.status}}
                                         </span>
-                                        {{#if isInRole 'admin,slave'}}
-                                        <!--{{#if checkJobIsNotAccepted this.status}}-->
-                                            <span class="btn btn-primary">
+                                        {{#if isInRole 'admin'}}
+                                            {{#if checkClosed this.status}}
+                                            {{else}}
+                                                <span class="btn btn-primary">
                                                     <a href="/job/{{catSlug this.cat_id}}/{{this._id}}/edit"
                                                        class="edit_button_style">Chỉnh sửa</a>
-                                                </span>
-                                                <!--{{/if}}-->
+                                            </span>
+                                            {{/if}}
                                             <span class="btn btn-danger delete_job">Xóa</span>
                                         {{/if}}
                                         {{#if this.seen}}
