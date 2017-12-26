@@ -22,6 +22,7 @@
         <!-- Recent Jobs -->
         <div class="eleven columns">
             <div class="padding-right">
+
                 <ul class="job-list full" id="job-list">
                     {{#each jobs}}
                         <li class=" list-group-item-warning job-list-item">
@@ -43,7 +44,6 @@
                                         {{/if}}
                                             <span class="btn btn-danger delete_job">Xóa</span>
                                         <!--{{/if}}-->
-
                                     </h4>
                                     <div class="job-icons">
                                         <div><i class="fa fa-user"></i> {{this.user.profile.full_name}} </div>

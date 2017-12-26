@@ -75,7 +75,7 @@ if (Meteor.isClient) {
             e.stopPropagation();
             e.preventDefault();
             var id = this._id;
-            // console.log("ID-Job: "+id);
+            console.log("ID-Job: "+id);
             new Confirmation(
                 {
                     message: "Bạn có thực sự muốn xóa công việc này?",

@@ -14,6 +14,7 @@ import {Cmt} from "../../../../imports/startup/both/comment";
 import {paginationDataGeneration} from "../../../helpers/paginationDataGeneration";
 const crypto = require("crypto");
 import "../../../../imports/startup/both/seenJobCollection";
+import "../../../../imports/startup/both/jobCollection";
 
 if (Meteor.isClient) {
     const RECORD_PER_PAGE = 10;
@@ -22,6 +23,7 @@ if (Meteor.isClient) {
     var skipCount = 1;
 
     Template.jobDetail.onCreated(function () {
+
         var id = FlowRouter.current().params.id;
         var cat = FlowRouter.current().params.cat;
         PATH_JOB_PAGE = '/job/' + cat + "/" + id + "/";
@@ -179,7 +181,7 @@ if (Meteor.isClient) {
             $("#description").html(description);
             return {
                 date_create,
-                // description,
+                description,
                 user_id_created_job,
                 date_start,
                 name,
